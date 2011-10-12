@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map For ADDAC -> !! This still needs to be finished!!!
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+decode_results KEYWORD1
+IRrecv KEYWORD1
+IRsend KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+MODE KEYWORD2
+SUBMODE KEYWORD2
+WriteChannel KEYWORD2
+readAnalogsINA KEYWORD2
+ReadGatesA KEYWORD2
+
+#
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+addacMaxResolution LITERAL1
+UNKNOWN LITERAL1
+REPEAT LITERAL1
