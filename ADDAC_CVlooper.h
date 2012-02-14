@@ -15,7 +15,11 @@
 #ifndef ADDAC_CVlooper_h
 #define ADDAC_CVlooper_h
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 #include <ADDAC_CVbuffer.h>
 
 #define addacMaxResolution 65535 

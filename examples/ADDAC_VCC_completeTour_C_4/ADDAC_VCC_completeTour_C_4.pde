@@ -33,8 +33,8 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 // DEBUGGING CONSOLE
 #define DEBUG 
 #define DEBUGmodes // prints out MODE A+B SWITCHES POSITIONS
-#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
-//#define DEBUGanalogA // prints out MANUAL INPUTS VALUES
+//#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
+#define DEBUGanalogA // prints out MANUAL INPUTS VALUES
 //#define DEBUGanalogB // prints out MANUAL INPUTS VALUES
 //#define DEBUGgateINA // prints out GATE INPUTS
 //#define DEBUGgateINB // prints out GATE INPUTS
@@ -48,7 +48,7 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 
 
 // USE MIDI?
-//#define MIDIenable
+#define MIDIenable
 
 // USE ETHERNET?
 //#define ETHERNET
@@ -232,6 +232,7 @@ char oscAdr[] = "/out1";
 // SETUP INITIALIZES DAC SETTING ALL CHANNELS TO ZERO
 void setup(){
   Serial.begin(115200); // SERIAL COMMUNICATION BAUD RATE - 115200 - RECOMMENDED!
+  Serial.println("STARTING UP");
   
   #ifdef MIDIenable
     Serial1.begin(31250);  

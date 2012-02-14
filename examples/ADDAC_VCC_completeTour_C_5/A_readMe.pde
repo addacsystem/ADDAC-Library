@@ -28,10 +28,6 @@ ADDAC_Clock       :  Dedicated COMPLEX CLOCK Library
 
 1.
 ----------------------------------------------------------- CHANGES --------------------------------------------------------------------------
-ADDED MIDI Library
-
-
-
 GATES INPUT NEW BEHAVIOUR
  . Only Needs update and a call to a value, avoids double declaration of the gates array (in arduino and library)
  . Also added an inverting / non-inverting boolean parameter

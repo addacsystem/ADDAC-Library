@@ -1,0 +1,52 @@
+#######################################
+# Syntax Coloring Map For ADDAC -> !! This still needs to be finished!!!
+#######################################
+# Always remember that it's TABS AND NOT SPACES!!!!!
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+ADDAC	KEYWORD1
+ADDAC.h	KEYWORD1
+VCC	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+setup	KEYWORD2
+update	KEYWORD2
+readMODEswitch	KEYWORD2
+readMODE	KEYWORD2
+readSUBMODE	KEYWORD2
+write	KEYWORD2
+WriteChannel	KEYWORD2
+ReadAnalogsA	KEYWORD2
+ReadAnalogsB	KEYWORD2
+ReadCvsA	KEYWORD2
+ReadCvsB	KEYWORD2
+ReadGatesA	KEYWORD2
+ReadGatesB	KEYWORD2
+WriteGatesA	KEYWORD2
+WriteGatesAstraight	KEYWORD2
+WriteGatesB	KEYWORD2
+WriteGatesBstraight	KEYWORD2
+
+MODE	KEYWORD2
+SUBMODE	KEYWORD2
+DACvolts	KEYWORD2
+ReadGatesA	KEYWORD2
+cvInAvals	KEYWORD2
+cvValuesA	KEYWORD2
+cvValuesAMapped	KEYWORD2
+cvInBvals	KEYWORD2
+cvValuesB	KEYWORD2
+cvValuesBMapped	KEYWORD2
+#
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+addacMaxResolution	LITERAL1
+UNKNOWN	LITERAL1
+REPEAT	LITERAL1

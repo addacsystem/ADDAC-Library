@@ -16,26 +16,15 @@ void loop(){
   //Serial.print( freeMemory() );
   //Serial.print("  |  ");
   
-  //VCC.update(); // NEEDED TO UPDATE THE DAC CHIP
+  VCC.update(); // NEEDED TO UPDATE THE DAC CHIP
 
   // read from onBoard Input (VS1 & VS2 only)
   //onboardPot=VCC.readOnboardPot(); //number of channels to read
   
   // read new midi input data
   #ifdef MIDIenable
-    //MIDIread();
-    MIDI.read();
-    
-    readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
-    ADSR1.AD_update(analogValsA[0]*4+1,analogValsA[2]*10+1);
-    ADSR2.AD_update(analogValsA[0]*4+1,analogValsA[2]*10+1);
-    ADSR3.AD_update(analogValsA[0]*4+1,analogValsA[2]*10+1);
-    
-    VCC.WriteChannel(1, ADSR1.CVstream);
-    VCC.WriteChannel(2, ADSR2.CVstream);
-    VCC.WriteChannel(3, ADSR3.CVstream);
-   // Serial.print("CV STREAM:");
-   // Serial.println(ADSR1.CVstream);
+    MIDIread();
+    //MIDI.read();
   #endif
   
   
@@ -92,10 +81,10 @@ void loop(){
     
     
   // BEHAVIOUR FUNCTION - see tab BEHAVIOUR to define MODES
-  //BEHAVIOUR();
+  BEHAVIOUR();
   
   #ifdef DEBUG
-    //Serial.println();
+    Serial.println();
     delay(10);
   #endif
 }

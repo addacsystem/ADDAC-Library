@@ -12,10 +12,13 @@
 #ifndef ADDAC_Quad_h
 #define ADDAC_Quad_h
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
-
 // Provides ISR
 #include <avr/interrupt.h>
+#endif
 
 
 #define addacMaxResolution 65535 

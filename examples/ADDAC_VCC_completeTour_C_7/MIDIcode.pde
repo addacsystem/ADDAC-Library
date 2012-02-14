@@ -1,3 +1,18 @@
+
+/*
+
+to do:
+
+Glide!
+Monophonic Mode
+Arpeggiator for monophonic mode?
+Filter envelope
+Gate out
+
+*/
+
+
+
 #ifdef MIDIenable
 
 void MIDIread(){
@@ -165,11 +180,9 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
       Serial.print(noteNum);
     #endif
     notesNum++;
-    VCC.WriteChannel(noteNum+5, Quantize.Note(pitch-36 ));
     
-    if(noteNum==0) ADSR1.AD_trigger(velocity/127.0f);
-    else if(noteNum==1) ADSR2.AD_trigger(velocity/127.0f);
-    else if(noteNum==2) ADSR3.AD_trigger(velocity/127.0f);
+    
+    
     //VCC.WriteChannel(noteNum+1, velocity / 127.0f * addacMaxResolution);
     
   // IF AVAILABLE SLOT X
@@ -185,13 +198,19 @@ void HandleNoteOn(byte channel, byte pitch, byte velocity) {
       Serial.print(noteNum);
     #endif
     
-    VCC.WriteChannel(noteNum+5, Quantize.Note( pitch -36 ));
-    if(noteNum==0) ADSR1.AD_trigger(velocity/127.0f);
-    else if(noteNum==1) ADSR2.AD_trigger(velocity/127.0f);
-    else if(noteNum==2) ADSR3.AD_trigger(velocity/127.0f);
-    //VCC.WriteChannel(noteNum+1, velocity / 127.0f * addacMaxResolution);
   }
   
+  if(noteNum==0){
+      VCC.WriteChannel(noteNum+5, Quantize.Note(pitch-36, 1.14 ));
+      ADSR1.AD_trigger(velocity/127.0f);
+    }else if(noteNum==1){
+      VCC.WriteChannel(noteNum+5, Quantize.Note(pitch-36, 1.115 ));
+      ADSR2.AD_trigger(velocity/127.0f);
+    }else if(noteNum==2){
+      VCC.WriteChannel(noteNum+5, Quantize.Note(pitch-36, 1.115 ));
+      ADSR3.AD_trigger(velocity/127.0f);
+    }
+    
   }
   
  #ifdef DEBUGmidiNotes

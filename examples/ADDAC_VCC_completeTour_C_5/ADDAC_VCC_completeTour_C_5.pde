@@ -13,7 +13,7 @@ ADDAC SYSTEM CODE Full Example
 below there's a precious pre-set debug system to help through the coding process
 and a commented overview of all variables used globally
 
-A lot have been implemented please read the 2nd Tab on the top!
+A lot have been implemented please read the 2nd Tap on the top!
 
 
 */
@@ -31,10 +31,9 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 
 
 // DEBUGGING CONSOLE
-//#define DEBUG 
-//#define DEBUGmodes // prints out MODE A+B SWITCHES POSITIONS
-//#define DEBUGmidiNotes // MIDI NOTES STEP BY STEP DEBUG
-//#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
+#define DEBUG 
+#define DEBUGmodes // prints out MODE A+B SWITCHES POSITIONS
+#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
 //#define DEBUGanalogA // prints out MANUAL INPUTS VALUES
 //#define DEBUGanalogB // prints out MANUAL INPUTS VALUES
 //#define DEBUGgateINA // prints out GATE INPUTS
@@ -50,18 +49,8 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 
 // USE MIDI?
 #define MIDIenable
-
-//#define USE_SERIAL_PORT         Serial1
+#define USE_SERIAL_PORT         Serial1
 #include <MIDI.h>
-
-#define polyphonyVoices 3
-int notesNum=0;
-int MIDInotes[polyphonyVoices];
-int MIDIvelocities[polyphonyVoices];
-boolean MIDInoteON[polyphonyVoices];
-int MIDIhistory[polyphonyVoices];
-
-
 // USE ETHERNET?
 //#define ETHERNET
 
@@ -91,6 +80,8 @@ BUT IT'S A GOOD OVERALL VIEW OF ALL THE GLOBAL VARIABLES NAMES for all INCOMING 
 // THEN INITIALIZES LIBRARY CLASS
 ADDAC VCC; // From now on the class will be called "VCC"
 
+
+
 /////////////////////////////////////////////////////////////////////////// NEW EXTENSION CLASSES - NEW FUNCTIONS /////////////////////////////////
 
 // INCLUDES AND INITIALIZES THE QUANTIZER LIBRARY
@@ -98,26 +89,25 @@ ADDAC VCC; // From now on the class will be called "VCC"
 ADDAC_Quantizer Quantize;
 int noteNow=0; // variable used for testing only
 
-
 // INCLUDES AND INITIALIZES THE ADDAC502 - LISSAJOUS CURVES - LIBRARY
 #include <ADDAC_Liss.h>
 // Instantiates 3 curves:
-//ADDAC_Liss Liss1; 
-//ADDAC_Liss Liss2;
-//ADDAC_Liss Liss3;
+ADDAC_Liss Liss1; 
+ADDAC_Liss Liss2;
+ADDAC_Liss Liss3;
 
 // INCLUDES AND INITIALIZES THE ADDAC803 - QUADRIPHONIC SPATIALIZER - LIBRARY
 #include <ADDAC_Quad.h>
-//ADDAC_Quad Quad;
+ADDAC_Quad Quad;
 
 // INCLUDES AND INITIALIZES THE ADDAC503 - MARBLE PHYSICS - LIBRARY
 #include <ADDAC_Physics.h>
-//ADDAC_Physics Physics;
+ADDAC_Physics Physics;
 
 // INCLUDES AND INITIALIZES THE CV LOOPER LIBRARY
 #include <ADDAC_CVlooper.h>
 // Several Independent Loopers can be Instantiated, but Memory is not so big,  aprox. 8-12 seconds if recording at full sample rate
-//ADDAC_CVlooper Looper1;
+ADDAC_CVlooper Looper1;
 //ADDAC_CVlooper Looper2;
 
 // INCLUDES AND INITIALIZES THE ADDAC303 - VC ADSR - LIBRARY
@@ -133,12 +123,12 @@ ADDAC_Logic Logic; // Instantiates Logic for all operations
 ADDAC_LFO LFO1,LFO2,LFO3,LFO4,LFO5,LFO6,LFO7,LFO8; // Instantiates 1 LFO
 
 // INCLUDES AND INITIALIZES THE CLOCK - LIBRARY
-//#include <ADDAC_Clock.h>
-//ADDAC_Clock CLOCK1(0); // Instantiates 1 CLOCK
+#include <ADDAC_Clock.h>
+ADDAC_Clock CLOCK1(0); // Instantiates 1 CLOCK
 boolean CLK1trig;
 
 // INCLUDES IANNIX LIBRARY
-//#include "iannix_lib.h"
+#include "iannix_lib.h"
 
 /////////////////////////////////////////////////////////////////////////// VARIABLES DECLARATION - (ToDo: THESE SHOULD ALL GO INTO THE MAIN LIBRARY) /////////////////////////////////
 
@@ -242,19 +232,16 @@ char oscAdr[] = "/out1";
 //
 // SETUP INITIALIZES DAC SETTING ALL CHANNELS TO ZERO
 void setup(){
-  #if defined DEBUG || defined MAXMSP
-    Serial.begin(115200); // SERIAL COMMUNICATION BAUD RATE - 115200 - RECOMMENDED!
-  #endif
+  Serial.begin(115200); // SERIAL COMMUNICATION BAUD RATE - 115200 - RECOMMENDED!
   
   #ifdef MIDIenable
     //Serial1.begin(31250);  
     MIDI.begin(1);
     // Connect the HandleNoteOn function to the library, so it is called upon reception of a NoteOn.
     MIDI.setHandleNoteOn(HandleNoteOn);  // Put only the name of the function
-    MIDInoteON[0]=false;
-    MIDInoteON[1]=false;
-    MIDInoteON[2]=false;
-    MIDInoteON[3]=false;
+    int MIDInotes[8];
+    int MIDIvelocities[8];
+    boolean MIDInoteON[8];
   #endif
   
   delay(100);
@@ -280,8 +267,7 @@ void setup(){
   #endif
   delay(200);
   VCC.setup(); // INITIALIZES the VCC
-
-  //IanniX::setup(); // INITIALIZES the IanniX Library
+  IanniX::setup(); // INITIALIZES the IanniX Library
  
   // Clapping Music Score - Old Code... 
   gatesOutAdataArray[0] =  B11100111;

@@ -15,10 +15,16 @@
 #ifndef ADDAC_h
 #define ADDAC_h
 
-#include <WProgram.h>
+#if defined(ARDUINO) && ARDUINO >= 100
+	#include "Arduino.h"
+	#include <inttypes.h> 
+#else
+	#include <WProgram.h>
+	// Provides ISR
+	#include <avr/interrupt.h>
+#endif
 
-// Provides ISR
-#include <avr/interrupt.h>
+
 
 // The following are compile-time library options.
 // If you change them, recompile the library.
@@ -37,7 +43,7 @@
 #define ADDAC004VS1
 //#define ADDAC004VS2
 
-#define MIDI
+//#define MIDI
 
 // Values for modes
 #define MODE1 1

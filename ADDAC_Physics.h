@@ -11,7 +11,11 @@
 #ifndef ADDAC_Physics_h
 #define ADDAC_Physics_h
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 #define addacMaxResolution 65535 
 

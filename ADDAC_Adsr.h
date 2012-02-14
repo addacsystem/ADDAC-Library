@@ -15,7 +15,7 @@
 
 #define addacMaxResolution 65535 
 
-//#define DEBUG
+#define DEBUG_adsr
 
 class ADDAC_Adsr{
 public:

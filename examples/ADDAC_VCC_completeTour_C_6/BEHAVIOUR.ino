@@ -23,9 +23,16 @@ void BEHAVIOUR(){
     
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 1 -----------
     //
-    }else if(VCC.SUBMODE==1){ // MIDI CC TEST - need to fix this!!
-
-       // controlChangeVal[0]/127.0f*65535, controlChangeVal[1]/127.0f*65535, controlChangeVal[2]*5, controlChangeVal[3]*10,controlChangeVal[4]/127.0f);
+    }else if(VCC.SUBMODE==1){ // MIDI CC TEST with RANDOM Function
+      for(int i=0;i<3;i++){
+        VCC.randomModeSmoothed(i, controlChangeVal[0]/127.0f*65535, controlChangeVal[1]/127.0f*65535, controlChangeVal[2]*5, controlChangeVal[3]*10,controlChangeVal[4]/127.0f);
+      }
+      for(int i=3;i<6;i++){
+        VCC.randomModeSmoothed(i, controlChangeVal[8]/127.0f*65535, controlChangeVal[9]/127.0f*65535, controlChangeVal[10]*5, controlChangeVal[11]*10,controlChangeVal[12]/127.0f);
+      }
+      for(int i=6;i<8;i++){
+        VCC.randomModeSmoothed(i, controlChangeVal[5]/127.0f*65535, controlChangeVal[6]/127.0f*65535, controlChangeVal[13]*5, controlChangeVal[14]*10,controlChangeVal[15]/127.0f);
+      }
     
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 2 -----------
     //
@@ -37,10 +44,10 @@ void BEHAVIOUR(){
      // VCC.WriteChannel(1, cvValsA[0]/1023.0f*addacMaxResolution);
       
       // ADDING AN LFO TO COMPARE IN/OUT...
-      //LFO1.update(analogValsA[0]/1023.0f);
-      //LFO1.SINupdate(); 
-      //VCC.WriteChannel(1, LFO1.SIN);
-      //VCC.WriteChannel(8, addacMaxResolution-LFO1.SIN); // inverted SIN - easy as pie!
+      LFO1.update(analogValsA[0]/1023.0f);
+      LFO1.SINupdate(); 
+      VCC.WriteChannel(1, LFO1.SIN);
+      VCC.WriteChannel(8, addacMaxResolution-LFO1.SIN); // inverted SIN - easy as pie!
        
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 3 -----------
     //
@@ -95,7 +102,7 @@ void BEHAVIOUR(){
        */
        
        //example:  
-       /*if( Logic.AND(VCC.gateValuesA[0], VCC.gateValuesA[1]) ){ // THIS WILL BE TRUE
+       if( Logic.AND(VCC.gateValuesA[0], VCC.gateValuesA[1]) ){ // THIS WILL BE TRUE
            VCC.WriteChannel(8, addacMaxResolution);
         }else{
           VCC.WriteChannel(8, 0);
@@ -117,7 +124,7 @@ void BEHAVIOUR(){
            VCC.WriteChannel(5, addacMaxResolution);
         }else{
           VCC.WriteChannel(5, 0);
-        }*/
+        }
         
 
       delay(100);
@@ -133,7 +140,7 @@ void BEHAVIOUR(){
       readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
        VCC.ReadGatesA(true); // Boolean Parameter sets inverting read setting  -> true:inverting, false:non-inverting
        
-      /*CLOCK1.update(VCC.gateValuesA[0], VCC.gateValuesA[1], millis(), analogValsA[3], analogValsA[4]);
+      CLOCK1.update(VCC.gateValuesA[0], VCC.gateValuesA[1], millis(), analogValsA[3], analogValsA[4]);
        VCC.WriteGatesAstraight(0, CLOCK1.state);
       
        if(!CLOCK1.state){
@@ -143,7 +150,7 @@ void BEHAVIOUR(){
        }
        
        VCC.WriteGatesAstraight(2, CLOCK1.OUT);
-       */
+       
       
       
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 5 -----------
@@ -180,7 +187,7 @@ void BEHAVIOUR(){
         readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
         
         
-       /* Liss1.update(analogValsA[0], analogValsA[2], analogValsA[1],analogValsA[3]);
+        Liss1.update(analogValsA[0], analogValsA[2], analogValsA[1],analogValsA[3]);
         Liss2.update(analogValsA[0], analogValsA[2], analogValsA[4]);
         Liss3.update(cvValsA[0],cvValsA[1],cvValsA[2],cvValsA[3]);
         
@@ -191,15 +198,14 @@ void BEHAVIOUR(){
         VCC.WriteChannel(5, (Liss2.x+Liss2.y)/2);
         VCC.WriteChannel(6, (Liss1.x+Liss1.y+Liss3.x+Liss3.y)/4);
         VCC.WriteChannel(7, (Liss1.x+Liss1.y+Liss2.x+Liss3.x+Liss3.y)/5);
-        VCC.WriteChannel(8, Liss3.y);   
-      */  
+        VCC.WriteChannel(8, Liss3.y);     
     
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 8 -----------
     //
     }else if(VCC.SUBMODE==8){ // MARBLE PHYSICS TEST - update:(X TILT, Y TILT, ELASTICITY, SPEED) 
         //read from ADDAC003 - MANUAL INPUTS
         readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
-        /*Physics.update(analogValsA[0], analogValsA[2], analogValsA[1],analogValsA[3]);
+        Physics.update(analogValsA[0], analogValsA[2], analogValsA[1],analogValsA[3]);
         
         VCC.WriteChannel(1, Physics.x);
         VCC.WriteChannel(2, Physics.y);
@@ -224,7 +230,7 @@ void BEHAVIOUR(){
           VCC.WriteChannel(6, 65000);
         }else{
           VCC.WriteChannel(6, 0);
-        }  */
+        }  
     
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 9 -----------
     //
@@ -238,7 +244,7 @@ void BEHAVIOUR(){
       if(cvValsA[0]<512)quadMode=0;
       else quadMode=1;
 
-     /* Quad.calcs(quadMode,cvValsA[1], cvValsA[2], cvValsA[3],cvValsA[4],cvValsA[5]); // CARTESIAN / POLAR MODE (0=radius/angle; 1=x/y), RADIUS/X, ANGLE/Y, ANGLE MULTIPLIER, EXP/LOG, NA
+      Quad.calcs(quadMode,cvValsA[1], cvValsA[2], cvValsA[3],cvValsA[4],cvValsA[5]); // CARTESIAN / POLAR MODE (0=radius/angle; 1=x/y), RADIUS/X, ANGLE/Y, ANGLE MULTIPLIER, EXP/LOG, NA
       VCC.WriteChannel(1, (Quad.amp1)*addacMaxResolution); // CHANNEL 1
       VCC.WriteChannel(2, (Quad.amp2)*addacMaxResolution); // CHANNEL 2
       VCC.WriteChannel(3, (Quad.amp3)*addacMaxResolution); // CHANNEL 3
@@ -252,7 +258,7 @@ void BEHAVIOUR(){
     // XTRA 2 VALS: int _bottom (percentage 0-100%), int _top (percentage 0-100%)
     
     VCC.sinMode(8, 0, analogValsA[0]/4, analogValsA[1]/20, analogValsA[2]/1023.0f*addacMaxResolution, analogValsA[3]/1023.0f, analogValsA[4]/1023.0f);
-      */
+      
       /*
       Serial.print("  QUAD *");
       Serial.print("  Raio:");
@@ -295,13 +301,13 @@ void BEHAVIOUR(){
         
         int _MODE = analogValsA[3] / 400;
         
-       /* Looper1.loopSize(analogValsA[2]/2); // IF THIS VALUE IS BIGGER THAN 1023/3 it might crash
+        Looper1.loopSize(analogValsA[2]/2); // IF THIS VALUE IS BIGGER THAN 1023/3 it might crash
         Looper1.update(_MODE, analogValsA[0], analogValsA[1]/1023.0f, cvValsA[0]);  // (int _MODE, int _interval, float _wet, int _val);
         VCC.WriteChannel(1, Looper1.CVstream); 
         VCC.WriteChannel(2, Looper1.CVstream); 
 
         unsigned int temp=Quantize.quantize(Looper1.CVstream);
-        VCC.WriteChannel(3, temp);*/
+        VCC.WriteChannel(3, temp);
          
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 11 -----------
     //
@@ -324,20 +330,19 @@ void BEHAVIOUR(){
         //adsrMode(int DAC_channel, bool _trigger, bool inverted_ADSR, float A_peak, float A_time, float D_peak, float D_time, float S_peak, float S_time, float R_time)
         //int _channel (1-8), bool _trigger (0=no - 1=yes), bool _inverted (0=no - 1=yes) 
         //float X_peak (0.0f<->1.0f), float X_time (millis)                                                                
-        /*ADSR3.adsrMode(3, adsrTrigger3, 0, analogValsA[0]/1023.0f, analogValsA[3]/1023.0f*2000, //A
+        ADSR3.adsrMode(3, adsrTrigger3, 0, analogValsA[0]/1023.0f, analogValsA[3]/1023.0f*2000, //A
                                            analogValsA[2]/1023.0f, analogValsA[3]/1023.0f*2000, //D
                                            analogValsA[1]/1023.0f, analogValsA[3]/1023.0f*2000, //S
                                                                    analogValsA[3]/1023.0f*2000);//R
-          */                                                         
+                                                                   
         // COMPLEX ADSR  with EXPONENTIAL / LINEAR / LOGARITHMIC PROGRESSIONS BETWEEN STEPS 
         //        
         //int _channel (1-8), bool _trigger (0=no - 1=yes), bool _inverted (0=no - 1=yes) 
         //float _X (0.0f<->1.0f), float _Xtime (millis), float _Xshape (0.0f<->1.0f)
-        /*ADSR1.adsrLogExpMode(1, adsrTrigger1, 0, analogValsA[0]/1023.0f, analogValsA[3]/1023.0f*2000.0f, cvValsA[0]/1023.0f,   // A
+        ADSR1.adsrLogExpMode(1, adsrTrigger1, 0, analogValsA[0]/1023.0f, analogValsA[3]/1023.0f*2000.0f, cvValsA[0]/1023.0f,   // A
                                                  analogValsA[2]/1023.0f, analogValsA[3]/1023.0f*2000.0f, cvValsA[1]/1023.0f,   // D
                                                  analogValsA[1]/1023.0f, analogValsA[3]/1023.0f*2000.0f, cvValsA[2]/1023.0f,   // S
                                                                          analogValsA[3]/1023.0f*2000.0f, cvValsA[3]/1023.0f);  // R
-       */
        // DETAILED DESCRIPTION
        /*adsrLogExpMode(int _channel, bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, 
                                                                   float _D, float _Dtime, float _Dshape, 
@@ -349,11 +354,11 @@ void BEHAVIOUR(){
         //
         //int _channel (1-8), bool _trigger (0=no - 1=yes), bool _inverted (0=no - 1=yes) 
         //float _X (0.0f<->1.0f), float _Xtime (millis), float _Xshape (0.0f<->1.0f)
-        /*ADSR2.adsrWeirdMode(2, adsrTrigger2, 0, analogValsA[0]/1023.0f, analogValsA[3]/1023.0f*2000.0f, cvValsA[4]/1023.0f,   // A
+        ADSR2.adsrWeirdMode(2, adsrTrigger2, 0, analogValsA[0]/1023.0f, analogValsA[3]/1023.0f*2000.0f, cvValsA[4]/1023.0f,   // A
                                                 analogValsA[2]/1023.0f, analogValsA[3]/1023.0f*2000.0f, cvValsA[5]/1023.0f);  // D
 
        
-      */
+      
         adsrTrigger1=false;
         adsrTrigger2=false;
         adsrTrigger3=false;
@@ -361,7 +366,7 @@ void BEHAVIOUR(){
         //Serial.println(ADSR1.CVstream);
         
         // I'm using the variable name "CVstream" as the output variable for all Classes with 1 output!
-        /*VCC.WriteChannel(1, ADSR1.CVstream);
+        VCC.WriteChannel(1, ADSR1.CVstream);
         VCC.WriteChannel(2, addacMaxResolution - ADSR1.CVstream); // INVERTED ADSR - easy as pie!
         
         VCC.WriteChannel(3, ADSR2.CVstream);
@@ -369,7 +374,6 @@ void BEHAVIOUR(){
         
         VCC.WriteChannel(5, ADSR3.CVstream);
         VCC.WriteChannel(6, addacMaxResolution - ADSR3.CVstream); // INVERTED ADSR - easy as pie!
-        */
         
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 12 -----------
     //
@@ -385,9 +389,9 @@ void BEHAVIOUR(){
        */
        
        //example:  
-       //if( Logic.AND(1, 1) ){ // THIS WILL BE TRUE
+       if( Logic.AND(1, 1) ){ // THIS WILL BE TRUE
            // DO SOMETHING HERE!!
-       // }
+        }
         
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 13 -----------
     //
@@ -402,13 +406,13 @@ void BEHAVIOUR(){
        
        readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
        
-       /*LFO1.update(analogValsA[0]/1023.0f);
+       LFO1.update(analogValsA[0]/1023.0f);
        LFO1.SINupdate(); // ONLY CALLS FUNCTION NEEDED, DOESN'T WASTE CPU (?) OR CALL EVERYTHING IN UPDATE AND IT'S DONE ??
        //LFO1.TRIupdate(); // ONLY CALLS FUNCTION NEEDED, DOESN'T WASTE CPU (?)
        //LFO1.SAWupdate(); // ONLY CALLS FUNCTION NEEDED, DOESN'T WASTE CPU (?)
        VCC.WriteChannel(1, LFO1.SIN);
        VCC.WriteChannel(2, addacMaxResolution-LFO1.SIN); // inverted SIN - easy as pie!
-      */
+    
     
     // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 14 -----------
     //
@@ -441,8 +445,7 @@ void BEHAVIOUR(){
        // Serial.print(IanniX::toInt(1));
         //Serial.print("  IX2:");
         //Serial.print(IanniX::toFloat(2));
-      }
-      */
+      }*/
     }
   
   // ------------------------------------------------------------------------------------------------------------------------------- MODE 1 -----------
@@ -567,7 +570,7 @@ void BEHAVIOUR(){
       if(cvValsA[0]<512)quadMode=0;
       else quadMode=1;
 
-     /* Quad.calcs(quadMode,cvValsA[1], cvValsA[2], cvValsA[3],cvValsA[4],cvValsA[5]); // CARTESIAN / POLAR MODE (0=radius/angle; 1=x/y), RADIUS/X, ANGLE/Y, ANGLE MULTIPLIER, EXP/LOG, NA
+      Quad.calcs(quadMode,cvValsA[1], cvValsA[2], cvValsA[3],cvValsA[4],cvValsA[5]); // CARTESIAN / POLAR MODE (0=radius/angle; 1=x/y), RADIUS/X, ANGLE/Y, ANGLE MULTIPLIER, EXP/LOG, NA
       VCC.WriteChannel(1, (Quad.amp1)*addacMaxResolution); // CHANNEL 1
       VCC.WriteChannel(2, (Quad.amp2)*addacMaxResolution); // CHANNEL 2
       VCC.WriteChannel(3, (Quad.amp3)*addacMaxResolution); // CHANNEL 3
@@ -593,7 +596,6 @@ void BEHAVIOUR(){
       LFO4.update(analogValsA[3]/1023.0f);
       LFO4.SINupdate(); 
       VCC.WriteChannel(8, LFO4.SIN);
-      */
       
       
     }else if(VCC.SUBMODE==1){
@@ -603,7 +605,7 @@ void BEHAVIOUR(){
       if(cvValsA[0]<512)quadMode=0;
       else quadMode=1;
 
-      /*Quad.calcs(quadMode,cvValsA[1], cvValsA[2], cvValsA[3],cvValsA[4],cvValsA[5]); // CARTESIAN / POLAR MODE (0=radius/angle; 1=x/y), RADIUS/X, ANGLE/Y, ANGLE MULTIPLIER, EXP/LOG, NA
+      Quad.calcs(quadMode,cvValsA[1], cvValsA[2], cvValsA[3],cvValsA[4],cvValsA[5]); // CARTESIAN / POLAR MODE (0=radius/angle; 1=x/y), RADIUS/X, ANGLE/Y, ANGLE MULTIPLIER, EXP/LOG, NA
       VCC.WriteChannel(1, (Quad.amp2)*addacMaxResolution); // CHANNEL 1
       VCC.WriteChannel(2, (Quad.amp4)*addacMaxResolution); // CHANNEL 2
       VCC.WriteChannel(3, (Quad.amp1)*addacMaxResolution); // CHANNEL 3
@@ -629,7 +631,6 @@ void BEHAVIOUR(){
       LFO4.update(analogValsA[3]/1023.0f);
       LFO4.SINupdate(); 
       VCC.WriteChannel(8, LFO4.SIN);
-      */
     }
   }else if(VCC.MODE==15){
     readCvsINA(6);
@@ -639,7 +640,7 @@ void BEHAVIOUR(){
      // VCC.WriteChannel(1, cvValsA[0]/1023.0f*addacMaxResolution);
       
       // ADDING AN LFO TO COMPARE IN/OUT...
-      /*LFO1.update(cvValsA[0]/1023.0f);
+      LFO1.update(cvValsA[0]/1023.0f);
       LFO1.SINupdate(); 
       VCC.WriteChannel(1, LFO1.SIN);
       
@@ -664,9 +665,9 @@ void BEHAVIOUR(){
       LFO6.SINupdate(); 
       VCC.WriteChannel(7, LFO6.SIN);
       VCC.WriteChannel(8, addacMaxResolution-LFO6.SIN); // inverted SIN - easy as pie!
-      */
+      
   }else{ // NEXT SWITCH A POSITION --------------------------------------------------- if MODE A SWITCH is in Position 8 or higher
-    //VCC.lfosMode(0,MODE-1,0); // MODE, TYPE , CHANNEL
+    VCC.lfosMode(0,MODE-1,0); // MODE, TYPE , CHANNEL
   }
   /*
   for(int i=0;i<8;i++){

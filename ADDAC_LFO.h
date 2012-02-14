@@ -19,7 +19,11 @@
 #ifndef ADDAC_LFO_h
 #define ADDAC_LFO_h
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 #define addacMaxResolution 65535 
 
