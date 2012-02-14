@@ -7,11 +7,15 @@
 #ifndef ADDAC_Adsr_h
 #define ADDAC_Adsr_h
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include <WProgram.h>
+#endif
 
 #define addacMaxResolution 65535 
 
-
+//#define DEBUG
 
 class ADDAC_Adsr{
 public:
@@ -21,11 +25,18 @@ public:
 	void adsrLogExpMode(int _channel, bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape, float _S, float _Stime, float _Sshape, float _Rtime, float _Rshape);
 	void adsrWeirdMode(int _channel, bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape);
 	
+	void AD_trigger(float _A);
+	void AD_release();
+	void AD_update(float _Atime, float _Dtime);
+	
 	unsigned long ADSRtriggerTime;
 	bool ADSRtrigger;
 	
 	unsigned int CVstream;
+	long TipPoint;
+	float Attack;
 	
+	bool SUSTAIN;
 	
 };
 #endif
