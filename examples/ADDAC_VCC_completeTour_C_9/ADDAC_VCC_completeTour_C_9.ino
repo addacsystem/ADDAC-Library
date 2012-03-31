@@ -34,6 +34,7 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 #define DEBUG 
 #define DEBUGmodes // prints out MODE A+B SWITCHES POSITIONS
 //#define DEBUGmidiNotes // MIDI NOTES STEP BY STEP DEBUG
+#define DEBUGmidi
 //#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
 #define DEBUGanalogA // prints out MANUAL INPUTS VALUES
 //#define DEBUGanalogB // prints out MANUAL INPUTS VALUES

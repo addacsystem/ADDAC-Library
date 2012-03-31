@@ -30,7 +30,7 @@ void MIDI_CCread(){
     else if(byteNum==1){
       byteNum++;
       controlChange=Serial1.read();
-      #ifdef MIDIdebug
+      #ifdef DEBUGmidi
         Serial.print("CC:");
         Serial.print(controlChange,DEC);
       #endif
@@ -38,7 +38,7 @@ void MIDI_CCread(){
     else if(byteNum==2){
       byteNum++;
       controlChangeValTemp=Serial1.read();
-      #ifdef MIDIdebug
+      #ifdef DEBUGmidi
         Serial.print("->");
         Serial.println(controlChangeValTemp,DEC);
       #endif
