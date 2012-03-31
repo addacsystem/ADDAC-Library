@@ -36,12 +36,12 @@
 
 // WHICH VCC VERSION?
 //#define VS1
-//#define VS2
-#define VS3
+#define VS2
+//#define VS3
 
 // WHICH 004 VERSION?
-#define ADDAC004VS1
-//#define ADDAC004VS2
+//#define ADDAC004VS1
+#define ADDAC004VS2
 
 //#define MIDI
 
@@ -133,20 +133,20 @@ extern volatile unsigned long timer0_millis;
 #define cvInCs2 36
 
 // MANUAL INS A
-#ifdef VS3
+#if defined VS3
 	#define analogInApin 4
-#elif VS2
+#elif defined VS2
 	#define analogInApin 8
-#else
+#elif defined VS1
 	#define analogInApin 4
 #endif
 #define analogInAs0 35
 #define analogInAs1 34
 #define analogInAs2 33
 // MANUAL INS B
-#ifdef VS3
+#if defined VS3
 	#define analogInBpin 5
-#elif VS2
+#elif defined VS2
 	#define analogInBpin 9
 #else
 	#define analogInBpin 5

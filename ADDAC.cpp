@@ -1095,7 +1095,7 @@ void ADDAC::write(int command, int address, unsigned int data){
 // --------------------------------------------------------------------------- MODES SWITCH -------------------------
 //
 void ADDAC::readMODEswitch(){
-#ifdef VS3
+#if defined VS3
 	byte switchVar1 = 0;
 	byte modeByte = 0;
 	byte submodeByte = 0;
@@ -1116,7 +1116,7 @@ void ADDAC::readMODEswitch(){
 	submodeByte = switchVar1 >>4;
 	SUBMODE=(int)modeByte;
 	MODE=(int)submodeByte;
-#elif VS2
+#elif defined VS2
 	byte switchVar1 = 0;
 	byte modeByte = 0;
 	byte submodeByte = 0;
