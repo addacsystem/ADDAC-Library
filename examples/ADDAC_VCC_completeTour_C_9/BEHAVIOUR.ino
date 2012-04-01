@@ -520,15 +520,12 @@ void BEHAVIOUR(){
           VCC.WriteChannel(i+1, analogValsA[0]/1023.0f*addacMaxResolution);
       }
       
-    }else if(VCC.SUBMODE == 1){
-       readCvsINA(6);
-       if(cvValsA[0]>500) {
+    }else if(VCC.SUBMODE == 1){  // MIDI TO ADSR
+       if(controlChangeVal[2]>64) {
           adsrTrigger1=true;
           VCC.WriteChannel(2, addacMaxResolution);
-          Serial.print(" ABOVE ");
        }else{
           VCC.WriteChannel(2, 0);
-          Serial.print(" BELOW ");
        }
        ADSR1.adsrMode(1, adsrTrigger1, 0, 1.0f, 2000, //A
                                        0.5f, 2000, //D
@@ -536,6 +533,25 @@ void BEHAVIOUR(){
                                              2000); //R
        adsrTrigger1=false;
        VCC.WriteChannel(1, ADSR1.CVstream);
+       
+    }else if(VCC.SUBMODE == 2){ // MIDI TO SIMPLE AD
+       readCvsINA(6);
+       if(controlChangeVal[2]>64) {
+          if(!adsrTrigger1) {
+            adsrTrigger1=true;
+            ADSR2.AD_trigger();
+          }
+          VCC.WriteChannel(2, addacMaxResolution);
+       }else{
+          if(adsrTrigger1){
+            adsrTrigger1=false;
+            ADSR2.AD_release();
+          }
+          VCC.WriteChannel(2, 0);
+       }
+       ADSR2.AD_update(1000,1000); // ATTACK = up to 4seconds - DECAY = up to 10seconds
+       //adsrTrigger1=false;
+       VCC.WriteChannel(1, ADSR2.CVstream);
        
     }
     
