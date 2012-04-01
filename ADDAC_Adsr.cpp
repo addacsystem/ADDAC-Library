@@ -269,6 +269,18 @@ void ADDAC_Adsr::AD_trigger(float _A){ // a:VELOCITY PERCENTAGE 0.0f & 1.0f
 #endif
 }
 
+void ADDAC_Adsr::AD_trigger(){ // a:VELOCITY PERCENTAGE 0.0f & 1.0f 
+	Attack = 1.0f;
+	ADSRtrigger=true;
+	SUSTAIN = true;
+	ADSRtriggerTime=millis();
+	TipPoint = CVstream;
+	//CVstream=0;
+#ifdef DEBUG_adsr
+	Serial.println("  -- ADSR TRIGGER");
+#endif
+}
+
 void ADDAC_Adsr::AD_release(){
 	SUSTAIN = false;
 	ADSRtriggerTime=millis();

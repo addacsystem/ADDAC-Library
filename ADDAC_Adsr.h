@@ -15,7 +15,8 @@
 
 #define addacMaxResolution 65535 
 
-#define DEBUG_adsr
+//#define DEBUG
+//#define DEBUG_adsr
 
 class ADDAC_Adsr{
 public:
@@ -26,6 +27,7 @@ public:
 	void adsrWeirdMode(int _channel, bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape);
 	
 	void AD_trigger(float _A);
+	void AD_trigger();
 	void AD_release();
 	void AD_update(float _Atime, float _Dtime);
 	
