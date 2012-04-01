@@ -36,8 +36,8 @@
 
 // WHICH VCC VERSION?
 //#define VS1
-#define VS2
-//#define VS3
+//#define VS2
+#define VS3
 
 // WHICH 004 VERSION?
 //#define ADDAC004VS1
