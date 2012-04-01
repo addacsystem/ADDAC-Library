@@ -12,7 +12,7 @@ UNLESS YOU REALLY REALLY WANT TO
 
 
 */
-
+#ifdef MAXMSP
 
 void checkMax(){
   if (messageBuild() > 0) { // Checks to see if the message is complete and erases any previous messages
@@ -47,5 +47,5 @@ void writeGatedADDAC() { // Write into ADDAC001 outputs
   VCC.WriteGatesBstraight(pin, state);
 }
 
-
+#endif
 

@@ -1,4 +1,4 @@
-
+   
 /*
 
 VCC BEHAVIOUR
@@ -514,9 +514,29 @@ void BEHAVIOUR(){
 
   // NEXT SWITCH A POSITION --------------------------------------------------- if MODE A SWITCH is in Position 2
   }else if(VCC.MODE==2){  // 
-    readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
-    for(int i=0;i<8;i++){
-        VCC.WriteChannel(i+1, analogValsA[0]/1023.0f*addacMaxResolution);
+    if(VCC.SUBMODE == 0){
+      readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
+      for(int i=0;i<8;i++){
+          VCC.WriteChannel(i+1, analogValsA[0]/1023.0f*addacMaxResolution);
+      }
+      
+    }else if(VCC.SUBMODE == 1){
+       readCvsINA(6);
+       if(cvValsA[0]>500) {
+          adsrTrigger1=true;
+          VCC.WriteChannel(2, addacMaxResolution);
+          Serial.print(" ABOVE ");
+       }else{
+          VCC.WriteChannel(2, 0);
+          Serial.print(" BELOW ");
+       }
+       ADSR1.adsrMode(1, adsrTrigger1, 0, 1.0f, 2000, //A
+                                       0.5f, 2000, //D
+                                       0.5f, 2000, //S
+                                             2000); //R
+       adsrTrigger1=false;
+       VCC.WriteChannel(1, ADSR1.CVstream);
+       
     }
     
   }else if(VCC.MODE==3){  // NEXT SWITCH A POSITION --------------------------------------------------- if MODE A SWITCH is in Position 3

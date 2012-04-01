@@ -16,7 +16,7 @@ void loop(){
   //Serial.print( freeMemory() );
   //Serial.print("  |  ");
   
-  VCC.update(); // NEEDED TO UPDATE THE DAC CHIP
+  VCC.update(); // NEED TO UPDATE THE VCC!
 
   // read from onBoard Input (VS1 & VS2 only)
   //onboardPot=VCC.readOnboardPot(); //number of channels to read
@@ -24,8 +24,8 @@ void loop(){
   // read new midi input data
   #ifdef MIDIenable
     //MIDIread();
-    //MIDI.read();
-    MIDI_CCread();
+    MIDI.read();
+    //MIDI_CCread();
     /*readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
     ADSR1.AD_update(analogValsA[0]*4+1,analogValsA[2]*10+1);
     ADSR2.AD_update(analogValsA[0]*4+1,analogValsA[2]*10+1);
