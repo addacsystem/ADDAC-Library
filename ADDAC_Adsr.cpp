@@ -1,4 +1,4 @@
- 
+
 
 #include "ADDAC_Adsr.h"
 
@@ -23,7 +23,7 @@ ADDAC_Adsr::ADDAC_Adsr(){
 
 // ADD top and bottom offset??
 void ADDAC_Adsr::adsrMode(int _channel, bool _trigger, bool _inverted, float _A, float _Atime, float _D, float _Dtime, float _S,float _Stime, float _Rtime){
-	if(_trigger){
+	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();
 		CVstream=0;
@@ -131,7 +131,7 @@ void ADDAC_Adsr::adsrMode(int _channel, bool _trigger, bool _inverted, float _A,
 //int _channel (1-8), bool _trigger (0=no - 1=yes), bool _inverted (0=no - 1=yes) 
 //float _A (0-1), float _Atime (millis), float _Ashape (0-1)
 void ADDAC_Adsr::adsrLogExpMode(int _channel, bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape, float _S, float _Stime, float _Sshape, float _Rtime, float _Rshape){
-	if(_trigger){
+	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();
 		CVstream=0;
@@ -224,7 +224,7 @@ void ADDAC_Adsr::adsrLogExpMode(int _channel, bool _trigger, bool _inverted, flo
 
 // ADD OFFSET
 void ADDAC_Adsr::adsrWeirdMode(int _channel, bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape){
-	if(_trigger){
+	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();
 		CVstream=0;
@@ -264,18 +264,18 @@ void ADDAC_Adsr::AD_trigger(float _A){ // a:VELOCITY PERCENTAGE 0.0f & 1.0f
 	ADSRtriggerTime=millis();
 	TipPoint = CVstream;
 	//CVstream=0;
-	#ifdef DEBUG_adsr
-		Serial.println("  -- ADSR TRIGGER");
-	#endif
+#ifdef DEBUG_adsr
+	Serial.println("  -- ADSR TRIGGER");
+#endif
 }
 
 void ADDAC_Adsr::AD_release(){
 	SUSTAIN = false;
 	ADSRtriggerTime=millis();
 	TipPoint = CVstream;
-	#ifdef DEBUG_adsr
-		Serial.println("  --  ADSR RELEASE");
-	#endif
+#ifdef DEBUG_adsr
+	Serial.println("  --  ADSR RELEASE");
+#endif
 }
 
 void ADDAC_Adsr::AD_update(float _Atime, float _Dtime){ //  a:ATTACK TIME  |  b:DECAY TIME    in millis
@@ -290,27 +290,27 @@ void ADDAC_Adsr::AD_update(float _Atime, float _Dtime){ //  a:ATTACK TIME  |  b:
 			difference = Attack - TipPointF;
 			weakLink=TipPoint;
 		}
-
+		
 		float _floatPercentage = difference * addacMaxResolution;
 		float _actualPos = _Atime-(ADSRtriggerTime+_Atime-millis());
 		CVstream = _actualPos / _Atime * _floatPercentage + weakLink;	
-		#ifdef DEBUG_adsr
+#ifdef DEBUG_adsr
 		Serial.print("  --  perc:");
 		Serial.print(_floatPercentage);
 		Serial.print("  -- pos:");
 		Serial.print(_actualPos);
-			Serial.print("  --  Going Up:");
-			Serial.println(CVstream);
-		#endif
+		Serial.print("  --  Going Up:");
+		Serial.println(CVstream);
+#endif
 	}else if(millis()<=ADSRtriggerTime+_Dtime && !SUSTAIN && ADSRtrigger){ 
 		// D
 		float _actualPos = ADSRtriggerTime+_Dtime-millis();
 		CVstream = _actualPos / _Dtime * TipPoint;
 		
-		#ifdef DEBUG_adsr
-			Serial.print("  --  Going Down:");
-			Serial.println(CVstream);
-		#endif
+#ifdef DEBUG_adsr
+		Serial.print("  --  Going Down:");
+		Serial.println(CVstream);
+#endif
 		
 	}else if(!SUSTAIN){
 		CVstream = 0;
