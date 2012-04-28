@@ -30,13 +30,16 @@ public:
 	void AD_trigger();
 	void AD_release();
 	void AD_update(float _Atime, float _Dtime);
+	void ADSR_update(float _A, float _Atime, float _D, float _Dtime, float _S,float _Stime, float _Rtime);
 	
 	unsigned long ADSRtriggerTime;
 	bool ADSRtrigger;
 	
 	unsigned int CVstream;
+	unsigned int toAddDif;
 	long TipPoint;
 	float Attack;
+	float floatPercentage, weakLink;
 	
 	bool SUSTAIN;
 	

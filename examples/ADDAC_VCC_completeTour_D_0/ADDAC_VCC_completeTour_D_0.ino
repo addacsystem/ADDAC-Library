@@ -31,11 +31,11 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 
 
 // DEBUGGING CONSOLE
-#define DEBUG 
-#define DEBUGmodes // prints out MODE A+B SWITCHES POSITIONS
+//#define DEBUG 
+//#define DEBUGmodes // prints out MODE A+B SWITCHES POSITIONS
 //#define DEBUGmidiNotes // MIDI NOTES STEP BY STEP DEBUG
-#define DEBUGmidi
-#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
+//#define DEBUGmidi
+//#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
 //#define DEBUGanalogA // prints out MANUAL INPUTS VALUES
 //#define DEBUGanalogB // prints out MANUAL INPUTS VALUES
 //#define DEBUGgateINA // prints out GATE INPUTS
@@ -49,7 +49,7 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 //#define MaxNchunk
 
 // USE MIDI?
-#define MIDIenable
+//#define MIDIenable
 
 
 #ifdef MIDIenable
@@ -153,7 +153,10 @@ extern void readCvsINC(int _nChannels);
 extern void readAnalogsINA(int _nChannels);
 extern void readAnalogsINB(int _nChannels);
 extern void readAnalogsINC(int _nChannels);
-
+extern void EUCLIDEAN();
+extern void Sync();
+extern unsigned int euclid(int n, int k);
+extern unsigned int ConcatBin(unsigned int bina, unsigned int binb);
 
 /////////////////////////////////////////////////////////////////////////// VARIABLES DECLARATION - (ToDo: THESE SHOULD ALL GO INTO THE MAIN LIBRARY) /////////////////////////////////
 
@@ -323,6 +326,29 @@ void setup(){
  for(int i=0;i<8;i++){
    VCC.WriteChannel(i+1, 0); // WRITES INTO DAC CHIP
  }
+ 
+ #ifdef EUCLIDEAN
+  /*if (EEPROM.read(1) > 17){ // if eprom is blank / corrupted, write some startup amounts
+    EEPROM.write(1,16);
+    EEPROM.write(2,4);
+    EEPROM.write(3,12);
+    EEPROM.write(4,6);
+    EEPROM.write(5,8);
+    EEPROM.write(6,5);
+  }*/
+  if (debug == 2){
+    Serial.begin(9600);
+  }
+  for (a=11;a<14;a++){
+    pinMode (a,OUTPUT);
+  }
+  // DEFINE SPARE PIN AS OUTPUT PIN 
+  pinMode (sparepin, OUTPUT);
+  // initialise beat holders 
+  for (int a=0;a<channels;a++){
+    beat_holder[a] = euclid(channelbeats[a][0],channelbeats[a][1]);
+  }
+#endif
  
  #ifdef DEBUG
    Serial.print( freeMemory() );

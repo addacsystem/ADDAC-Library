@@ -557,15 +557,15 @@ void BEHAVIOUR(){
        //readCvsINA(6);
        if(controlChangeVal[2]>64) {
           if(!adsrTrigger3) {
-            adsrTrigger3=true
-            ADSR3.AD_trigger();
+            adsrTrigger3=true;
+            ADSR3.AD_trigger(); // TRIGGERS ADSR
             VCC.WriteChannel(2, addacMaxResolution);
           }
           
        }else{
           if(adsrTrigger3){
             adsrTrigger3=false;
-            ADSR3.AD_release();
+            ADSR3.AD_release(); // GATE OFF – ADSR goes to RELEASE stage and decrease to ZERO
             VCC.WriteChannel(2, 0);
           }
        }
@@ -574,7 +574,10 @@ void BEHAVIOUR(){
        ADSR3.ADSR_update(0.9,2000, 0.3,2000, 0.1,2000, 4000); 
        //adsrTrigger1=false;
        VCC.WriteChannel(1, ADSR3.CVstream);
-       
+    
+    }else if(VCC.SUBMODE == 4){ // EUCLIDEAN
+      readCvsINA(6);
+       EUCLIDEAN();
     }
     
   }else if(VCC.MODE==3){  // NEXT SWITCH A POSITION --------------------------------------------------- if MODE A SWITCH is in Position 3
