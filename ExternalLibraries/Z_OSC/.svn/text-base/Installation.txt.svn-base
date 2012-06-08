@@ -1,0 +1,12 @@
+for Arduino firmware 0018
+
+Installation
+ArdOSC folder into ..
+
+Mac
+~/Documents/Arduino/libraries/
+
+Win
+MyDocuments\Arduino\libraries\
+
+http://www.arduino.cc/en/Hacking/Libraries

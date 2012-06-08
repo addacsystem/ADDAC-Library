@@ -1,0 +1,56 @@
+#######################################
+# Syntax Coloring Map For ArdOSC
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Z_OSCClient	KEYWORD1
+Z_OSCServer	KEYWORD1
+Z_OSCMessage	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+
+sockOpen	KEYWORD2
+sockClose	KEYWORD2
+
+setMessage	KEYWORD2
+send	KEYWORD2
+
+
+availableFlush	KEYWORD2
+availableFlush	KEYWORD2
+getMessage	KEYWORD2
+
+
+flush	KEYWORD2
+getAllPackSize	KEYWORD2
+getStrPackSize	KEYWORD2
+getPackSize	KEYWORD2
+setAddress	KEYWORD2
+setIpAddress	KEYWORD2
+setZ_OSCMessage	KEYWORD2
+setZ_OSCAddress	KEYWORD2
+getZ_OSCAddress	KEYWORD2
+getIpAddress	KEYWORD2
+setPortNumber	KEYWORD2
+getPortNumber	KEYWORD2
+setTypeTags	KEYWORD2
+getTypeTags	KEYWORD2
+getTypeTag	KEYWORD2
+getArgsNum	KEYWORD2
+getInteger32	KEYWORD2
+getFloat	KEYWORD2
+getString	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+
+

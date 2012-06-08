@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/recotana/ArdOSC/!svn/ver/4/branches/ver2.0
+END
+Installation.txt
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/recotana/ArdOSC/!svn/ver/5/branches/ver2.0/Installation.txt
+END
+ArdOSC.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/recotana/ArdOSC/!svn/ver/5/branches/ver2.0/ArdOSC.h
+END
+OSCClient.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/recotana/ArdOSC/!svn/ver/5/branches/ver2.0/OSCClient.cpp
+END
+OSCEncoder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/recotana/ArdOSC/!svn/ver/5/branches/ver2.0/OSCEncoder.cpp
+END
+OSCMessage.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/recotana/ArdOSC/!svn/ver/5/branches/ver2.0/OSCMessage.cpp
+END
+OSCDecoder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/recotana/ArdOSC/!svn/ver/5/branches/ver2.0/OSCDecoder.cpp
+END
+OSCServer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/recotana/ArdOSC/!svn/ver/5/branches/ver2.0/OSCServer.cpp
+END
