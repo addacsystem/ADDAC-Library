@@ -43,7 +43,7 @@ public:
 	void ENV_update(float _A, float _Atime, float _D, float _Dtime, float _S,float _Stime, float _Rtime);
     
     void MultiEnv(bool _trigger, bool _inverted);
-    void MultiEnv(bool _trigger, bool _inverted, bool _loop);
+    void MultiEnvLoop(bool _trigger, bool _inverted);
     void PrintMultiEnv();
     void addPoint(float _amp, float _time);
 	
@@ -58,6 +58,7 @@ public:
 	float floatPercentage, weakLink;
 	
 	bool SUSTAIN;
+    bool _loopON;
     
     vector<float> time;
     vector<float> amplitude;

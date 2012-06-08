@@ -236,8 +236,8 @@ public:
 		
 		//AD5668 functions
 		void write(int command, int address, unsigned int data);
-		void writeChannel(int _channel, unsigned int _voltage); // INTERNAL - WRITING FROM THIS CLASS - "private"
-		void WriteChannel(int _channel, unsigned int _voltage); // EXTERNAL - WRITING FROM ARDUINO ENVIRONMENT
+		void writeChannel(int _channel,  float _voltage); // INTERNAL - WRITING FROM THIS CLASS - "private"
+		void WriteChannel(int _channel,  float _voltage); // EXTERNAL - WRITING FROM ARDUINO ENVIRONMENT
 	
 		// CV INS A
         float  cvInAvals[6], cvValuesA[6],cvValuesB[6],cvValuesC[6], cvValuesAMapped[6], cvValuesBMapped[6],cvValuesCMapped[6];

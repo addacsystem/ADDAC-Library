@@ -1323,11 +1323,12 @@ void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E, int 
 
 // --------------------------------------------------------------------------- AD5668 RELATED -----------------------
 //
-void ADDAC::writeChannel(int _channel, unsigned int _voltage){ // INTERNAL
+void ADDAC::writeChannel(int _channel, float _voltage){ // INTERNAL
+    unsigned int _realVoltage= _voltage*addacMaxResolution;
 	byte b1 = B11110000|WRITE_UPDATE_N; //padding at beginning of byte
-	byte b2 = _channel << 4 | _voltage >> 12; //4 address bits and 4 MSBs of data
-	byte b3 = (_voltage << 4) >> 8; // middle 8 bits of data
-	byte b4 = (_voltage << 12) >> 8 | B00001111;
+	byte b2 = _channel << 4 | _realVoltage >> 12; //4 address bits and 4 MSBs of data
+	byte b3 = (_realVoltage << 4) >> 8; // middle 8 bits of data
+	byte b4 = (_realVoltage << 12) >> 8 | B00001111;
 	#ifdef DEBUG
 		Serial.print("b1 ");
 		Serial.println(b1, BIN);
@@ -1354,11 +1355,12 @@ void ADDAC::writeChannel(int _channel, unsigned int _voltage){ // INTERNAL
     
 }
 
-void ADDAC::WriteChannel(int _channel, unsigned int _voltage){ // EXTERNAL - WRITING FROM ARDUINO ENVIRONMENT
+void ADDAC::WriteChannel(int _channel, float _voltage){ // EXTERNAL - WRITING FROM ARDUINO ENVIRONMENT
+    unsigned int _realVoltage= _voltage*addacMaxResolution;
 	byte b1 = B11110000|WRITE_UPDATE_N; //padding at beginning of byte
-	byte b2 = _channel << 4 | _voltage >> 12; //4 address bits and 4 MSBs of data
-	byte b3 = (_voltage << 4) >> 8; // middle 8 bits of data
-	byte b4 = (_voltage << 12) >> 8 | B00001111;
+	byte b2 = _channel << 4 | _realVoltage >> 12; //4 address bits and 4 MSBs of data
+	byte b3 = (_realVoltage << 4) >> 8; // middle 8 bits of data
+	byte b4 = (_realVoltage << 12) >> 8 | B00001111;
 #ifdef DEBUG
 	Serial.print("b1 ");
 	Serial.println(b1, BIN);
@@ -1380,8 +1382,9 @@ void ADDAC::WriteChannel(int _channel, unsigned int _voltage){ // EXTERNAL - WRI
 	delayMicroseconds(1);
 	delayMicroseconds(1);
 	digitalWrite(SLAVESELECT, HIGH);
+    
     //update array to mixerMode and others...
-    DACvolts[_channel]=_voltage;
+    DACvolts[_channel]=_realVoltage;
 }
 
 void ADDAC::write(int command, int address, unsigned int data){

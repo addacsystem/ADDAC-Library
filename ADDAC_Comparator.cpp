@@ -46,7 +46,6 @@ bool ADDAC_Comparator::Comparator(float _input, float _tresh){
 }
 
 
-
 bool ADDAC_Comparator::Comparator(float _input, float _tresh, float _delay){ 
   
     
@@ -58,6 +57,7 @@ bool ADDAC_Comparator::Comparator(float _input, float _tresh, float _delay){
         
         triggerState = true;
         triggerTimeCount=true;
+        timeEleapsed=0;
         
     }
     else if(_input>=_tresh && triggerState){

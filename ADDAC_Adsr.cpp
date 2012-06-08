@@ -36,7 +36,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D,
 			// A
 			float _floatPercentage = _A * addacMaxResolution;
 			float _actualPos = _Atime-(ADSRtriggerTime+_Atime-millis());
-			CVstream = (_actualPos / _Atime * _floatPercentage);		
+			CVstream = (_actualPos / _Atime * _floatPercentage)/addacMaxResolution;		
 			
 		}else if(millis()>ADSRtriggerTime+_Atime && millis()<=ADSRtriggerTime+_Atime+_Dtime){ 
 			// D
@@ -50,7 +50,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D,
 				toAddDif = _D*addacMaxResolution;
 				_actualPos = ADSRtriggerTime+_Atime+_Dtime-millis();
 			}
-			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif);
+			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime){ 
 			// S
@@ -64,13 +64,13 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D,
 				toAddDif = _S*addacMaxResolution;
 				_actualPos = (ADSRtriggerTime+_Atime+_Dtime+_Stime-millis());
 			}
-			CVstream = (_actualPos / _Stime * percentageDif + toAddDif);
+			CVstream = (_actualPos / _Stime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime+_Stime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime){ 
 			// R
 			unsigned int percentageDif = _S * addacMaxResolution; // intervalo
 			float _actualPos = (ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime-millis());
-			CVstream = (_actualPos / _Rtime * percentageDif);
+			CVstream = (_actualPos / _Rtime * percentageDif)/addacMaxResolution;
 			
 		}else{
 			ADSRtrigger=false;
@@ -82,7 +82,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D,
 			float _floatPercentage = _A * addacMaxResolution;
 			float _actualPos = (ADSRtriggerTime+_Atime-millis());
 			toAddDif = (_A-1)*-1.0f*addacMaxResolution;
-			CVstream =(_actualPos / _Atime * _floatPercentage+toAddDif);		
+			CVstream =(_actualPos / _Atime * _floatPercentage+toAddDif)/addacMaxResolution;		
 			
 		}else if(millis()>ADSRtriggerTime+_Atime && millis()<=ADSRtriggerTime+_Atime+_Dtime){ 
 			// D
@@ -97,7 +97,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D,
 				toAddDif = (1 - _A) * addacMaxResolution;
 				_actualPos = _Dtime-(ADSRtriggerTime+_Atime+_Dtime-millis());
 			}
-			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif);
+			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime){ 
 			// S
@@ -112,14 +112,14 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D,
 				toAddDif = (1 - _D) * addacMaxResolution;
 				_actualPos = _Stime-(ADSRtriggerTime+_Atime+_Dtime+_Stime-millis());
 			}
-			CVstream =(_actualPos / _Stime * percentageDif + toAddDif);
+			CVstream =(_actualPos / _Stime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime+_Stime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime){ 
 			// R
 			float percentageDif = _S * addacMaxResolution; // intervalo
 			float _actualPos = _Rtime-(ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime-millis());
 			float toAddDif = (_S-1)*-1.0f*addacMaxResolution;
-			CVstream = (_actualPos / _Rtime * percentageDif + toAddDif);
+			CVstream = (_actualPos / _Rtime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else{
 			ADSRtrigger=false;
@@ -144,7 +144,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, 
 			// A
 			float _floatPercentage = _A * addacMaxResolution;
 			float _actualPos = _Atime-(ADSRtriggerTime+_Atime-millis());
-			CVstream = (_actualPos / _Atime * _floatPercentage);		
+			CVstream = (_actualPos / _Atime * _floatPercentage)/addacMaxResolution;		
 			
 		}else if(millis()>ADSRtriggerTime+_Atime && millis()<=ADSRtriggerTime+_Atime+_Dtime){ 
 			// D
@@ -158,7 +158,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, 
 				toAddDif = _D*addacMaxResolution;
 				_actualPos = ADSRtriggerTime+_Atime+_Dtime-millis();
 			}
-			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif);
+			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime){ 
 			// S
@@ -172,13 +172,13 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, 
 				toAddDif = _S*addacMaxResolution;
 				_actualPos = (ADSRtriggerTime+_Atime+_Dtime+_Stime-millis());
 			}
-			CVstream = (_actualPos / _Stime * percentageDif + toAddDif);
+			CVstream = (_actualPos / _Stime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime+_Stime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime){ 
 			// R
 			unsigned int percentageDif = _S * addacMaxResolution; // intervalo
 			float _actualPos = (ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime-millis());
-			CVstream = (_actualPos / _Rtime * percentageDif);
+			CVstream = (_actualPos / _Rtime * percentageDif)/addacMaxResolution;
 			
 		}else{
 			ADSRtrigger=false;
@@ -190,7 +190,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, 
 			float _floatPercentage = _A * addacMaxResolution;
 			float _actualPos = (ADSRtriggerTime+_Atime-millis());
 			toAddDif = (_A-1)*-1.0f*addacMaxResolution;
-			CVstream =(_actualPos / _Atime * _floatPercentage+toAddDif);		
+			CVstream =(_actualPos / _Atime * _floatPercentage+toAddDif)/addacMaxResolution;		
 			
 		}else if(millis()>ADSRtriggerTime+_Atime && millis()<=ADSRtriggerTime+_Atime+_Dtime){ 
 			// D
@@ -205,7 +205,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, 
 				toAddDif = (1 - _A) * addacMaxResolution;
 				_actualPos = _Dtime-(ADSRtriggerTime+_Atime+_Dtime-millis());
 			}
-			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif);
+			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime){ 
 			// S
@@ -220,18 +220,18 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, 
 				toAddDif = (1 - _D) * addacMaxResolution;
 				_actualPos = _Stime-(ADSRtriggerTime+_Atime+_Dtime+_Stime-millis());
 			}
-			CVstream =(_actualPos / _Stime * percentageDif + toAddDif);
+			CVstream =(_actualPos / _Stime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime+_Stime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime){ 
 			// R
 			float percentageDif = _S * addacMaxResolution; // intervalo
 			float _actualPos = _Rtime-(ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime-millis());
 			float toAddDif = (_S-1)*-1.0f*addacMaxResolution;
-			CVstream = (_actualPos / _Rtime * percentageDif + toAddDif);
+			CVstream = (_actualPos / _Rtime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else{
 			ADSRtrigger=false;
-			CVstream=addacMaxResolution;
+			CVstream=addacMaxResolution/addacMaxResolution;
 		}
 	}
 }
@@ -253,23 +253,23 @@ void ADDAC_Adsr::adsrLogExpMode(bool _trigger, bool _inverted, float _A, float _
 		if(millis()<=ADSRtriggerTime+_Atime){ 
 			// A
 			float _actualPos = (millis()-ADSRtriggerTime)/_Atime;
-			CVstream = pow(_actualPos, exp(_Ashape*4.0f-2)) * (_A * addacMaxResolution);		
+			CVstream = (pow(_actualPos, exp(_Ashape*4.0f-2)) * (_A * addacMaxResolution))/addacMaxResolution;		
 			
 		}else if(millis()>ADSRtriggerTime+_Atime && millis()<=ADSRtriggerTime+_Atime+_Dtime){ 
 			// D
 			float _actualPos = (millis()-ADSRtriggerTime-_Atime)/_Dtime;
-			CVstream = (-(1-_D-(1-_A))*pow(_actualPos, exp(_Dshape*4.0f-2)) +_A)* addacMaxResolution;
+			CVstream = (-(1-_D-(1-_A))*pow(_actualPos, exp(_Dshape*4.0f-2)) +_A);
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime){ 
 			// S
 			float _actualPos=(millis()-ADSRtriggerTime-_Atime-_Dtime)/_Stime;
-			CVstream = (-(1-_S-(1-_D))*pow(_actualPos, exp(_Sshape*4.0f-2)) +_D) * addacMaxResolution;
+			CVstream = (-(1-_S-(1-_D))*pow(_actualPos, exp(_Sshape*4.0f-2)) +_D) ;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime+_Stime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime){ 
 			// R
 			unsigned int percentageDif = _S * addacMaxResolution; // intervalo
 			float _actualPos=(millis()-ADSRtriggerTime-_Atime-_Dtime-_Stime)/_Rtime;
-			CVstream = (-pow(_actualPos, exp(_Rshape*4-2))+1) * percentageDif;
+			CVstream = ((-pow(_actualPos, exp(_Rshape*4-2))+1) * percentageDif)/addacMaxResolution;
 			
 		}else{
 			ADSRtrigger=false;
@@ -282,7 +282,7 @@ void ADDAC_Adsr::adsrLogExpMode(bool _trigger, bool _inverted, float _A, float _
 			float _floatPercentage = _A / 100.0f * addacMaxResolution;
 			float _actualPos = (ADSRtriggerTime+_Atime-millis());
 			toAddDif = (_A/100.0f-1)*-1.0f*addacMaxResolution;
-			CVstream = _actualPos / _Atime * _floatPercentage+toAddDif;		
+			CVstream = (_actualPos / _Atime * _floatPercentage+toAddDif)/addacMaxResolution;		
 			
 		}else if(millis()>ADSRtriggerTime+_Atime && millis()<=ADSRtriggerTime+_Atime+_Dtime){ 
 			// D
@@ -298,7 +298,7 @@ void ADDAC_Adsr::adsrLogExpMode(bool _trigger, bool _inverted, float _A, float _
 				toAddDif = (100 - _A) / 100.0f * addacMaxResolution;
 				_actualPos = _Dtime-(ADSRtriggerTime+_Atime+_Dtime-millis());
 			}
-			CVstream = _actualPos / _Dtime * percentageDif + toAddDif;
+			CVstream = (_actualPos / _Dtime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime){ 
 			// S
@@ -313,18 +313,18 @@ void ADDAC_Adsr::adsrLogExpMode(bool _trigger, bool _inverted, float _A, float _
 				toAddDif = (100 - _D) / 100.0f * addacMaxResolution;
 				_actualPos = _Stime-(ADSRtriggerTime+_Atime+_Dtime+_Stime-millis());
 			}
-			CVstream = _actualPos / _Stime * percentageDif + toAddDif;
+			CVstream = (_actualPos / _Stime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else if(millis()>ADSRtriggerTime+_Atime+_Dtime+_Stime && millis()<=ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime){ 
 			// R
 			float percentageDif = _S / 100.0f * addacMaxResolution; // intervalo
 			float _actualPos = _Rtime-(ADSRtriggerTime+_Atime+_Dtime+_Stime+_Rtime-millis());
 			float toAddDif = (_S/100.0f-1)*-1.0f*addacMaxResolution;
-			CVstream = _actualPos / _Rtime * percentageDif + toAddDif;
+			CVstream = (_actualPos / _Rtime * percentageDif + toAddDif)/addacMaxResolution;
 			
 		}else{
 			ADSRtrigger=false;
-			CVstream=addacMaxResolution;
+			CVstream=addacMaxResolution/addacMaxResolution;
 		}
 	}
 }

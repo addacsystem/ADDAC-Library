@@ -50,7 +50,7 @@ public:
     unsigned int rndStep[8];
     unsigned int SINval, SIN;
     float increment, position;
-    long CVstream;
+    float CVstream;
     float stream;
     
 };

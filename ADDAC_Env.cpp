@@ -491,7 +491,7 @@ void ADDAC_Env::MultiEnv(bool _trigger, bool _inverted){
         actualStep=0;
     }
     
- if(amplitude.size()>1){
+ if(amplitude.size()>1 && ENVtrigger){
      
     
         long totalTime = ENVtriggerTime;
@@ -557,7 +557,7 @@ void ADDAC_Env::MultiEnv(bool _trigger, bool _inverted){
 
 
 
-void ADDAC_Env::MultiEnv(bool _trigger, bool _inverted, bool _loop){
+void ADDAC_Env::MultiEnvLoop(bool _trigger, bool _inverted){
     
     //for (int i=0; i<amplitude.size(); i++) {
     
@@ -570,9 +570,10 @@ void ADDAC_Env::MultiEnv(bool _trigger, bool _inverted, bool _loop){
         ENVtriggerTime=millis();
         //CVstream=0;
         actualStep=0;
+        _loopON=true;
     }
     
-    if(amplitude.size()>1){
+    if(amplitude.size()>1 && ENVtrigger){
         
         
         long totalTime = ENVtriggerTime;
@@ -591,7 +592,7 @@ void ADDAC_Env::MultiEnv(bool _trigger, bool _inverted, bool _loop){
                 actualStep=amplitude.size();
                 
                 
-                if (_loop) {
+                if (_loopON) {
                     
                 
                 ENVtrigger=true;
@@ -645,10 +646,11 @@ void ADDAC_Env::MultiEnv(bool _trigger, bool _inverted, bool _loop){
 }
 
 
-void ADDAC_Env::addPoint(float _time, float _amp){
+void ADDAC_Env::addPoint(float _amp, float _time){
     
-    time.push_back(_time*5000);
     amplitude.push_back(_amp);
+    time.push_back(_time*10000);
+    
 
 
 }
