@@ -31,10 +31,10 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 
 
 // DEBUGGING CONSOLE
-//#define DEBUG 
+#define DEBUG 
 //#define DEBUGmodes // prints out MODE A+B SWITCHES POSITIONS
 //#define DEBUGmidiNotes // MIDI NOTES STEP BY STEP DEBUG
-//#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
+#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
 //#define DEBUGanalogA // prints out MANUAL INPUTS VALUES
 //#define DEBUGanalogB // prints out MANUAL INPUTS VALUES
 //#define DEBUGgateINA // prints out GATE INPUTS
@@ -49,7 +49,7 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 
 
 // USE MIDI?
-#define MIDIenable
+//#define MIDIenable
 
 //#define USE_SERIAL_PORT         Serial1
 #include <MIDI.h>

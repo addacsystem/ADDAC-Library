@@ -16,7 +16,7 @@ void loop(){
   //Serial.print( freeMemory() );
   //Serial.print("  |  ");
   
-  //VCC.update(); // NEEDED TO UPDATE THE DAC CHIP
+  VCC.update(); // NEEDED TO UPDATE THE DAC CHIP
 
   // read from onBoard Input (VS1 & VS2 only)
   //onboardPot=VCC.readOnboardPot(); //number of channels to read
@@ -92,10 +92,10 @@ void loop(){
     
     
   // BEHAVIOUR FUNCTION - see tab BEHAVIOUR to define MODES
-  //BEHAVIOUR();
+  BEHAVIOUR();
   
   #ifdef DEBUG
-    //Serial.println();
+    Serial.println();
     delay(10);
   #endif
 }

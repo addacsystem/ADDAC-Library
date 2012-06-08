@@ -40,8 +40,14 @@
 #define VS3
 
 // WHICH 004 VERSION?
-//#define ADDAC004VS1
-#define ADDAC004VS2
+#define ADDAC004VS1
+//#define ADDAC004VS2
+
+// SOCKET CONSTANTS
+#define A 0
+#define B 1
+#define C 2
+
 
 //#define MIDI
 
@@ -82,7 +88,7 @@
 
 
 //avoid these!!!
-#define ENVELOPE 0 //Analog in on Arduino to test output of AD5668
+#define ENVELOPE 0 //manual in on Arduino to test output of AD5668
 #define DATAOUT 10 //MOSI, DIN Pin 15 on AD5668
 #define SPICLK 11 //Serial Clock In, SCLK Pin 16
 #define SLAVESELECT 12//SYNC Active Low Control Input, Pin 2
@@ -103,14 +109,14 @@ extern volatile unsigned long timer0_millis;
 	#define clockPin  17
 #endif
 
-// ONBOARD ANALOG
+// ONBOARD manual
 #define onboardPotPin 0 
 
-#define analogIn2pin 1
-#define analogIn3pin 2
-#define analogIn4pin 3
-#define analogIn5pin 4
-#define analogIn6pin 5
+#define manualIn2pin 1
+#define manualIn3pin 2
+#define manualIn4pin 3
+#define manualIn5pin 4
+#define manualIn6pin 5
 
 // CV INS A
 #ifdef VS2
@@ -134,31 +140,31 @@ extern volatile unsigned long timer0_millis;
 
 // MANUAL INS A
 #if defined VS3
-	#define analogInApin 4
+	#define manualInApin 4
 #elif defined VS2
-	#define analogInApin 8
+	#define manualInApin 8
 #elif defined VS1
-	#define analogInApin 4
+	#define manualInApin 4
 #endif
-#define analogInAs0 35
-#define analogInAs1 34
-#define analogInAs2 33
+#define manualInAs0 35
+#define manualInAs1 34
+#define manualInAs2 33
 // MANUAL INS B
 #if defined VS3
-	#define analogInBpin 5
+	#define manualInBpin 5
 #elif defined VS2
-	#define analogInBpin 9
+	#define manualInBpin 9
 #else
-	#define analogInBpin 5
+	#define manualInBpin 5
 #endif
-#define analogInBs0 32
-#define analogInBs1 31
-#define analogInBs2 30
+#define manualInBs0 32
+#define manualInBs1 31
+#define manualInBs2 30
 // MANUAL INS C
-#define analogInCpin 6
-#define analogInCs0 28
-#define analogInCs1 29
-#define analogInCs2 39
+#define manualInCpin 6
+#define manualInCs0 28
+#define manualInCs1 29
+#define manualInCs2 39
 
 #ifdef VS3
     // GATE INS A - not working pcb defect in VS1 & VS2?!!
@@ -234,61 +240,55 @@ public:
 		void WriteChannel(int _channel, unsigned int _voltage); // EXTERNAL - WRITING FROM ARDUINO ENVIRONMENT
 	
 		// CV INS A
-		unsigned int  cvInAvals[6], cvValuesA[6], cvValuesAMapped[6];
-		int  ReadCvsA(int _channel);
-		void ReadCvsA();
-		// CV INS B
-		unsigned int  cvInBvals[6], cvValuesB[6], cvValuesBMapped[6];
-		int  ReadCvsB(int _channel);
-		void ReadCvsB();
-		// CV INS A
-		unsigned int  cvInCvals[6], cvValuesC[6], cvValuesCMapped[6];
-		int  ReadCvsC(int _channel);
-		void ReadCvsC();
-	
-		// ANALOG INS A
+        float  cvInAvals[6], cvValuesA[6],cvValuesB[6],cvValuesC[6], cvValuesAMapped[6], cvValuesBMapped[6],cvValuesCMapped[6];
+		float  ReadCv(int _socket, int _channel);
+        void StoreCvs(int _socket, int _channel);
+		void ReadCvs(int _socket);
+       
+    
+        // CV PRINTS CONSOLE
+        void PrintCvs(int _socket);
+        void PrintCv(int _socket, int _channel);
+    
+		// manual INS A
 		int  truthTableA[6],truthTableB[6],truthTableC[6];
-		unsigned int  analogInAvals[6], analogValuesA[6], analogValuesAMapped[6];
-		int  ReadAnalogsA(int _channel);
-		void ReadAnalogsA();
-		// ANALOG INS B
-		int  analogInBvals[6], analogValuesB[6], analogValuesBMapped[6];
-		int  ReadAnalogsB(int _channel);
-		void ReadAnalogsB();
-		// ANALOG INS C
-		unsigned int  analogInCvals[6], analogValuesC[6], analogValuesCMapped[6];
-		int  ReadAnalogsC(int _channel);
-		void ReadAnalogsC();
+		float  manualInAvals[6], manualValuesA[6], manualValuesAMapped[6];
+        float  manualInBvals[6], manualValuesB[6], manualValuesBMapped[6];
+        float  manualInCvals[6], manualValuesC[6], manualValuesCMapped[6];
+		float  ReadManual(int _socket, int _channel);
+        void StoreManuals(int _socket, int _channel);
+		void ReadManuals(int _socket);
+		         
+        // manual PRINTS CONSOLE
+        void PrintManuals(int _socket);
+        void PrintManual(int _socket, int _channel);
 	
-		// GATE INS A
-		byte  gateValuesA[8];
-		byte  ReadGatesA();
-        void  ReadGatesA(bool _invert);
-        void  MAXsendGatesA();
-		// GATE INS B
-		byte  gateValuesB[8];
-		byte  ReadGatesB();
-		void  ReadGatesB(bool _invert);
-        void  MAXsendGatesB();
-        // GATE INS C
-		byte  gateValuesC[8];
-		byte  ReadGatesC();
-		void  ReadGatesC(bool _invert);
-        void  MAXsendGatesC();
+    
+		// GATE INS A		
+		byte  ReadGates(int _socket);
+        void  ReadGates(int _socket, bool _invert);
+        boolean  ReadGate(int _socket, bool _invert, int _channel);
+        byte  gateValuesA[8];
+        byte  gateValuesB[8];
+        byte  gateValuesC[8];
+        void  MAXsendGates(int _socket);
+           
+    
+        // manual PRINTS CONSOLE
+        void PrintGates(int _socket);
+        void PrintGate(int _socket, int _channel);
     
 		// GATE OUTS A
 		void  shiftOutGates(int myDataPin, int myClockPin, byte myDataOut);
 		void  shiftOutGates(int myDataPin, int myClockPin, int _pin, int myDataOut);
-		int  WriteGatesA(byte _data, int bpm);
-		void WriteGatesAstraight(int _pos, int _data);
+    
+		int  WriteGates(int _socket, byte _data, int bpm);
+		void WriteGatesStraight(int _socket, int _pos, int _data);
 		int  gateValuesOutA[8];
 		unsigned long gatesOutMillisA, oldGatesOutMillisA;
 		// GATE OUTS B
-		int  WriteGatesB(byte _data, int bpm);
-		void WriteGatesBstraight(int _pos, int _data);
 		unsigned long gatesOutMillisB, oldGatesOutMillisB;
 		// GATE OUTS C
-		int  WriteGatesC(byte _data, int bpm);
 		unsigned long gatesOutMillisC, oldGatesOutMillisC;
 	
 		// MODES
@@ -329,6 +329,7 @@ public:
   //VIRTUAL void space(int usec);
 	long fMin,fMax,fSeed,vMin,vMax;
 	long threshold;
+    
 };
 
 #endif

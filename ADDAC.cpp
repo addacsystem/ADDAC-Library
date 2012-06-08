@@ -46,7 +46,7 @@ ADDAC::ADDAC(){
 void ADDAC::setup(){
 	//EXTERNALS
 	//
-	//ANALOG INS A
+	//manual INS A
 	truthTableA[0]=0;
 	truthTableA[1]=1;
 	truthTableA[2]=0;
@@ -75,17 +75,17 @@ void ADDAC::setup(){
 	truthTableC[7]=1;
 	//define 4051 pin modes
 	// A
-	pinMode(analogInAs0, OUTPUT);
-	pinMode(analogInAs1, OUTPUT); 
-	pinMode(analogInAs2, OUTPUT);
+	pinMode(manualInAs0, OUTPUT);
+	pinMode(manualInAs1, OUTPUT); 
+	pinMode(manualInAs2, OUTPUT);
 	// B
-	pinMode(analogInBs0, OUTPUT);
-	pinMode(analogInBs1, OUTPUT); 
-	pinMode(analogInBs2, OUTPUT);
+	pinMode(manualInBs0, OUTPUT);
+	pinMode(manualInBs1, OUTPUT); 
+	pinMode(manualInBs2, OUTPUT);
 	// C
-	pinMode(analogInCs0, OUTPUT);
-	pinMode(analogInCs1, OUTPUT); 
-	pinMode(analogInCs2, OUTPUT);
+	pinMode(manualInCs0, OUTPUT);
+	pinMode(manualInCs1, OUTPUT); 
+	pinMode(manualInCs2, OUTPUT);
 	
 	// CV INPUTS A
 	pinMode(cvInAs0, OUTPUT);
@@ -196,92 +196,316 @@ int ADDAC::readOnboardPot(){
 
 // --------------------------------------------------------------------------- READ CVS IN - ADDAC002 -----------
 //
-void ADDAC::ReadCvsA(){ // INTERNAL READING
-	for(int i=0;i<6;i++){
-		cvValuesA[i]=ReadCvsA(i); 
-		cvValuesAMapped[i]=cvValuesA[i]/1023.0f*65535.0f;
+void ADDAC::ReadCvs(int _socket){ // INTERNAL READING
+	if(_socket == A){
+		for(int i=0;i<6;i++){
+			StoreCvs(_socket,i); 
+			//cvValuesAMapped[i]=cvValuesA[i]/1023.0f*65535.0f;
+		}
+	}else if(_socket == B){
+		for(int i=0;i<6;i++){
+			StoreCvs(_socket,i); 
+			//cvValuesBMapped[i]=cvValuesB[i]/1023.0f*65535.0f;
+		}
+	}else if(_socket == C){
+		for(int i=0;i<6;i++){
+			StoreCvs(_socket,i); 
+			//cvValuesCMapped[i]=cvValuesC[i]/1023.0f*65535.0f;
+		}
 	}
-}
-int ADDAC::ReadCvsA(int _channel){ // EXTERNAL READING
-	digitalWrite(cvInAs0, truthTableA[_channel]); 
-	digitalWrite(cvInAs1, truthTableB[_channel]); 
-	digitalWrite(cvInAs2, truthTableC[_channel]); 
-	return analogRead(cvInApin);
-}
-//
-void ADDAC::ReadCvsB(){ // INTERNAL READING
-	for(int i=0;i<6;i++){
-		cvValuesB[i]=ReadCvsB(i); 
-		cvValuesBMapped[i]=cvValuesB[i]/1023.0f*65535.0f;
-	}
-}
-int ADDAC::ReadCvsB(int _channel){ // EXTERNAL READING
-	digitalWrite(cvInBs0, truthTableA[_channel]); 
-	digitalWrite(cvInBs1, truthTableB[_channel]); 
-	digitalWrite(cvInBs2, truthTableC[_channel]); 
-	return analogRead(cvInBpin);
-}
-//
-void ADDAC::ReadCvsC(){ // INTERNAL READING
-	for(int i=0;i<6;i++){
-		cvValuesC[i]=ReadCvsC(i); 
-		cvValuesCMapped[i]=cvValuesC[i]/1023.0f*65535.0f;
-	}
-}
-int ADDAC::ReadCvsC(int _channel){ // EXTERNAL READING
-	digitalWrite(cvInCs0, truthTableA[_channel]); 
-	digitalWrite(cvInCs1, truthTableB[_channel]); 
-	digitalWrite(cvInCs2, truthTableC[_channel]); 
-	return analogRead(cvInCpin);
 }
 
-// --------------------------------------------------------------------------- READ ANALOGS IN - ADDAC003 -----------
+
+float ADDAC::ReadCv(int _socket, int _channel){ // EXTERNAL READING
+
+	if(_socket == A){
+		digitalWrite(cvInAs0, truthTableA[_channel]); 
+		digitalWrite(cvInAs1, truthTableB[_channel]); 
+		digitalWrite(cvInAs2, truthTableC[_channel]); 
+        cvValuesA[_channel]=analogRead(cvInApin)/1023.0f;
+		return cvValuesA[_channel];
+	}else if(_socket == B){
+		digitalWrite(cvInBs0, truthTableA[_channel]); 
+		digitalWrite(cvInBs1, truthTableB[_channel]); 
+		digitalWrite(cvInBs2, truthTableC[_channel]); 
+		cvValuesB[_channel]=analogRead(cvInBpin)/1023.0f;
+		return cvValuesB[_channel];
+	}else if(_socket == C){
+		digitalWrite(cvInCs0, truthTableA[_channel]); 
+		digitalWrite(cvInCs1, truthTableB[_channel]); 
+		digitalWrite(cvInCs2, truthTableC[_channel]); 
+		cvValuesC[_channel]=analogRead(cvInCpin)/1023.0f;
+		return cvValuesC[_channel];
+	}
+}
+
+
+void ADDAC::StoreCvs(int _socket, int _channel){ // Store for prints
+   
+	if(_socket == A){
+		digitalWrite(cvInAs0, truthTableA[_channel]); 
+		digitalWrite(cvInAs1, truthTableB[_channel]); 
+		digitalWrite(cvInAs2, truthTableC[_channel]); 
+        cvValuesA[_channel]=analogRead(cvInApin)/1023.0f;
+
+	}else if(_socket == B){
+		digitalWrite(cvInBs0, truthTableA[_channel]); 
+		digitalWrite(cvInBs1, truthTableB[_channel]); 
+		digitalWrite(cvInBs2, truthTableC[_channel]); 
+		cvValuesB[_channel]=analogRead(cvInBpin)/1023.0f;
+	}else if(_socket == C){
+		digitalWrite(cvInCs0, truthTableA[_channel]); 
+		digitalWrite(cvInCs1, truthTableB[_channel]); 
+		digitalWrite(cvInCs2, truthTableC[_channel]); 
+		cvValuesC[_channel]=analogRead(cvInCpin)/1023.0f;
+
+	}
+}
+
+
+
+
+void ADDAC::PrintCvs(int _socket){
+    if(_socket==A){
+        Serial.print(" | CV0:");
+        Serial.print(cvValuesA[0]);
+        Serial.print(" | CV1:");
+        Serial.print(cvValuesA[1]);
+        Serial.print(" | CV2:");
+        Serial.print(cvValuesA[2]);
+        Serial.print(" | CV3:");
+        Serial.print(cvValuesA[3]);
+        Serial.print(" | CV4:");
+        Serial.print(cvValuesA[4]);
+        Serial.print(" | CV5:");
+        Serial.print(cvValuesA[5]);
+    }
+    else if(_socket==B){
+        Serial.print(" | CV0:");
+        Serial.print(cvValuesB[0]);
+        Serial.print(" | CV1:");
+        Serial.print(cvValuesB[1]);
+        Serial.print(" | CV2:");
+        Serial.print(cvValuesB[2]);
+        Serial.print(" | CV3:");
+        Serial.print(cvValuesB[3]);
+        Serial.print(" | CV4:");
+        Serial.print(cvValuesB[4]);
+        Serial.print(" | CV5:");
+        Serial.print(cvValuesB[5]);
+        
+    }
+    else if(_socket==C){
+        Serial.print(" | CV0:");
+        Serial.print(cvValuesC[0]);
+        Serial.print(" | CV1:");
+        Serial.print(cvValuesC[1]);
+        Serial.print(" | CV2:");
+        Serial.print(cvValuesC[2]);
+        Serial.print(" | CV3:");
+        Serial.print(cvValuesC[3]);
+        Serial.print(" | CV4:");
+        Serial.print(cvValuesC[4]);
+        Serial.print(" | CV5:");
+        Serial.print(cvValuesC[5]);
+        
+    }
+}
+
+
+void ADDAC::PrintCv(int _socket, int _channel ){
+    if(_socket==A){
+        Serial.print(" | CV" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(cvValuesA[_channel]);
+    }
+    else if(_socket==B){
+        Serial.print(" | CV" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(cvValuesB[_channel]);
+    }
+    else if(_socket==C){
+        Serial.print(" | CV" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(cvValuesC[_channel]);
+    }
+}
+
+
+
+// --------------------------------------------------------------------------- READ manualS IN - ADDAC003 -----------
 //
-void ADDAC::ReadAnalogsA(){ // INTERNAL READING
+void ADDAC::ReadManuals(int _socket){ // INTERNAL READING
 	for(int i=0;i<5;i++){
-		analogValuesA[i]=ReadAnalogsA(i); 
-		analogValuesAMapped[i]=analogValuesA[i]/1023.0f*65535.0f;
+        if(_socket == A){
+		 
+            StoreManuals(_socket,i); 
+		//manualValuesAMapped[i]=manualValuesA[i]/1023.0f*65535.0f;
+        }
+        else if(_socket == B){
+            for(int i=0;i<5;i++){
+                 StoreManuals(_socket,i);  
+               // manualValuesBMapped[i]=manualValuesB[i]/1023.0f*65535.0f;
+            }
+        
+        
+        }
+        
+        else if(_socket == C){
+            for(int i=0;i<5;i++){
+                manualValuesC[i]=ReadManual(_socket,i); 
+                //manualValuesCMapped[i]=manualValuesC[i]/1023.0f*65535.0f;
+            }
+            
+            
+        }
 	}
-}
-int ADDAC::ReadAnalogsA(int _channel){ // EXTERNAL READING
-	digitalWrite(analogInAs0, truthTableA[_channel]); 
-	digitalWrite(analogInAs1, truthTableB[_channel]); 
-	digitalWrite(analogInAs2, truthTableC[_channel]); 
-	return analogRead(analogInApin);
 }
 
-void ADDAC::ReadAnalogsB(){ // INTERNAL READING
-	for(int i=0;i<5;i++){
-		analogValuesB[i]=ReadAnalogsB(i); 
-		analogValuesBMapped[i]=analogValuesB[i]/1023.0f*65535.0f;
-	}
-}
-int ADDAC::ReadAnalogsB(int _channel){ // EXTERNAL READING
-	digitalWrite(analogInBs0, truthTableA[_channel]); 
-	digitalWrite(analogInBs1, truthTableB[_channel]); 
-	digitalWrite(analogInBs2, truthTableC[_channel]); 
-	return analogRead(analogInBpin);
+
+float ADDAC::ReadManual(int _socket,int _channel){ // EXTERNAL READING
+     if(_socket == A){
+	digitalWrite(manualInAs0, truthTableA[_channel]); 
+	digitalWrite(manualInAs1, truthTableB[_channel]); 
+	digitalWrite(manualInAs2, truthTableC[_channel]); 
+    manualValuesA[_channel] = analogRead(manualInApin)/1023.0f;
+    return manualValuesA[_channel];
+     }
+    
+    else if(_socket == B){
+        digitalWrite(manualInBs0, truthTableA[_channel]); 
+        digitalWrite(manualInBs1, truthTableB[_channel]); 
+        digitalWrite(manualInBs2, truthTableC[_channel]); 
+        manualValuesB[_channel] = analogRead(manualInBpin)/1023.0f;
+		return manualValuesB[_channel];
+    }
+    else if(_socket == C){
+        digitalWrite(manualInCs0, truthTableA[_channel]); 
+        digitalWrite(manualInCs1, truthTableB[_channel]); 
+        digitalWrite(manualInCs2, truthTableC[_channel]); 
+        manualValuesC[_channel] = analogRead(manualInCpin)/1023.0f;
+		return manualValuesC[_channel];
+    }
+    
+
 }
 
-void ADDAC::ReadAnalogsC(){ // INTERNAL READING
-	for(int i=0;i<5;i++){
-		analogValuesC[i]=ReadAnalogsC(i); 
-		analogValuesCMapped[i]=analogValuesC[i]/1023.0f*65535.0f;
-	}
+
+
+void ADDAC::StoreManuals(int _socket,int _channel){ // EXTERNAL READING
+    if(_socket == A){
+        digitalWrite(manualInAs0, truthTableA[_channel]); 
+        digitalWrite(manualInAs1, truthTableB[_channel]); 
+        digitalWrite(manualInAs2, truthTableC[_channel]);
+        manualValuesA[_channel]=analogRead(manualInApin)/1023.0f;
+       
+         
+    }
+    
+    else if(_socket == B){
+        digitalWrite(manualInBs0, truthTableA[_channel]); 
+        digitalWrite(manualInBs1, truthTableB[_channel]); 
+        digitalWrite(manualInBs2, truthTableC[_channel]); 
+        manualValuesB[_channel]=analogRead(manualInBpin)/1023.0f;
+       
+    }
+    else if(_socket == C){
+        digitalWrite(manualInCs0, truthTableA[_channel]); 
+        digitalWrite(manualInCs1, truthTableB[_channel]); 
+        digitalWrite(manualInCs2, truthTableC[_channel]); 
+        manualValuesC[_channel]=analogRead(manualInCpin)/1023.0f;
+     
+    }
+    
+    
 }
-int ADDAC::ReadAnalogsC(int _channel){ // EXTERNAL READING
-	digitalWrite(analogInCs0, truthTableA[_channel]); 
-	digitalWrite(analogInCs1, truthTableB[_channel]); 
-	digitalWrite(analogInCs2, truthTableC[_channel]); 
-	return analogRead(analogInCpin);
+
+
+
+void ADDAC::PrintManuals(int _socket){
+    if(_socket==A){
+        Serial.print(" | MANUAL0:");
+        Serial.print(manualValuesA[0]);
+        Serial.print(" | MANUAL1:");
+        Serial.print(manualValuesA[1]);
+        Serial.print(" | MANUAL2:");
+        Serial.print(manualValuesA[2]);
+        Serial.print(" | MANUAL3:");
+        Serial.print(manualValuesA[3]);
+        Serial.print(" | MANUAL4:");
+        Serial.print(manualValuesA[4]);
+        Serial.print(" | MANUAL5:");
+        Serial.print(manualValuesA[5]);
+    }
+    else if(_socket==B){
+        Serial.print(" | MANUAL0:");
+        Serial.print(manualValuesB[0]);
+        Serial.print(" | MANUAL1:");
+        Serial.print(manualValuesB[1]);
+        Serial.print(" | MANUAL2:");
+        Serial.print(manualValuesB[2]);
+        Serial.print(" | MANUAL3:");
+        Serial.print(manualValuesB[3]);
+        Serial.print(" | MANUAL4:");
+        Serial.print(manualValuesB[4]);
+        Serial.print(" | MANUAL5:");
+        Serial.print(manualValuesB[5]);
+        
+    }
+    else if(_socket==C){
+        Serial.print(" | MANUAL0:");
+        Serial.print(manualValuesC[0]);
+        Serial.print(" | MANUAL1:");
+        Serial.print(manualValuesC[1]);
+        Serial.print(" | MANUAL2:");
+        Serial.print(manualValuesC[2]);
+        Serial.print(" | MANUAL3:");
+        Serial.print(manualValuesC[3]);
+        Serial.print(" | MANUAL4:");
+        Serial.print(manualValuesC[4]);
+        Serial.print(" | MANUAL5:");
+        Serial.print(manualValuesC[5]);
+        
+    }
 }
+
+
+void ADDAC::PrintManual(int _socket, int _channel ){
+    if(_socket==A){
+        Serial.print(" | MANUAL" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(manualValuesA[_channel]);
+    }
+    else if(_socket==B){
+        Serial.print(" | MANUAL" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(manualValuesB[_channel]);
+    }
+    else if(_socket==C){
+        Serial.print(" | MANUAL" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(manualValuesC[_channel]);
+    }
+}
+
+
+
 
 // --------------------------------------------------------------------------- READ GATES IN - ADDAC004 -----------
 //
-void ADDAC::ReadGatesA(bool _invert){ // READS GATES AND UPDATES ARRAY
-    byte gatesValsAbin = ReadGatesA();
+void ADDAC::ReadGates(int _socket, bool _invert){ // READS GATES AND UPDATES ARRAY
+   
     // BJORN REQUEST FOR INVERTING / NON_INVERTING GATE READS 
-    // (ALSO AVAILABLE TO CORRECT CIRCUIT "BUG" WITH INVERTED READINGS FROM ADDAC004) 
+    // (ALSO AVAILABLE TO CORRECT CIRCUIT "BUG" WITH INVERTED READINGS FROM ADDAC004)
+    
+      if(_socket==A){
+           byte gatesValsAbin = ReadGates(_socket);
     if(_invert){ // INVERTING MODE
         for(int i=0;i<8;i++){
             gateValuesA[i] = gatesValsAbin & (1<<i);
@@ -294,9 +518,107 @@ void ADDAC::ReadGatesA(bool _invert){ // READS GATES AND UPDATES ARRAY
             gateValuesA[i]=gateValuesA[i]>>i;
         }
     }
+      }
+    else if(_socket==B){
+         byte gatesValsBbin = ReadGates(_socket);
+        if(_invert){ // INVERTING MODE
+            for(int i=0;i<8;i++){
+                gateValuesB[i] = gatesValsBbin & (1<<i);
+                gateValuesB[i]=gateValuesB[i]>>i;
+                gateValuesB[i]=!gateValuesB[i];
+            }
+        }else{ // NON-INVERTING MODE 
+            for(int i=0;i<8;i++){
+                gateValuesB[i] = gatesValsBbin & (1<<i);
+                gateValuesB[i]=gateValuesB[i]>>i;
+            }
+        }
+
+    
+    }
+    
+    else if(_socket==C){
+         byte gatesValsCbin = ReadGates(_socket);
+        if(_invert){ // INVERTING MODE
+            for(int i=0;i<8;i++){
+                gateValuesC[i] = gatesValsCbin & (1<<i);
+                gateValuesC[i]=gateValuesC[i]>>i;
+                gateValuesC[i]=!gateValuesC[i];
+            }
+        }else{ // NON-INVERTING MODE 
+            for(int i=0;i<8;i++){
+                gateValuesC[i] = gatesValsCbin & (1<<i);
+                gateValuesC[i]=gateValuesC[i]>>i;
+            }
+        }
+ 
+    }
 }
 
-byte ADDAC::ReadGatesA(){ // GATES A READING
+
+boolean ADDAC::ReadGate(int _socket, bool _invert, int _channel){ // READS GATES AND UPDATES ARRAY
+    
+   
+    
+    if(_socket==A){
+        byte gatesValsAbin = ReadGates(_socket);
+        if(_invert){ // INVERTING MODE
+        
+                gateValuesA[_channel] = gatesValsAbin & (1<<_channel);
+                gateValuesA[_channel]=gateValuesA[_channel]>>_channel;
+                gateValuesA[_channel]=!gateValuesA[_channel];
+            
+        }else{ // NON-INVERTING MODE 
+          
+                gateValuesA[_channel] = gatesValsAbin & (1<<_channel);
+                gateValuesA[_channel]=gateValuesA[_channel]>>_channel;
+         
+        }
+        return gateValuesA[_channel];
+    }
+    else if(_socket==B){
+        byte gatesValsBbin = ReadGates(_socket);
+        if(_invert){ // INVERTING MODE
+            
+                gateValuesB[_channel] = gatesValsBbin & (1<<_channel);
+                gateValuesB[_channel]=gateValuesB[_channel]>>_channel;
+                gateValuesB[_channel]=!gateValuesB[_channel];
+           
+        }else{ // NON-INVERTING MODE 
+            
+                gateValuesB[_channel] = gatesValsBbin & (1<<_channel);
+                gateValuesB[_channel]=gateValuesB[_channel]>>_channel;
+            
+        }
+        return gateValuesB[_channel];
+        
+    }
+    
+    else if(_socket==C){
+        byte gatesValsCbin = ReadGates(_socket);
+        if(_invert){ // INVERTING MODE
+            
+                gateValuesC[_channel] = gatesValsCbin & (1<<_channel);
+                gateValuesC[_channel]=gateValuesC[_channel]>>_channel;
+                gateValuesC[_channel]=!gateValuesC[_channel];
+           
+        }else{ // NON-INVERTING MODE 
+           
+                gateValuesC[_channel] = gatesValsCbin & (1<<_channel);
+                gateValuesC[_channel]=gateValuesC[_channel]>>_channel;
+            
+        }
+        return gateValuesC[_channel];
+    }
+}
+
+
+
+
+
+
+byte ADDAC::ReadGates(int _socket){ // GATES A READING
+    if(_socket==A){
 	byte tempA = 0;
 	//Pulse the latch pin:
 	//set it to 1 to collect parallel data
@@ -310,120 +632,181 @@ byte ADDAC::ReadGatesA(){ // GATES A READING
 	//collect each shift register into a byte
 	tempA=shiftIn(gateInAdata, gateInAclock);
 	return tempA;
+    }
+    
+    else if(_socket==B){
+        byte tempB = 0;
+        digitalWrite(gateInBlatch,1);
+        delayMicroseconds(20);
+        digitalWrite(gateInBlatch,0);
+        tempB=shiftIn(gateInBdata, gateInBclock);
+        return tempB;
+    }
+    
+    else if(_socket==C){
+       
+            byte tempC = 0;
+            digitalWrite(gateInClatch,1);
+            delayMicroseconds(20);
+            digitalWrite(gateInClatch,0);
+            tempC=shiftIn(gateInCdata, gateInCclock);
+            return tempC;
+        }
 }
 
-void ADDAC::MAXsendGatesA(){
-    Serial.print("GateA1 ");
+void ADDAC::MAXsendGates(int _socket){
+     if(_socket==A){
+    Serial.print("GateA0 ");
     Serial.println(gateValuesA[0],BIN);
-    Serial.print("GateA2 ");
+    Serial.print("GateA1 ");
     Serial.println(gateValuesA[1],BIN);
-    Serial.print("GateA3 ");
+    Serial.print("GateA2");
     Serial.println(gateValuesA[2],BIN);
-    Serial.print("GateA4 ");
+    Serial.print("GateA3 ");
     Serial.println(gateValuesA[3],BIN);
-    Serial.print("GateA5 ");
+    Serial.print("GateA4 ");
     Serial.println(gateValuesA[4],BIN);
-    Serial.print("GateA6 ");
+    Serial.print("GateA5 ");
     Serial.println(gateValuesA[5],BIN);
-    Serial.print("GateA7 ");
+    Serial.print("GateA6 ");
     Serial.println(gateValuesA[6],BIN);
-    Serial.print("GateA8 ");
+    Serial.print("GateA7 ");
     Serial.println(gateValuesA[7],BIN);
+     }
+    
+     else if(_socket==B){
+         Serial.print("GateB0 ");
+         Serial.println(gateValuesB[0],BIN);
+         Serial.print("GateB1 ");
+         Serial.println(gateValuesB[1],BIN);
+         Serial.print("GateB2 ");
+         Serial.println(gateValuesB[2],BIN);
+         Serial.print("GateB3 ");
+         Serial.println(gateValuesB[3],BIN);
+         Serial.print("GateB4 ");
+         Serial.println(gateValuesB[4],BIN);
+         Serial.print("GateB5 ");
+         Serial.println(gateValuesB[5],BIN);
+         Serial.print("GateB6 ");
+         Serial.println(gateValuesB[6],BIN);
+         Serial.print("GateB7 ");
+         Serial.println(gateValuesB[7],BIN);
+     
+     }
+     else if(_socket==C){
+         Serial.print("GateC0 ");
+         Serial.println(gateValuesC[0],BIN);
+         Serial.print("GateC1 ");
+         Serial.println(gateValuesC[1],BIN);
+         Serial.print("GateC2 ");
+         Serial.println(gateValuesC[2],BIN);
+         Serial.print("GateC3 ");
+         Serial.println(gateValuesC[3],BIN);
+         Serial.print("GateC4 ");
+         Serial.println(gateValuesC[4],BIN);
+         Serial.print("GateC5 ");
+         Serial.println(gateValuesC[5],BIN);
+         Serial.print("GateC6 ");
+         Serial.println(gateValuesC[6],BIN);
+         Serial.print("GateC7 ");
+         Serial.println(gateValuesC[7],BIN);
+     }
 }
-//
-void ADDAC::ReadGatesB(bool _invert){ // READS GATES AND UPDATES ARRAY
-    byte gatesValsBbin = ReadGatesB();
-    // BJORN REQUEST FOR INVERTING / NON_INVERTING GATE READS 
-    // (ALSO AVAILABLE TO CORRECT CIRCUIT "BUG" WITH INVERTED READINGS FROM ADDAC004) 
-    if(_invert){ // INVERTING MODE 
-        for(int i=0;i<8;i++){
-            gateValuesB[i] = gatesValsBbin & (1<<i);
-            gateValuesB[i]=gateValuesB[i]>>i;
-            gateValuesB[i]=!gateValuesB[i];
-        }
-    }else{ // NON-INVERTING MODE
-        for(int i=0;i<8;i++){
-            gateValuesB[i] = gatesValsBbin & (1<<i);
-            gateValuesB[i]=gateValuesB[i]>>i;
-        }
+
+
+
+void ADDAC::PrintGates(int _socket){
+    if(_socket==A){
+        Serial.print(" | GATE0:");
+        Serial.print(gateValuesA[0],BIN);
+        Serial.print(" | GATE1:");
+        Serial.print(gateValuesA[1],BIN);
+        Serial.print(" | GATE2:");
+        Serial.print(gateValuesA[2],BIN);
+        Serial.print(" | GATE3:");
+        Serial.print(gateValuesA[3],BIN);
+        Serial.print(" | GATE4:");
+        Serial.print(gateValuesA[4],BIN);
+        Serial.print(" | GATE5:");
+        Serial.print(gateValuesA[5],BIN);
+        Serial.print(" | GATE6:");
+        Serial.print(gateValuesA[6],BIN);
+        Serial.print(" | GATE7:");
+        Serial.print(gateValuesA[7],BIN);
+    }
+    else if(_socket==B){
+        Serial.print(" | GATE0:");
+        Serial.print(gateValuesB[0],BIN);
+        Serial.print(" | GATE1:");
+        Serial.print(gateValuesB[1],BIN);
+        Serial.print(" | GATE2:");
+        Serial.print(gateValuesB[2],BIN);
+        Serial.print(" | GATE3:");
+        Serial.print(gateValuesB[3],BIN);
+        Serial.print(" | GATE4:");
+        Serial.print(gateValuesB[4],BIN);
+        Serial.print(" | GATE5:");
+        Serial.print(gateValuesB[5],BIN);
+        Serial.print(" | GATE6:");
+        Serial.print(gateValuesB[6],BIN);
+        Serial.print(" | GATE7:");
+        Serial.print(gateValuesB[7],BIN);
+
+        
+    }
+    else if(_socket==C){
+        Serial.print(" | GATE0:");
+        Serial.print(gateValuesC[0],BIN);
+        Serial.print(" | GATE1:");
+        Serial.print(gateValuesC[1],BIN);
+        Serial.print(" | GATE2:");
+        Serial.print(gateValuesC[2],BIN);
+        Serial.print(" | GATE3:");
+        Serial.print(gateValuesC[3],BIN);
+        Serial.print(" | GATE4:");
+        Serial.print(gateValuesC[4],BIN);
+        Serial.print(" | GATE5:");
+        Serial.print(gateValuesC[5],BIN);
+        Serial.print(" | GATE6:");
+        Serial.print(gateValuesC[6],BIN);
+        Serial.print(" | GATE7:");
+        Serial.print(gateValuesC[7],BIN);
+
+        
     }
 }
 
-byte ADDAC::ReadGatesB(){ // GATES B READING
-	byte temp = 0;
-	digitalWrite(gateInBlatch,1);
-	delayMicroseconds(20);
-	digitalWrite(gateInBlatch,0);
-	temp=shiftIn(gateInBdata, gateInBclock);
-	return temp;
-}
-
-void ADDAC::MAXsendGatesB(){
-    Serial.print("GateB1 ");
-    Serial.println(gateValuesB[0],BIN);
-    Serial.print("GateB2 ");
-    Serial.println(gateValuesB[1],BIN);
-    Serial.print("GateB3 ");
-    Serial.println(gateValuesB[2],BIN);
-    Serial.print("GateB4 ");
-    Serial.println(gateValuesB[3],BIN);
-    Serial.print("GateB5 ");
-    Serial.println(gateValuesB[4],BIN);
-    Serial.print("GateB6 ");
-    Serial.println(gateValuesB[5],BIN);
-    Serial.print("GateB7 ");
-    Serial.println(gateValuesB[6],BIN);
-    Serial.print("GateB8 ");
-    Serial.println(gateValuesB[7],BIN);
-}
-//
-void ADDAC::ReadGatesC(bool _invert){ // READS GATES AND UPDATES ARRAY
-    byte gatesValsCbin = ReadGatesC();
-    // BJORN REQUEST FOR INVERTING / NON_INVERTING GATE READS 
-    // (ALSO AVAILABLE TO CORRECT CIRCUIT "BUG" WITH INVERTED READINGS FROM ADDAC004) 
-    if(_invert){ // INVERTING MODE 
-        for(int i=0;i<8;i++){
-            gateValuesC[i] = gatesValsCbin & (1<<i);
-            gateValuesC[i]=gateValuesC[i]>>i;
-            gateValuesC[i]=!gateValuesC[i];
-        }
-    }else{ // NON-INVERTING MODE
-        for(int i=0;i<8;i++){
-            gateValuesC[i] = gatesValsCbin & (1<<i);
-            gateValuesC[i]=gateValuesC[i]>>i;
-        }
+void ADDAC::PrintGate(int _socket, int _channel ){
+    if(_socket==A){
+        Serial.print(" | GATE" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(gateValuesA[_channel]);
+    }
+    else if(_socket==B){
+        Serial.print(" | GATE" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(gateValuesB[_channel]);
+    }
+    else if(_socket==C){
+        Serial.print(" | MANUAL" );
+        Serial.print(_channel );
+        Serial.print(": " );
+        Serial.print(gateValuesC[_channel]);
     }
 }
-byte ADDAC::ReadGatesC(){ // GATES C READING
-	byte temp = 0;
-	digitalWrite(gateInClatch,1);
-	delayMicroseconds(20);
-	digitalWrite(gateInClatch,0);
-	temp=shiftIn(gateInCdata, gateInCclock);
-	return temp;
-}
-void ADDAC::MAXsendGatesC(){
-    Serial.print("GateC1 ");
-    Serial.println(gateValuesC[0],BIN);
-    Serial.print("GateC2 ");
-    Serial.println(gateValuesC[1],BIN);
-    Serial.print("GateC3 ");
-    Serial.println(gateValuesC[2],BIN);
-    Serial.print("GateC4 ");
-    Serial.println(gateValuesC[3],BIN);
-    Serial.print("GateC5 ");
-    Serial.println(gateValuesC[4],BIN);
-    Serial.print("GateC6 ");
-    Serial.println(gateValuesC[5],BIN);
-    Serial.print("GateC7 ");
-    Serial.println(gateValuesC[6],BIN);
-    Serial.print("GateC8 ");
-    Serial.println(gateValuesC[7],BIN);
-}
+
+
+
+
+
 // --------------------------------------------------------------------------- WRITE GATES OUT - ADDAC005 -----------
 //
-int ADDAC::WriteGatesA(byte _data, int bpm){ // WRITE 74HC595
+int ADDAC::WriteGates(int _socket, byte _data, int bpm){ // WRITE 74HC595
 	int waitTime=1000*(60.0f/bpm);//bpm to millis
+    
+    if(_socket==A){
 	gatesOutMillisA=millis();
 	if(gatesOutMillisA>oldGatesOutMillisA+waitTime){
 		oldGatesOutMillisA=gatesOutMillisA;
@@ -434,45 +817,54 @@ int ADDAC::WriteGatesA(byte _data, int bpm){ // WRITE 74HC595
 	}else{
 		return 0;
 	}
+    }
+    else if(_socket==B){
+        gatesOutMillisB=millis();
+        if(gatesOutMillisB>oldGatesOutMillisB+waitTime){
+            oldGatesOutMillisB=gatesOutMillisB;
+            digitalWrite(gateOutBlatch, 0);
+            shiftOutGates(gateOutBdata, gateOutBclock, _data);
+            digitalWrite(gateOutBlatch, 1);
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    else if(_socket==C){
+        gatesOutMillisC=millis();
+        if(gatesOutMillisC>oldGatesOutMillisC+waitTime){
+            oldGatesOutMillisC=gatesOutMillisC;
+            digitalWrite(gateOutClatch, 0);
+            shiftOutGates(gateOutCdata, gateOutCclock, _data);
+            digitalWrite(gateOutClatch, 1);
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 }
-void ADDAC::WriteGatesAstraight(int _pos, int _data){ // WRITE 74HC595
+
+
+void ADDAC::WriteGatesStraight(int _socket, int _pos, int _data){ // WRITE 74HC595
+     if(_socket==A){
 		digitalWrite(gateOutAlatch, 0);
 		shiftOutGates(gateOutAdata, gateOutAclock, _pos, _data);
 		digitalWrite(gateOutAlatch, 1);
+     }
+     else if(_socket==B){
+         digitalWrite(gateOutBlatch, 0);
+         shiftOutGates(gateOutBdata, gateOutBclock, _pos, _data);
+         digitalWrite(gateOutBlatch, 1);
+     }
+         else if(_socket==C){
+             digitalWrite(gateOutClatch, 0);
+             shiftOutGates(gateOutCdata, gateOutCclock, _pos, _data);
+             digitalWrite(gateOutClatch, 1);
+         }
 }
+
 //
-int ADDAC::WriteGatesB(byte _data, int bpm){ // WRITE 74HC595
-	int waitTime=1000*(60.0f/bpm);//bpm to millis
-	gatesOutMillisB=millis();
-	if(gatesOutMillisB>oldGatesOutMillisB+waitTime){
-		oldGatesOutMillisB=gatesOutMillisB;
-		digitalWrite(gateOutBlatch, 0);
-		shiftOutGates(gateOutBdata, gateOutBclock, _data);
-		digitalWrite(gateOutBlatch, 1);
-		return 1;
-	}else{
-		return 0;
-	}
-}
-void ADDAC::WriteGatesBstraight(int _pos, int _data){ // WRITE 74HC595
-	digitalWrite(gateOutBlatch, 0);
-	shiftOutGates(gateOutBdata, gateOutBclock, _pos, _data);
-	digitalWrite(gateOutBlatch, 1);
-}
-//
-int ADDAC::WriteGatesC(byte _data, int bpm){ // WRITE 74HC595
-	int waitTime=1000*(60.0f/bpm);//bpm to millis
-	gatesOutMillisC=millis();
-	if(gatesOutMillisC>oldGatesOutMillisC+waitTime){
-		oldGatesOutMillisC=gatesOutMillisC;
-		digitalWrite(gateOutClatch, 0);
-		shiftOutGates(gateOutCdata, gateOutCclock, _data);
-		digitalWrite(gateOutClatch, 1);
-		return 1;
-	}else{
-		return 0;
-	}
-}
+
 
 
 // --------------------------------------------------------------------------- GATE DELAY -----------
@@ -513,7 +905,7 @@ byte ADDAC::ReadGatesA(int _channel){ // EXTERNAL READING
 // --------------------------------------------------------------------------- RANDOMS MODE -------------------------
 //
 void ADDAC::randomMode(int _MODE, int _channel){
-	ReadAnalogsA();
+	ReadManuals(A);
 	if(_MODE==0){ // UPDATE ALL CHANNELS
 		for(int i=0; i<8;i++){
 			if(millis()>RNDdelays[i]+DACtimes[i]){
@@ -598,6 +990,8 @@ void ADDAC::randomModeSmoothed(int _channel, float _randomMin, float _randomMax,
 }
 
 
+
+
 // --------------------------------------------------------------------------- SIN MODE -------------------------
 //
 //int _channel (1-8), bool _inverted (0=no - 1=yes) 
@@ -616,9 +1010,9 @@ void ADDAC::sinMode(int _channel, bool _inverted, float _freq, float _mult, unsi
 	float _dif = (_top - _bottom);
 	_bottom = addacMaxResolution *_bottom;
 	if(!_inverted){ // normal
-		DACvolts[_channel-1]= _bottom+(sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) *_dif + _offset;
+		DACvolts[_channel]= _bottom+(sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) *_dif + _offset;
 	}else{ // inverted
-		DACvolts[_channel-1]= _bottom+(sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f)*_dif + _offset;
+		DACvolts[_channel]= _bottom+(sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f)*_dif + _offset;
 	}
 	//old: sin(millis()/_freq)
 	
@@ -626,17 +1020,17 @@ void ADDAC::sinMode(int _channel, bool _inverted, float _freq, float _mult, unsi
 	/*Serial.print(" | DACvolts_");
 	Serial.print(_channel);
 	Serial.print(":");
-	Serial.print(DACvolts[_channel-1]);*/
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	Serial.print(DACvolts[_channel]);*/
+	writeChannel(_channel,DACvolts[_channel]);
 }
 
 void ADDAC::sinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset){
 	_freq+=10;
 	_mult+=1;
 	if(!_inverted){ // normal
-		DACvolts[_channel-1]= (sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) + _offset;
+		DACvolts[_channel]= (sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) + _offset;
 	}else{ // inverted
-		DACvolts[_channel-1]= (sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) + _offset;
+		DACvolts[_channel]= (sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) + _offset;
 	}
 	
 	// UPDATE CHANNEL
@@ -644,7 +1038,7 @@ void ADDAC::sinMode(int _channel, bool _inverted, float _freq, float _mult, unsi
 	Serial.print(_channel);
 	Serial.print(":");
 	Serial.print(DACvolts[_channel-1]);*/
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 // --------------------------------------------------------------------------- COSIN MODE -------------------------
 //
@@ -657,9 +1051,9 @@ void ADDAC::cosinMode(int _channel, bool _inverted, float _freq, float _mult, un
 	float _dif = _top - _bottom;
 	_bottom = addacMaxResolution *_bottom;
 	if(!_inverted){ // normal
-		DACvolts[_channel-1]= _bottom + (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) * _dif + _offset;
+		DACvolts[_channel]= _bottom + (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) * _dif + _offset;
 	}else{ // inverted
-		DACvolts[_channel-1]= _bottom + (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) * _dif + _offset;
+		DACvolts[_channel]= _bottom + (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) * _dif + _offset;
 	}
 	
 	// UPDATE CHANNEL
@@ -667,15 +1061,15 @@ void ADDAC::cosinMode(int _channel, bool _inverted, float _freq, float _mult, un
 	Serial.print(_channel);
 	Serial.print(":");
 	Serial.print(DACvolts[_channel-1]);*/
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 void ADDAC::cosinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset){
 	_freq+=10;
 	_mult+=1;
 	if(!_inverted){ // normal
-		DACvolts[_channel-1]= (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) + _offset;
+		DACvolts[_channel]= (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) + _offset;
 	}else{ // inverted
-		DACvolts[_channel-1]= (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) + _offset;
+		DACvolts[_channel]= (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) + _offset;
 	}
 	
 	// UPDATE CHANNEL
@@ -683,7 +1077,7 @@ void ADDAC::cosinMode(int _channel, bool _inverted, float _freq, float _mult, un
 	 Serial.print(_channel);
 	 Serial.print(":");
 	 Serial.print(DACvolts[_channel-1]);*/
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 
 // --------------------------------------------------------------------------- TAN MODE  buggy!!! EXCLUDE !!! -------------------------
@@ -714,80 +1108,81 @@ void ADDAC::tanMode(int _channel, bool _inverted, float _freq, int _bottom, int 
 	writeChannel(_channel-1,DACvolts[_channel-1]);
 }
 
+
 // --------------------------------------------------------------------------- LFOS MODE ----------------------------
 //
 void ADDAC::lfosMode(int _MODE, int _type, int _channel){
-	ReadAnalogsA();
+	ReadManuals(A);
 	if(_MODE==0){ // UPDATE ALL CHANNELS
 		if(_type==0){ // TRIANGLE   -   still buggy!!  passar para unsigned long??
-			int inc=1.0f*(analogValuesA[0]*16.0f+1.0f);
+			int inc=1.0f*(manualValuesA[0]*16.0f+1.0f);
 			for(int i=0; i<8;i++){
 				if(direction[i]){
 					DACvolts[i]+=inc;
-					if(DACvolts[i]>=analogValuesAMapped[2]){ //analogValuesA[2] = MAX
-						DACvolts[i]=analogValuesAMapped[2];
+					if(DACvolts[i]>=manualValuesAMapped[2]){ //manualValuesA[2] = MAX
+						DACvolts[i]=manualValuesAMapped[2];
 						direction[i]=false;
 					}
 				}else{
 					DACvolts[i]-=inc;
-					if(DACvolts[i]<=analogValuesAMapped[1]){ //analogValuesA[1] = MIN
-						DACvolts[i]=analogValuesAMapped[1];
+					if(DACvolts[i]<=manualValuesAMapped[1]){ //manualValuesA[1] = MIN
+						DACvolts[i]=manualValuesAMapped[1];
 						direction[i]=true;
 					}
 				}
 				writeChannel(i,DACvolts[i]);
 			}
 		}else if(_type==1){ // BUGGY TRIANGLE   -   still buggy!!  passar para unsigned long??
-				int inc=1.0f*(analogValuesA[0]*16.0f+1.0f);
+				int inc=1.0f*(manualValuesA[0]*16.0f+1.0f);
 				for(int i=0; i<8;i++){
 					if(Direction){
 						DACvolts[i]+=inc;
-						if(DACvolts[i]>=analogValuesAMapped[2]){ //analogValuesA[2] = MAX
-							DACvolts[i]=analogValuesAMapped[2];
+						if(DACvolts[i]>=manualValuesAMapped[2]){ //manualValuesA[2] = MAX
+							DACvolts[i]=manualValuesAMapped[2];
 							Direction=false;
 						}
 					}else{
 						DACvolts[i]-=inc;
-						if(DACvolts[i]<=analogValuesAMapped[1]){ //analogValuesA[1] = MIN
-							DACvolts[i]=analogValuesAMapped[1];
+						if(DACvolts[i]<=manualValuesAMapped[1]){ //manualValuesA[1] = MIN
+							DACvolts[i]=manualValuesAMapped[1];
 							Direction=true;
 						}
 					}
 					writeChannel(i,DACvolts[i]);
 				}
 		}else if(_type==2){ // SAW
-			int inc=1.0f*(analogValuesA[0]*8.0f+1.0f);
+			int inc=1.0f*(manualValuesA[0]*8.0f+1.0f);
 			for(int i=0; i<8;i++){
 				DACvolts[i]+=inc;
-				if(DACvolts[i]+inc>=analogValuesAMapped[2] || DACvolts[i]<analogValuesAMapped[1]){ //analogValuesA[2] = MAX
-					DACvolts[i]=analogValuesAMapped[1]; //analogValuesA[1] = MIN
+				if(DACvolts[i]+inc>=manualValuesAMapped[2] || DACvolts[i]<manualValuesAMapped[1]){ //manualValuesA[2] = MAX
+					DACvolts[i]=manualValuesAMapped[1]; //manualValuesA[1] = MIN
 				}
 				writeChannel(i,DACvolts[i]);
 			}
 		}else if(_type==3){ // INVERTED SAW
-			int inc=1.0f*(analogValuesA[0]*8.0f+1.0f);
+			int inc=1.0f*(manualValuesA[0]*8.0f+1.0f);
 			for(int i=0; i<8;i++){
 				DACvolts[i]-=inc;
-				if(DACvolts[i]-inc<=analogValuesAMapped[1] || DACvolts[i]-inc>analogValuesAMapped[2]){ //analogValuesA[2] = MAX
-					DACvolts[i]=analogValuesAMapped[2]; //analogValuesA[1] = MIN
+				if(DACvolts[i]-inc<=manualValuesAMapped[1] || DACvolts[i]-inc>manualValuesAMapped[2]){ //manualValuesA[2] = MAX
+					DACvolts[i]=manualValuesAMapped[2]; //manualValuesA[1] = MIN
 				}
 				writeChannel(i,DACvolts[i]);
 				if(i==0){
 					Serial.print("inc:");
 					Serial.print(inc);
 					Serial.print(" Max:");
-					Serial.print(analogValuesAMapped[1]);
+					Serial.print(manualValuesAMapped[1]);
 					Serial.print(" Min:");
-					Serial.print(analogValuesAMapped[2]);
+					Serial.print(manualValuesAMapped[2]);
 					Serial.print(" DAC:");
 					Serial.println(DACvolts[i]);
 				}
 			}
 		}else if(_type==4){ // RND RAMPS
-			int inc=1.0f*(analogValuesA[0]*16.0f+1.0f);
+			int inc=1.0f*(manualValuesA[0]*16.0f+1.0f);
 			for(int i=0; i<8;i++){
 				if(DACvolts[i]==rndStep[i]){
-					rndStep[i]=random(analogValuesAMapped[1],analogValuesAMapped[2]);
+					rndStep[i]=random(manualValuesAMapped[1],manualValuesAMapped[2]);
 				}
 				if(DACvolts[i]>rndStep[i]){
 					direction[i]=false;
@@ -796,12 +1191,12 @@ void ADDAC::lfosMode(int _MODE, int _type, int _channel){
 				}
 				if(direction[i]){
 					DACvolts[i]+=inc;
-					if(DACvolts[i]>=rndStep[i]){ //analogValuesA[2] = MAX
+					if(DACvolts[i]>=rndStep[i]){ //manualValuesA[2] = MAX
 						DACvolts[i]=rndStep[i];
 					}
 				}else{
 					DACvolts[i]-=inc;
-					if(DACvolts[i]<=rndStep[i]){ //analogValuesA[1] = MIN
+					if(DACvolts[i]<=rndStep[i]){ //manualValuesA[1] = MIN
 						DACvolts[i]=rndStep[i];
 					}
 				}
@@ -809,16 +1204,16 @@ void ADDAC::lfosMode(int _MODE, int _type, int _channel){
 			}
 		}
 	}else if(_MODE==1){ // UPDATE INDIVIDUAL CHANNELS
-		DACvolts[_channel]+=1*(analogValuesA[0]+1);
+		DACvolts[_channel]+=1*(manualValuesA[0]+1);
 		writeChannel(_channel,DACvolts[_channel]);
 	}
 	
 	/*Serial.print("inc:");
 	Serial.print(inc);
 	Serial.print(" AN1");
-	Serial.print(analogValuesAMapped[1]);
+	Serial.print(manualValuesAMapped[1]);
 	Serial.print(" AN2");
-	Serial.print(analogValuesAMapped[2]);
+	Serial.print(manualValuesAMapped[2]);
 	Serial.print(" step:");
 	Serial.print(rndStep[0]);
 	Serial.print(" DAC:");
@@ -836,7 +1231,7 @@ void ADDAC::mixerMode(){ // MIX ALL 7 FIRST
 	}
 	DACvolts[8]=avg/7;
 	// UPDATE CHANNEL
-	writeChannel(8,DACvolts[8]);
+	writeChannel(7,DACvolts[8]);
 }
 void ADDAC::mixerMode(int _upToX){ // MIX ALL FIRSTS up to X
 	unsigned long avg=0;
@@ -845,24 +1240,24 @@ void ADDAC::mixerMode(int _upToX){ // MIX ALL FIRSTS up to X
 	}
 	DACvolts[8]=avg/_upToX;
 	// UPDATE CHANNEL
-	writeChannel(8,DACvolts[8]);
+	writeChannel(7,DACvolts[8]);
 }
 void ADDAC::mixerMode(int _channel, int _A, int _B){ // MIX 2
 	unsigned long avg=0;
 	avg+=DACvolts[_A];
 	avg+=DACvolts[_B];
-	DACvolts[_channel-1]=avg/2;
+	DACvolts[_channel]=avg/2;
 	// UPDATE CHANNEL
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 void ADDAC::mixerMode(int _channel, int _A, int _B, int _C){ // MIX 3
 	unsigned long avg=0;
 	avg+=DACvolts[_A];
 	avg+=DACvolts[_B];
 	avg+=DACvolts[_C];
-	DACvolts[_channel-1]=avg/3;
+	DACvolts[_channel]=avg/3;
 	// UPDATE CHANNEL
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D){ // MIX 4
 	unsigned long avg=0;
@@ -870,9 +1265,9 @@ void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D){ // MIX 4
 	avg+=DACvolts[_B];
 	avg+=DACvolts[_C];
 	avg+=DACvolts[_D];
-	DACvolts[_channel-1]=avg/4;
+	DACvolts[_channel]=avg/4;
 	// UPDATE CHANNEL
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E){ // MIX 5
 	unsigned long avg=0;
@@ -881,9 +1276,9 @@ void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E){ // 
 	avg+=DACvolts[_C];
 	avg+=DACvolts[_D];
 	avg+=DACvolts[_E];
-	DACvolts[_channel-1]=avg/5;
+	DACvolts[_channel]=avg/5;
 	// UPDATE CHANNEL
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E, int _F){ // MIX 6
 	unsigned long avg=0;
@@ -893,9 +1288,9 @@ void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E, int 
 	avg+=DACvolts[_D];
 	avg+=DACvolts[_E];
 	avg+=DACvolts[_F];
-	DACvolts[_channel-1]=avg/6;
+	DACvolts[_channel]=avg/6;
 	// UPDATE CHANNEL
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E, int _F, int _G){ // MIX 7
 	unsigned long avg=0;
@@ -906,9 +1301,9 @@ void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E, int 
 	avg+=DACvolts[_E];
 	avg+=DACvolts[_F];
 	avg+=DACvolts[_G];
-	DACvolts[_channel-1]=avg/7;
+	DACvolts[_channel]=avg/7;
 	// UPDATE CHANNEL
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E, int _F, int _G, int _H){ // MIX 8
 	unsigned long avg=0;
@@ -920,9 +1315,9 @@ void ADDAC::mixerMode(int _channel, int _A, int _B, int _C, int _D, int _E, int 
 	avg+=DACvolts[_F];
 	avg+=DACvolts[_G];
 	avg+=DACvolts[_H];
-	DACvolts[_channel-1]=avg/8;
+	DACvolts[_channel]=avg/8;
 	// UPDATE CHANNEL
-	writeChannel(_channel-1,DACvolts[_channel-1]);
+	writeChannel(_channel,DACvolts[_channel]);
 }
 
 
@@ -954,11 +1349,14 @@ void ADDAC::writeChannel(int _channel, unsigned int _voltage){ // INTERNAL
 	delayMicroseconds(1);
 	delayMicroseconds(1);
 	digitalWrite(SLAVESELECT, HIGH);
+    
+    
+    
 }
 
 void ADDAC::WriteChannel(int _channel, unsigned int _voltage){ // EXTERNAL - WRITING FROM ARDUINO ENVIRONMENT
 	byte b1 = B11110000|WRITE_UPDATE_N; //padding at beginning of byte
-	byte b2 = _channel-1 << 4 | _voltage >> 12; //4 address bits and 4 MSBs of data
+	byte b2 = _channel << 4 | _voltage >> 12; //4 address bits and 4 MSBs of data
 	byte b3 = (_voltage << 4) >> 8; // middle 8 bits of data
 	byte b4 = (_voltage << 12) >> 8 | B00001111;
 #ifdef DEBUG
@@ -982,6 +1380,8 @@ void ADDAC::WriteChannel(int _channel, unsigned int _voltage){ // EXTERNAL - WRI
 	delayMicroseconds(1);
 	delayMicroseconds(1);
 	digitalWrite(SLAVESELECT, HIGH);
+    //update array to mixerMode and others...
+    DACvolts[_channel]=_voltage;
 }
 
 void ADDAC::write(int command, int address, unsigned int data){
