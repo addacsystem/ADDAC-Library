@@ -22,7 +22,7 @@
 class ADDAC_Quantizer{
 public:
 	ADDAC_Quantizer();
-	long quantize(unsigned int _val);
+	long quantize(float _val);
 	long Note(int _val, double _partial);
 	long Note(int _val);
 	

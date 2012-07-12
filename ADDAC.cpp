@@ -556,7 +556,7 @@ void ADDAC::ReadGates(int _socket, bool _invert){ // READS GATES AND UPDATES ARR
 }
 
 
-boolean ADDAC::ReadGate(int _socket, bool _invert, int _channel){ // READS GATES AND UPDATES ARRAY
+bool ADDAC::ReadGate(int _socket, int _channel, bool _invert){ // READS GATES AND UPDATES ARRAY
     
    
     

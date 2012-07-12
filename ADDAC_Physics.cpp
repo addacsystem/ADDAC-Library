@@ -45,12 +45,12 @@ ADDAC_Physics::ADDAC_Physics(){
 
 void ADDAC_Physics::update(float _gx, float _gy, float _material, float _speed) {
     
-	gx=_gx/1023.0f - 0.5f;
-	gy =_gy/1023.0f - 0.5f;
-	Bmaterial= _material/1023.0f/2+0.5f;
+	gx =_gx-0.5;//1023.0f - 0.5f;
+	gy =_gy-0.5;//1023.0f - 0.5f;
+	Bmaterial= _material/2.0f+0.5;///1023.0f/2+0.5f;
 	//boundX=_speed;
 	//boundY=_speed;
-	inc_t = _speed/255.0f;
+	inc_t = _speed*4.0f;
 	
 	//x = AinitCondition* encolher * cos(sqrt(Kelasticity/Mass)*t*(encolher))*cos(Angle);
 	//y = -AinitCondition* encolher * cos(sqrt(Kelasticity/Mass)*t*(encolher))*sin(Angle);
@@ -91,12 +91,12 @@ void ADDAC_Physics::update(float _gx, float _gy, float _material, float _speed) 
 		hitYWall=true;
 	}
 	
-	Velocity = sqrt((gx * t + ax)*(gx * t + ax) + (gy * t + ay)*(gy * t + ay));
-	Velocity = constrain(Velocity,0,20);
-	Velocity = Velocity/20.0f *addacMaxResolution;
+	velocity = sqrt((gx * t + ax)*(gx * t + ax) + (gy * t + ay)*(gy * t + ay));
+	velocity = constrain(velocity,0,20);
+	velocity = velocity/20.0f;
 	
-	x=(x + boundX) / (boundX * 2) * addacMaxResolution;
-	y=(y + boundY) / (boundY * 2) * addacMaxResolution;
+	x=(x + boundX) / (boundX * 2);
+	y=(y + boundY) / (boundY * 2);
 	
 	t = t+inc_t;
     
@@ -105,7 +105,7 @@ void ADDAC_Physics::update(float _gx, float _gy, float _material, float _speed) 
 
 void ADDAC_Physics::bump(int _fMinGateVal){
 	if(_fMinGateVal>gateThreshold){
-        //Serial.print(" GATED!");
+        Serial.print(" GATED!");
         t=0;
 		x=0;
         y=0;

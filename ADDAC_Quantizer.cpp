@@ -134,8 +134,9 @@ ADDAC_Quantizer::ADDAC_Quantizer(){
 	NOTESactive[60]	=0; //	C8
 	 */
 	
+    /*
 	// OLD C PENTATONIC FIXED VALUES      !! / by 1000.0f !!
-	/*NOTES[0]=1178;
+	NOTES[0]=1178;
 	NOTES[1]=3617;
 	NOTES[2]=7257;
 	NOTES[3]=9673;
@@ -157,8 +158,8 @@ ADDAC_Quantizer::ADDAC_Quantizer(){
 	NOTES[19]=55711;
 	NOTES[20]=59348;
 	NOTES[21]=61768;
-	NOTES[22]=65406;*/
-	
+	NOTES[22]=65406;
+	*/
 	interval=1.13;// 65535 / 58 (weird number? voltage reg deviation?)     --  //1.09225;//1.213;
 	offset=0;//1.178;
 	
@@ -174,7 +175,8 @@ ADDAC_Quantizer::ADDAC_Quantizer(){
 //
 
 
-long ADDAC_Quantizer::quantize(unsigned int _val){
+long ADDAC_Quantizer::quantize(float _val){
+    _val*=addacMaxResolution;
 	//Serial.print(" val:");
 	//Serial.print(_val);
 	for (int i=0; i<61; i++) {

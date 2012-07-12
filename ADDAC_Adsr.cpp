@@ -130,7 +130,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D,
 
 
 
-void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, float _D, float _Dtime,float _Stime, float _Rtime){
+void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, float _D, float _Dtime, float _Stime, float _Rtime){
 	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();

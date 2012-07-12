@@ -29,7 +29,7 @@ class ADDAC_Quad{
 public:
 	ADDAC_Quad();
 		//void setup();
-		void calcs(int MODE, float _r, float _theta, float _in3,float _in4,float _in5);
+		void calcs(int MODE, float _r, float _theta, float _in3, float _in4,float _in5);
 	
     float r;
     float theta;

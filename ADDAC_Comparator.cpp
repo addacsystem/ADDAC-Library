@@ -22,21 +22,21 @@ ADDAC_Comparator::ADDAC_Comparator(){	// INITIALIZE CLASS
 //
 
 
-bool ADDAC_Comparator::Comparator(float _input, float _tresh){ 
+bool ADDAC_Comparator::Comparator(float _input, float _threshold){ 
 	
     triggerComparator=false;
     
     
-    if(_input>=_tresh && !triggerState){ // TRUE
+    if(_input>=_threshold && !triggerState){ // TRUE
         triggerState = true;
         triggerComparator=true;
     
     }
-    else if(_input>=_tresh && triggerState){
+    else if(_input>=_threshold && triggerState){
         triggerComparator=false;
         _input=0;
     }
-    else if(_input<=_tresh && triggerState){
+    else if(_input<=_threshold && triggerState){
        triggerState=false;
     }
     
@@ -46,24 +46,24 @@ bool ADDAC_Comparator::Comparator(float _input, float _tresh){
 }
 
 
-bool ADDAC_Comparator::Comparator(float _input, float _tresh, float _delay){ 
+bool ADDAC_Comparator::Comparator(float _input, float _threshold, float _delay){ 
   
     
     oldTime=millis();
     
     if(triggerTimeCount) timeEleapsed =timeEleapsed+abs(time-oldTime);
     
-    if(_input>=_tresh && !triggerState){ // TRUE
+    if(_input>=_threshold && !triggerState){ // TRUE
         
         triggerState = true;
         triggerTimeCount=true;
         timeEleapsed=0;
         
     }
-    else if(_input>=_tresh && triggerState){
+    else if(_input>=_threshold && triggerState){
         _input=0;
     }
-    else if(_input<=_tresh && triggerState){
+    else if(_input<=_threshold && triggerState){
         triggerState=false;
     }
     
