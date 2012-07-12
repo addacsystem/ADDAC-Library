@@ -40,9 +40,9 @@ void ADDAC_ULTRALISS::setup(float _inc, float _inc2){
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
-void ADDAC_ULTRALISS::calcs(float _amp, float _speedx, float _speedy, bool _mirror) {
-    Ymin = 1023*2.0f-_amp*2.0f;
-	Ymax = _amp*2.0f;
+void ADDAC_ULTRALISS::calcs(float amp, float _speedx, float _speedy, bool _mirror) {
+    Ymin = 1023*2.0f-amp*2.0f;
+	Ymax = amp*2.0f;
     inc_t=_speedx/1184.0f; // TEMPO MIN = 0.0001 - > TEMPO MAX = 0.25
 	if(inc_t>=1)inc_t=0.999f;
 	else if(inc_t<=0)inc_t=0.00001f;

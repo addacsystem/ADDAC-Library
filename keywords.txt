@@ -5,46 +5,17 @@
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
-StandardCplusplus	KEYWORD1
-vector	KEYWORD1
 
 ADDAC	KEYWORD1
 ADDAC.h	KEYWORD1
 VCC	KEYWORD1
-
-ADDAC_Comparator.h	KEYWORD1
-ADDAC_Comparator	KEYWORD1
-
-ADDAC_LFO.h	KEYWORD1
-ADDAC_LFO	KEYWORD1
-
-ADDAC_Adsr.h	KEYWORD1
-ADDAC_Adsr	KEYWORD1
-
-ADDAC_Env.h	KEYWORD1
-ADDAC_Env	KEYWORD1
-
-ADDAC_ULTRALISS.h	KEYWORD1
-ADDAC_ULTRALISS	KEYWORD1
-
-ADDAC_Physics.h	KEYWORD1
-ADDAC_Physics	KEYWORD1
-
-ADDAC_Quantizer.h	KEYWORD1
-ADDAC_Quantizer	KEYWORD1
-
-ADDAC_Quad.h	KEYWORD1
-ADDAC_Quad	KEYWORD1
-
-ADDAC_CVlooper.h	KEYWORD1
-ADDAC_CVlooper	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
 setup		KEYWORD2
-update	KEYWORD2
+update		KEYWORD2
 readMODEswitch	KEYWORD2
 readMODE	KEYWORD2
 readSUBMODE	KEYWORD2
@@ -64,7 +35,6 @@ ReadGate	KEYWORD2
 PrintGate	KEYWORD2
 WriteGates	KEYWORD2
 WriteGatesStraight	KEYWORD2
-mixerMode	KEYWORD2
 
 A	KEYWORD2
 B	KEYWORD2
@@ -80,34 +50,9 @@ cvInBvals	KEYWORD2
 cvValuesB	KEYWORD2
 cvValuesBMapped	KEYWORD2
 
-adsrMode	KEYWORD2
-adsrLogExpMode	KEYWORD2
-
-envMode	KEYWORD2
-
-addPoint	KEYWORD2
-MultiEnvLoop	KEYWORD2
-PrintMultiEnv	KEYWORD2
-
-calcs	KEYWORD2
-
 CVstream	KEYWORD2
 sinMode	KEYWORD2
 cosinMode	KEYWORD2
-
-Comparator	KEYWORD2
-
-bump	KEYWORD2
-
-quantize	KEYWORD2
-amp1	KEYWORD2
-amp2	KEYWORD2
-amp3	KEYWORD2
-amp4	KEYWORD2
-
-loopSize	KEYWORD2
-
-
 #
 #######################################
 # Constants (LITERAL1)

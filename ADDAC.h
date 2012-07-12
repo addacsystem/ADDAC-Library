@@ -267,7 +267,7 @@ public:
 		// GATE INS A		
 		byte  ReadGates(int _socket);
         void  ReadGates(int _socket, bool _invert);
-        bool  ReadGate(int _socket, int _channel, bool _invert);
+        boolean  ReadGate(int _socket, bool _invert, int _channel);
         byte  gateValuesA[8];
         byte  gateValuesB[8];
         byte  gateValuesC[8];

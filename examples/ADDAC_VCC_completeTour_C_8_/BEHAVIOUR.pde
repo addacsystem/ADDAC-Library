@@ -1,4 +1,4 @@
-   
+
 /*
 
 VCC BEHAVIOUR
@@ -514,67 +514,9 @@ void BEHAVIOUR(){
 
   // NEXT SWITCH A POSITION --------------------------------------------------- if MODE A SWITCH is in Position 2
   }else if(VCC.MODE==2){  // 
-    if(VCC.SUBMODE == 0){
-      readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
-      for(int i=0;i<8;i++){
-          VCC.WriteChannel(i+1, analogValsA[0]/1023.0f*addacMaxResolution);
-      }
-      
-    }else if(VCC.SUBMODE == 1){  // MIDI TO ADSR
-       if(controlChangeVal[2]>64) {
-          adsrTrigger1=true;
-          VCC.WriteChannel(2, addacMaxResolution);
-       }else{
-          VCC.WriteChannel(2, 0);
-       }
-       ADSR1.adsrMode(1, adsrTrigger1, 0, 1.0f, 2000, //A
-                                       0.5f, 2000, //D
-                                       0.5f, 2000, //S
-                                             2000); //R
-       adsrTrigger1=false;
-       VCC.WriteChannel(1, ADSR1.CVstream);
-       
-    }else if(VCC.SUBMODE == 2){ // MIDI TO SIMPLE AD
-       //readCvsINA(6);
-       if(controlChangeVal[2]>64) {
-          if(!adsrTrigger1) {
-            adsrTrigger1=true;
-            ADSR2.AD_trigger();
-          }
-          VCC.WriteChannel(2, addacMaxResolution);
-       }else{
-          if(adsrTrigger1){
-            adsrTrigger1=false;
-            ADSR2.AD_release();
-          }
-          VCC.WriteChannel(2, 0);
-       }
-       ADSR2.AD_update(1000,1000); // ATTACK = up to 4seconds - DECAY = up to 10seconds
-       //adsrTrigger1=false;
-       VCC.WriteChannel(1, ADSR2.CVstream);
-    
-    }else if(VCC.SUBMODE == 3){ // MIDI trigger TO ADSR
-       //readCvsINA(6);
-       if(controlChangeVal[2]>64) {
-          if(!adsrTrigger3) {
-            adsrTrigger3=true;
-            ADSR3.AD_trigger();
-            VCC.WriteChannel(2, addacMaxResolution);
-          }
-          
-       }else{
-          if(adsrTrigger3){
-            adsrTrigger3=false;
-            ADSR3.AD_release();
-            VCC.WriteChannel(2, 0);
-          }
-       }
-       // ADSR_update(float ATTACKamplitude, float _Atime, float DECAYamplitude, float _Dtime, float SUSTAINamplitude,float _Stime, float _Rtime){ 
-       // AMPLITUDES between 0.0f and 1.0f  ->  0 = MIN VOLTAGE & 1.0f = MAX VOLTAGE
-       ADSR3.ADSR_update(0.9,2000, 0.3,2000, 0.1,2000, 4000); 
-       //adsrTrigger1=false;
-       VCC.WriteChannel(1, ADSR3.CVstream);
-       
+    readAnalogsINA(5); // connected to input A -> (5) = reads 5 channels
+    for(int i=0;i<8;i++){
+        VCC.WriteChannel(i+1, analogValsA[0]/1023.0f*addacMaxResolution);
     }
     
   }else if(VCC.MODE==3){  // NEXT SWITCH A POSITION --------------------------------------------------- if MODE A SWITCH is in Position 3

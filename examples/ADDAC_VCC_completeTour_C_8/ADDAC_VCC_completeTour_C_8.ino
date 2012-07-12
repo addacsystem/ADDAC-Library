@@ -34,9 +34,8 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 #define DEBUG 
 #define DEBUGmodes // prints out MODE A+B SWITCHES POSITIONS
 //#define DEBUGmidiNotes // MIDI NOTES STEP BY STEP DEBUG
-#define DEBUGmidi
-#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
-//#define DEBUGanalogA // prints out MANUAL INPUTS VALUES
+//#define DEBUGcvA // prints out CV/MANUAL INPUTS VALUES
+#define DEBUGanalogA // prints out MANUAL INPUTS VALUES
 //#define DEBUGanalogB // prints out MANUAL INPUTS VALUES
 //#define DEBUGgateINA // prints out GATE INPUTS
 //#define DEBUGgateINB // prints out GATE INPUTS
@@ -49,7 +48,7 @@ the principle is simple, comment - uncomment next lines to have a visual output 
 //#define MaxNchunk
 
 // USE MIDI?
-#define MIDIenable
+//#define MIDIenable
 
 
 #ifdef MIDIenable
@@ -146,15 +145,6 @@ boolean CLK1trig;
   #include <SimpleMessageSystem.h> 
 #endif
 
-
-extern void readCvsINA(int _nChannels);
-extern void readCvsINB(int _nChannels);
-extern void readCvsINC(int _nChannels);
-extern void readAnalogsINA(int _nChannels);
-extern void readAnalogsINB(int _nChannels);
-extern void readAnalogsINC(int _nChannels);
-
-
 /////////////////////////////////////////////////////////////////////////// VARIABLES DECLARATION - (ToDo: THESE SHOULD ALL GO INTO THE MAIN LIBRARY) /////////////////////////////////
 
 
@@ -195,9 +185,9 @@ int action=2; //0 =note off ; 1=note on ; 2= nada
 
 // SOME OTHER THINGS
 // ADSR
-boolean adsrTrigger1=false;
-boolean adsrTrigger2=false;
-boolean adsrTrigger3=false;
+boolean adsrTrigger1=true;
+boolean adsrTrigger2=true;
+boolean adsrTrigger3=true;
 // ARRAY TO STORE ANALOG VALUES
 int analogValsB[5];
 int analogValsC[5];
@@ -262,16 +252,10 @@ void setup(){
   #endif
   
   #ifdef MIDIenable
-    Serial1.begin(31250);  
+    //Serial1.begin(31250);  
     MIDI.begin(1);
     // Connect the HandleNoteOn function to the library, so it is called upon reception of a NoteOn.
-    MIDI.setHandleNoteOn(ADDAC_MIDInoteOn);  // Put only the name of the function
-    MIDI.setHandleControlChange(ADDAC_MIDIcc);
-    MIDI.setHandleClock(ADDAC_MIDIclock);
-    MIDI.setHandleStart(ADDAC_MIDIstart);
-    MIDI.setHandleContinue(ADDAC_MIDIcontinue);
-    MIDI.setHandleStop(ADDAC_MIDIstop);
-    
+    MIDI.setHandleNoteOn(HandleNoteOn);  // Put only the name of the function
     MIDInoteON[0]=false;
     MIDInoteON[1]=false;
     MIDInoteON[2]=false;

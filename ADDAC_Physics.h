@@ -36,7 +36,7 @@ public:
 	
 	float boundX, boundY;
 	float x,y,x0,y0,t0,ax,bx,ay,by,gx,gy;
-	float AinitCondition, Angle, Kelasticity, Mass, Bmaterial, velocity; 
+	float AinitCondition, Angle, Kelasticity, Mass, Bmaterial, Velocity; 
 	bool hitXWall,hitYWall;
 	int gateThreshold;
 
