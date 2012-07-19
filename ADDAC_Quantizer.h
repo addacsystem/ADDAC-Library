@@ -22,15 +22,15 @@
 class ADDAC_Quantizer{
 public:
 	ADDAC_Quantizer();
-	long quantize(unsigned int _val);
-	long Note(int _val, double _partial);
-	long Note(int _val);
+	float quantize(float _val);
+	float Note(int _val, double _partial);
+	float Note(int _val);
 	
 	float interval;
 	float offset;
 	
-	float NOTES[61];
-	bool NOTESactive[61];
+	float NOTES[128];
+	bool NOTESactive[128];
 	
 };
 #endif

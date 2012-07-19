@@ -49,82 +49,97 @@ unsigned int ADDAC_LFO::SINget(){
 //int _channel (1-8), bool _inverted (0=no - 1=yes) 
 //float _freq (hertz (0.0-20000.0), float _bottom (percentage 0-1), float _top (percentage 0-1)
 
-void ADDAC_LFO::sinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
+void ADDAC_LFO::sinMode(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
 	// EQUATION
 	//y=(s*cos(freq*x+offset)+a)*addacMax; freq=100; T=0.8; B=0.2; S=T-B; I=1; Offset=0.5, invert=0; offset=Offset+invert/2*2¹; s=S/2, a=s+B
 
-	/*_freq+=10;
+	_freq+=10;
 	_mult+=1;
 	float _dif = (_top - _bottom);
 	_bottom = addacMaxResolution *_bottom;
 	if(!_inverted){ // normal
-		DACvolts[_channel-1]= _bottom+(sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) *_dif + _offset;
+		CVstream= (_bottom+(sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) *_dif + _offset)/addacMaxResolution;
 	}else{ // inverted
-		DACvolts[_channel-1]= _bottom+(sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f)*_dif + _offset;
-	}*/
-	
-	// UPDATE CHANNEL
-	/*Serial.print(" | DACvolts_");
-     Serial.print(_channel);
-     Serial.print(":");
-     Serial.print(DACvolts[_channel-1]);*/
-	//writeChannel(_channel-1,DACvolts[_channel-1]);
+		CVstream= (_bottom+(sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f)*_dif + _offset)/addacMaxResolution;
+	}
+    
+    stream = CVstream / addacMaxResolution;
+    
+    if (stream>1){
+        stream=1;
+    }
+    if(stream<0){
+        stream=0;
+    }
+   
 }
 
-void ADDAC_LFO::sinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset){
-	/*_freq+=10;
+void ADDAC_LFO::sinMode(bool _inverted, float _freq, float _mult, unsigned int _offset){
+	_freq+=10;
 	_mult+=1;
 	if(!_inverted){ // normal
-		DACvolts[_channel-1]= (sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) + _offset;
+		CVstream= ((sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) + _offset)/addacMaxResolution;
 	}else{ // inverted
-		DACvolts[_channel-1]= (sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) + _offset;
-	}*/
+		CVstream= ((sin(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) + _offset)/addacMaxResolution;
+	}
 	
-	// UPDATE CHANNEL
-	/*Serial.print(" | DACvolts_");
-     Serial.print(_channel);
-     Serial.print(":");
-     Serial.print(DACvolts[_channel-1]);*/
-	//writeChannel(_channel-1,DACvolts[_channel-1]);
+    stream = CVstream / addacMaxResolution;
+    
+    if (stream>1){
+        stream=1;
+    }
+    if(stream<0){
+        stream=0;
+    }
+    
+    
 }
 // --------------------------------------------------------------------------- COSIN MODE -------------------------
 //
 //int _channel (1-8), bool _inverted (0=no - 1=yes) 
 //float _freq (hertz (0.0-20000.0), int _bottom (percentage 0-100%), int _top (percentage 0-100%)
 
-void ADDAC_LFO::cosinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
-	/*_freq+=10;
+void ADDAC_LFO::cosinMode(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
+	_freq+=10;
 	_mult+=1;
 	float _dif = _top - _bottom;
 	_bottom = addacMaxResolution *_bottom;
 	if(!_inverted){ // normal
-		DACvolts[_channel-1]= _bottom + (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) * _dif + _offset;
+		CVstream= (_bottom + (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) * _dif + _offset)/addacMaxResolution;
 	}else{ // inverted
-		DACvolts[_channel-1]= _bottom + (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) * _dif + _offset;
+		CVstream= (_bottom + (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) * _dif + _offset)/addacMaxResolution;
 	}
-	*/
-	// UPDATE CHANNEL
-	/*Serial.print(" | DACvolts_");
-     Serial.print(_channel);
-     Serial.print(":");
-     Serial.print(DACvolts[_channel-1]);*/
-	//writeChannel(_channel-1,DACvolts[_channel-1]);
+    
+    
+    stream = CVstream / addacMaxResolution;
+    
+    if (stream>1){
+        stream=1;
+    }
+    if(stream<0){
+        stream=0;
+    }
+
+	
 }
-void ADDAC_LFO::cosinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset){
-	/*_freq+=10;
+void ADDAC_LFO::cosinMode(bool _inverted, float _freq, float _mult, unsigned int _offset){
+	_freq+=10;
 	_mult+=1;
 	if(!_inverted){ // normal
-		DACvolts[_channel-1]= (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) + _offset;
+		CVstream= ((cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))+1.0f)*(addacMaxResolution/2.0f) + _offset)/addacMaxResolution;
 	}else{ // inverted
-		DACvolts[_channel-1]= (cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) + _offset;
-	}*/
-	
-	// UPDATE CHANNEL
-	/*Serial.print(" | DACvolts_");
-	 Serial.print(_channel);
-	 Serial.print(":");
-	 Serial.print(DACvolts[_channel-1]);*/
-	//writeChannel(_channel-1,DACvolts[_channel-1]);
+		CVstream= ((cos(TWO_PI*(millis()%int(_freq*_mult)/(_freq*_mult)))*-1.0f+1.0f)*(addacMaxResolution/2.0f) + _offset)/addacMaxResolution;
+	}
+    
+    stream = CVstream / addacMaxResolution;
+    
+    if (stream>1){
+        stream=1;
+    }
+    if(stream<0){
+        stream=0;
+    }
+
 }
 
 // --------------------------------------------------------------------------- LFOS MODE ----------------------------
