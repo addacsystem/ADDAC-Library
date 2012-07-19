@@ -26,6 +26,10 @@
  *
  *
  */
+// SOCKET CONSTANTS
+#define RISE 0
+#define FALL 1
+#define CHANGE 2
 
 #ifndef ADDAC_Empty_h
 #define ADDAC_Empty_h
@@ -44,16 +48,23 @@ class ADDAC_Comparator{
 public:
 	ADDAC_Comparator();
 	
-    bool Comparator(float _input, float _threshold); // Function to be called from Arduino Environment
-    bool Comparator(float _input, float _threshold, float _delay); // Function to be called from Arduino Environment
-
-    bool triggerComparator;
+    bool Comparator(int _state, float _input, float _threshold); // Function to be called from Arduino Environment
+    bool Comparator(int _state, float _input, float _threshold, float _delay); // Function to be called from Arduino Environment
     bool triggerState;
+    bool triggerComparator;
+    bool triggerStateChange;
+    bool triggerComparatorRise;
+    bool triggerStateRise;
+    bool triggerComparatorFall;
+    bool triggerStateFall;
     bool triggerTimeCount;
+    bool rising;
+    bool falling;
     
     float timeEleapsed;
     float time;
     float oldTime;
+    float oldInput;
 	
     
 	

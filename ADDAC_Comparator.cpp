@@ -1,90 +1,285 @@
- 
-/*
- * Some hints about what this Class does!
- *
-*/
+     
+    /*
+     * Some hints about what this Class does!
+     *
+    */
 
 
-#include "ADDAC_Comparator.h"
+    #include "ADDAC_Comparator.h"
 
-//-----------------------------------------------------------------------ADDAC  COMPARATOR-----------------
+    //-----------------------------------------------------------------------ADDAC  COMPARATOR-----------------
 
-ADDAC_Comparator::ADDAC_Comparator(){	// INITIALIZE CLASS
-	
-
-	
-	//Serial.println("ADDAC_Comparator INITIALIZED");
-}
-
-
-
-// --------------------------------------------------------------------------- UPDATE -------------------------
-//
-
-
-bool ADDAC_Comparator::Comparator(float _input, float _threshold){ 
-	
-    triggerComparator=false;
-    
-    
-    if(_input>=_threshold && !triggerState){ // TRUE
-        triggerState = true;
-        triggerComparator=true;
-    
+    ADDAC_Comparator::ADDAC_Comparator(){	// INITIALIZE CLASS
+        
+      
+        
+        //Serial.println("ADDAC_Comparator INITIALIZED");
     }
-    else if(_input>=_threshold && triggerState){
+
+
+
+    // --------------------------------------------------------------------------- UPDATE -------------------------
+    //
+
+
+    bool ADDAC_Comparator:: Comparator(int _state, float _input, float _threshold){ 
+
         triggerComparator=false;
-        _input=0;
-    }
-    else if(_input<=_threshold && triggerState){
-       triggerState=false;
-    }
-    
-    
-	return triggerComparator;
-
-}
-
-
-bool ADDAC_Comparator::Comparator(float _input, float _threshold, float _delay){ 
-  
-    
-    oldTime=millis();
-    
-    if(triggerTimeCount) timeEleapsed =timeEleapsed+abs(time-oldTime);
-    
-    if(_input>=_threshold && !triggerState){ // TRUE
         
-        triggerState = true;
-        triggerTimeCount=true;
-        timeEleapsed=0;
         
-    }
-    else if(_input>=_threshold && triggerState){
-        _input=0;
-    }
-    else if(_input<=_threshold && triggerState){
-        triggerState=false;
-    }
-    
-    
+
         
-    time=millis(); 
-    
-    if(timeEleapsed > _delay){
+        if (_state==0) {
+            
+            
+            if(_input>=_threshold && !triggerStateRise){ // TRUE
+                triggerStateRise = true;
+                triggerComparatorRise=true;
                 
-        triggerComparator=true;    
-        triggerTimeCount=false;
-        timeEleapsed=0;
+            }
+            else if(_input>=_threshold && triggerStateRise){
+                triggerComparatorRise=false;
+                _input=0;
+            }
+            else if(_input<=_threshold && triggerStateRise){
+                triggerStateRise=false;
+            }
+            
+            
+            return triggerComparatorRise;
+        }
+        
+        
+        if (_state==1 ) {
+            
+            
+            if(_input<=_threshold && !triggerStateFall){ // TRUE
+                triggerStateFall = true;
+                triggerComparatorFall=true;
+                
+            }
+            else if(_input<=_threshold && triggerStateFall){
+                triggerComparatorFall=false;
+                _input=1;
+            }
+            else if(_input>=_threshold && triggerStateFall){
+                triggerStateFall=false;
+            }
+            
+            
+            return triggerComparatorFall;
+        }
+        
+        if(_state==2){
+            
+            
+            if (_input > oldInput) { //up - Rising
+                
+                //rising=true;
+                if(_input>=_threshold && !triggerStateChange){ // TRUE
+                    triggerState = true;
+                    rising=true;
+                    
+                }
+                else if(_input>=_threshold && triggerStateChange){
+                    rising=false;
+                    _input=0;
+                }
+                else if(_input<=_threshold && triggerStateChange){
+                    triggerStateChange=false;
+                }
+                oldInput= _input;
+                
+            }
+            
+              
+            if(_input < oldInput){ // down - Falling
+                        //rising=false;
+                if(_input<=_threshold && !triggerState){ // TRUE
+                    triggerState = true;
+                    falling=true;
+                    
+                }
+                else if(_input<=_threshold && triggerStateChange){
+                    falling=false;
+                    _input=1;
+                }
+                else if(_input>=_threshold && triggerStateChange){
+                    triggerStateChange=false;
+                }
+                oldInput= _input;
+                
+            }
+            
+             
+             if(rising)
+                 return rising;
+            else if(falling)
+                return falling;
+            else 
+                return 0;
+        }
+        
         
     }
-    
-    else{
-        triggerComparator=false; 
+
+
+    bool ADDAC_Comparator::Comparator(int _state, float _input, float _threshold, float _delay){ 
+      
+        triggerComparator=false;
+
+        oldTime=millis();
+        
+        if(triggerTimeCount) timeEleapsed =timeEleapsed+abs(time-oldTime);
+        
+        if (_state == 0) {
+           
+        
+        if(_input>=_threshold && !triggerStateRise){ // TRUE
+            
+            triggerStateRise = true;
+            triggerTimeCount=true;
+            timeEleapsed=0;
+            
+        }
+        else if(_input>=_threshold && triggerStateRise){
+            _input=0;
+        }
+        else if(_input<=_threshold && triggerStateRise){
+            triggerStateRise=false;
+        }
+            
+            
+            
+            time=millis(); 
+            
+            if(timeEleapsed > _delay){
+                
+                triggerComparatorRise=true;    
+                triggerTimeCount=false;
+                timeEleapsed=0;
+                
+            }
+            
+            else{
+                triggerComparatorRise=false; 
+            }
+            return triggerComparatorRise;
+            
+        }
+        
+        
+        if (_state == 1) {
+            
+            
+            if(_input<=_threshold && !triggerStateFall){ // TRUE
+                
+                triggerState = true;
+                triggerTimeCount=true;
+                timeEleapsed=0;
+                
+            }
+            else if(_input<=_threshold && triggerStateFall){
+                _input=1;
+            }
+            else if(_input>=_threshold && triggerStateFall){
+                triggerStateFall=false;
+            }
+            
+            
+            time=millis(); 
+            
+            if(timeEleapsed > _delay){
+                
+                triggerComparatorFall=true;    
+                triggerTimeCount=false;
+                timeEleapsed=0;
+                
+            }
+            
+            else{
+                triggerComparatorFall=false; 
+            }
+            return triggerComparatorFall;
+            
+        }
+        
+            
+        
+        if(_state==2){
+            
+            
+            if (_input > oldInput) { //up - Rising
+            
+
+              
+                if(_input>=_threshold && !triggerStateChange){ // TRUE
+                    
+                    rising=true;
+                    triggerStateChange = true;
+                    triggerTimeCount=true;
+                    timeEleapsed=0;
+                    
+                }
+                else if(_input>=_threshold && triggerStateChange){
+                    _input=0;
+                }
+                else if(_input<=_threshold && triggerStateChange){
+                    triggerStateChange=false;
+                }
+                oldInput= _input;
+            }
+
+            if(_input < oldInput){ // down - Falling
+            
+                
+                
+                if(_input<=_threshold && !triggerStateChange){ // TRUE
+                    
+                    falling=true;
+                    triggerStateChange = true;
+                    triggerTimeCount=true;
+                    timeEleapsed=0;
+                    
+                }
+                else if(_input<=_threshold && triggerStateChange){
+
+                    _input=0;
+                }
+                else if(_input>=_threshold && triggerStateChange){
+                    triggerStateChange=false;
+                }
+            oldInput= _input;
+            
+            }
+            
+            
+            }  
+        
+        
+        time=millis(); 
+        
+        if(timeEleapsed > _delay){
+                    
+                       
+            triggerTimeCount=false;
+            timeEleapsed=0;
+            
+            if(rising)
+                return rising;
+            else if(falling)
+                return falling;
+            
+
+            
+        }
+        
+        else 
+        
+            return false;        
+      
     }
-    return triggerComparator;
-}
 
 
-// --------------------------------------------------------------------------- END ----------------------------------
-//
+    // --------------------------------------------------------------------------- END ----------------------------------
+    //
