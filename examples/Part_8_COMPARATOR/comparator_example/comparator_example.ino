@@ -38,10 +38,10 @@ void loop(){
     //WORKING ON MODE "O" - SUBMODE "0"
     if(VCC.SUBMODE==0){
 
-      //create a boolean variable type that will be true if we move our Manual POT above 0.5
+      //create a boolean variable type that will be true if we move our Manual POT down 0.5
       boolean normalTrigger = comp1.Comparator(FALL,VCC.ReadCv(A,0),0.5); 
 
-      //create a boolean variable type that will be true after 5 second if we move our Manual POT above 0.5
+      //create a boolean variable type that will be true after 5 second if we move our Manual POT above or down 0.5
       boolean delayedTrigger = comp2.Comparator(CHANGE,VCC.ReadCv(A,1),0.5,2000);
 
       

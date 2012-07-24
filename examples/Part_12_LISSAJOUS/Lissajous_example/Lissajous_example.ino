@@ -6,12 +6,12 @@
 //include ADDAC MAIN LIBRARY
 #include <ADDAC.h>
 //include LISSAJOUS class
-#include <ADDAC_ULTRALISS.h>
+#include <ADDAC_Liss.h>
 
 
 //initiate ADDAC CLASS's and name them
 ADDAC VCC;
-ADDAC_ULTRALISS liss1;
+ADDAC_Liss liss1;
 
 // DEBUGGING CONSOLE
 #define DEBUG 

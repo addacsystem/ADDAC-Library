@@ -2,8 +2,10 @@
 #include <vector>
 
 #include <ADDAC.h>
+#include <ADDAC_Smooth.h>
 
-ADDAC VCC; 
+ADDAC VCC;
+ADDAC_Smooth SM;
 
 #define DEBUG       // Just comment this line if you are not debugging
 
@@ -30,7 +32,7 @@ void loop(){
       else if(VCC.SUBMODE==1){ 
              //program to preset in MODE “0”, SUBMODE “1”.
              //Read POT 1 from CV in socket B
-          VCC.ReadManual(B,1);
+          SM.Smooth(VCC.ReadManual(B,1), 0.5);
             //Print POT val from socket B in the monitor log
       VCC.PrintManual(B,1);
       }
