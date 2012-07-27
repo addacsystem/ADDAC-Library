@@ -47,7 +47,7 @@ void loop(){
       VCC.WriteChannel(1, physics1.y);
 
       //create a comparator to trigger the bumper
-      boolean bumpTrigger= comp1.Comparator(VCC.ReadManual(A,0),0.5);  
+      boolean bumpTrigger= comp1.Comparator(RISE,VCC.ReadManual(A,0),0.5);  
 
       if(bumpTrigger){
 
