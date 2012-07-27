@@ -12,13 +12,12 @@
 ADDAC VCC;
 ADDAC_Quantizer quant1;
 
-unsigned int quantizedNote;
+float quantizedNote;
 
 // DEBUGGING CONSOLE
 #define DEBUG 
 
-void setup()
-{
+void setup(){
   VCC.setup();
 
 #ifdef DEBUG
@@ -41,7 +40,7 @@ void loop(){
 
       //write random quantized voltage to channel outPut1
       VCC.WriteChannel(1, quantizedNote);
-      delay(500);
+      delay(VCC.ReadCv(A,0)*1000);
 
     }
 
