@@ -1,6 +1,8 @@
+#include <StandardCplusplus.h>
+#include <vector>
+
+
 #include <ADDAC.h>
-
-
 
 // DEBUGGING CONSOLE
 #define DEBUG // Just comment this line if you are not using debug 
@@ -9,8 +11,6 @@
 #include <ADDAC.h>
 // THEN INITIALIZES LIBRARY CLASS
 ADDAC VCC; // From now on the class will be called "VCC"
-
-#define addacMaxResolution 65535  // CONSTANT FOR MAXIMUM RESOLUTION RANGE - NOT RECOMMENDED TO CHANGE - !!
 
 void setup(){
   VCC.setup();

@@ -88,6 +88,10 @@ cvValuesBMapped	KEYWORD2
 
 adsrMode	KEYWORD2
 adsrLogExpMode	KEYWORD2
+AD_update	KEYWORD2
+ADSR_update	KEYWORD2
+AD_trigger	KEYWORD2
+AD_release	KEYWORD2
 
 envMode	KEYWORD2
 
@@ -96,6 +100,7 @@ MultiEnvLoop	KEYWORD2
 PrintMultiEnv	KEYWORD2
 
 calcs	KEYWORD2
+setInc	KEYWORD2
 
 CVstream	KEYWORD2
 sinMode	KEYWORD2
@@ -106,17 +111,39 @@ Comparator	KEYWORD2
 bump	KEYWORD2
 
 quantize	KEYWORD2
+Note	KEYWORD2
 amp1	KEYWORD2
 amp2	KEYWORD2
 amp3	KEYWORD2
 amp4	KEYWORD2
 
+record	KEYWORD2
 loopSize	KEYWORD2
+clearRecord	KEYWORD2
+Play	KEYWORD2
+overdub	KEYWORD2
 
 GateDelayRise	KEYWORD2
 GateDelayFall	KEYWORD2
 
 Smooth	KEYWORD2
+
+AND	KEYWORD2
+OR	KEYWORD2
+NOR	KEYWORD2
+NAND	KEYWORD2
+XOR	KEYWORD2
+XNOR	KEYWORD2
+
+
+simpleUpdate	KEYWORD2
+stepUpdate	KEYWORD2
+simpleStepUpdate	KEYWORD2
+clock	KEYWORD2
+reset	KEYWORD2
+checkClock	KEYWORD2
+checkChangeState	KEYWORD2
+
 
 #
 #######################################
