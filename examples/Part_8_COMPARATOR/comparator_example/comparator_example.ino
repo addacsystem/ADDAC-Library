@@ -8,15 +8,13 @@
 //include ADDAC COMPARATOR CLASS
 #include <ADDAC_Comparator.h>
 
-//initiate ADDAC CLASS's ang name them
+//initiate ADDAC CLASS's and name them
 ADDAC VCC;
 ADDAC_Comparator comp1, comp2;
 
 
 // DEBUGGING CONSOLE
 #define DEBUG 
-
-#define addacMaxResolution 65535  // CONSTANT FOR MAXIMUM RESOLUTION RANGE - NOT RECOMMENDED TO CHANGE - !!
 
 
 void setup()
