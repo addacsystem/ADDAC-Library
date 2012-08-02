@@ -45,6 +45,12 @@ ADDAC_GateDelay	KEYWORD1
 ADDAC_CVlooper.h	KEYWORD1
 ADDAC_CVlooper	KEYWORD1
 
+ADDAC_Random.h	KEYWORD1
+ADDAC_Random	KEYWORD1
+
+ADDAC_Lin2Log.h	KEYWORD1
+ADDAC_Lin2Log	KEYWORD1
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
@@ -143,6 +149,12 @@ clock	KEYWORD2
 reset	KEYWORD2
 checkClock	KEYWORD2
 checkChangeState	KEYWORD2
+
+calc	KEYWORD2
+
+setBrownianRandom	KEYWORD2
+setBrownianTime	KEYWORD2
+setStepReset	KEYWORD2
 
 
 #
