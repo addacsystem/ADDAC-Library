@@ -12,16 +12,16 @@
  *
  * then in BEHAVIOUR() add at a position of your choice:
  
- unsigned int CV = Empty.update(random(0, 65535));
+ float CV = Empty.update(random(0.0f, 1.0f));
  
  or if you want to write it straight out at channel 1 for ex.:
- VCC.WriteChannel(1, Empty.update(random(0, 65535)) );
+ VCC.WriteChannel(1, Empty.update(random(0.1f, 0.0f)) );
  
  *
  *
  * or to simply get the current value back use:
  
- unsigned int CV = Empty.CVstream;
+ float CV = Empty.CVstream;
  
  *
  *
@@ -36,16 +36,14 @@
 #include <WProgram.h>
 #endif
 
-#define addacMaxResolution 65535 
-
 
 
 class ADDAC_Empty{
 public:
 	ADDAC_Empty();
-	long update(unsigned int _val); // Function to be called from Arduino Environment
+	long update(float _val); // Function to be called from Arduino Environment
 	
-	unsigned int CVstream; // Public Variables
+	float CVstream; // Public Variables
 	
 };
 #endif
