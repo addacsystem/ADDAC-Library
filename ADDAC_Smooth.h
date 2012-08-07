@@ -21,6 +21,6 @@ public:
 	ADDAC_Smooth();
     
     float oldValue, smoothed;
-	float Smooth(float newValue, float smoothFactor);
+	float calc(float newValue, float smoothFactor);
 };
 #endif

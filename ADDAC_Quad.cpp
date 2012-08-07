@@ -34,7 +34,7 @@ ADDAC_Quad::ADDAC_Quad(){
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
-void ADDAC_Quad::calcs(int MODE, float _r, float _theta, float _free1,float _free2,float _free3) {
+void ADDAC_Quad::calc(int MODE, float _r, float _theta, float _free1,float _free2,float _free3) {
     //theta = _theta*360.0f/512.0f; por causa do CVinput manhoso tem q usar 512
     
     theta = _theta*360.0f/_free1;

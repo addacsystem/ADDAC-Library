@@ -36,7 +36,7 @@ void loop(){
     if(VCC.SUBMODE==0){
     int quadMode=0;
     // CARTESIAN / POLAR MODE (0=radius/angle; 1=x/y), RADIUS/X, ANGLE/Y, ANGLE MULTIPLIER, EXP/LOG, NA
-     quad1.calcs(quadMode,VCC.ReadCv(A,0), VCC.ReadCv(A,1), VCC.ReadCv(A,2), VCC.ReadCv(A,3), VCC.ReadCv(A,4)); 
+     quad1.calc(quadMode,VCC.ReadCv(A,0), VCC.ReadCv(A,1), VCC.ReadCv(A,2), VCC.ReadCv(A,3), VCC.ReadCv(A,4)); 
      
      VCC.WriteChannel(0, quad1.amp1); // CHANNEL 1
      VCC.WriteChannel(1, quad1.amp2); // CHANNEL 2
@@ -61,20 +61,3 @@ void loop(){
 #endif
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

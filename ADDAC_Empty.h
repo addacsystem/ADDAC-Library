@@ -12,16 +12,16 @@
  *
  * then in BEHAVIOUR() add at a position of your choice:
  
- float CV = Empty.update(random(0.0f, 1.0f));
+ unsigned int CV = Empty.update(random(0, 65535));
  
  or if you want to write it straight out at channel 1 for ex.:
- VCC.WriteChannel(1, Empty.update(random(0.1f, 0.0f)) );
+ VCC.WriteChannel(1, Empty.update(random(0, 65535)) );
  
  *
  *
  * or to simply get the current value back use:
  
- float CV = Empty.CVstream;
+ unsigned int CV = Empty.CVstream;
  
  *
  *
@@ -35,6 +35,8 @@
 #else
 #include <WProgram.h>
 #endif
+
+#define addacMaxResolution 65535 
 
 
 

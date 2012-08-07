@@ -33,12 +33,12 @@ void ADDAC_LFO::update(float _freq){ // FREQUENCY DEFINED BY INCREMENT SIZE : 0.
 // float _freq (increment (0.0-1.0)
 
 void ADDAC_LFO::SINupdate(){
-    SINval = (sin(position)+1.0f)/2.0f * addacMaxResolution;
+    SINval = (sin(position)+1.0f)/2.0f;
     SIN = SINval;
 }
 
 unsigned int ADDAC_LFO::SINget(){
-    SINval = (sin(position)+1.0f)/2.0f * addacMaxResolution;
+    SINval = (sin(position)+1.0f)/2.0f;
     SIN = SINval;
     return SINval;
 }
@@ -49,7 +49,7 @@ unsigned int ADDAC_LFO::SINget(){
 //int _channel (1-8), bool _inverted (0=no - 1=yes) 
 //float _freq (hertz (0.0-20000.0), float _bottom (percentage 0-1), float _top (percentage 0-1)
 
-void ADDAC_LFO::sinMode(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
+void ADDAC_LFO::SINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
 	// EQUATION
 	//y=(s*cos(freq*x+offset)+a)*addacMax; freq=100; T=0.8; B=0.2; S=T-B; I=1; Offset=0.5, invert=0; offset=Offset+invert/2*2¹; s=S/2, a=s+B
 
@@ -74,7 +74,7 @@ void ADDAC_LFO::sinMode(bool _inverted, float _freq, float _mult, unsigned int _
    
 }
 
-void ADDAC_LFO::sinMode(bool _inverted, float _freq, float _mult, unsigned int _offset){
+void ADDAC_LFO::SINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset){
 	_freq+=10;
 	_mult+=1;
 	if(!_inverted){ // normal
@@ -99,7 +99,7 @@ void ADDAC_LFO::sinMode(bool _inverted, float _freq, float _mult, unsigned int _
 //int _channel (1-8), bool _inverted (0=no - 1=yes) 
 //float _freq (hertz (0.0-20000.0), int _bottom (percentage 0-100%), int _top (percentage 0-100%)
 
-void ADDAC_LFO::cosinMode(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
+void ADDAC_LFO::COSINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
 	_freq+=10;
 	_mult+=1;
 	float _dif = _top - _bottom;
@@ -122,7 +122,7 @@ void ADDAC_LFO::cosinMode(bool _inverted, float _freq, float _mult, unsigned int
 
 	
 }
-void ADDAC_LFO::cosinMode(bool _inverted, float _freq, float _mult, unsigned int _offset){
+void ADDAC_LFO::COSINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset){
 	_freq+=10;
 	_mult+=1;
 	if(!_inverted){ // normal

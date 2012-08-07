@@ -48,8 +48,8 @@ class ADDAC_Comparator{
 public:
 	ADDAC_Comparator();
 	
-    bool Comparator(int _state, float _input, float _threshold); // Function to be called from Arduino Environment
-    bool Comparator(int _state, float _input, float _threshold, float _delay); // Function to be called from Arduino Environment
+    bool calc(int _state, float _input, float _threshold); // Function to be called from Arduino Environment
+    bool calc(int _state, float _input, float _threshold, float _delay); // Function to be called from Arduino Environment
     bool triggerState;
     bool triggerComparator;
     bool triggerStateChange;

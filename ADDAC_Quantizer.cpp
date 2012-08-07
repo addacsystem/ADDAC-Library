@@ -175,7 +175,7 @@ ADDAC_Quantizer::ADDAC_Quantizer(){
 //
 
 
-float ADDAC_Quantizer::quantize(float _val){
+float ADDAC_Quantizer::calc(float _val){
 	for (int i=0; i<61; i++) {
 		if (_val<NOTES[i]) { // GETS CLOSEST NOTE ABOVE!!
 			if(NOTESactive[i-1]){

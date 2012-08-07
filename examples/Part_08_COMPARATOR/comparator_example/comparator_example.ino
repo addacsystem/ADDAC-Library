@@ -30,20 +30,16 @@ void loop(){
   VCC.update();
 
 
-  if(VCC.MODE==0){  //  MODE 0 has several test/debug functions for the available functions and modules
-    // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 0 -
-
+  if(VCC.MODE==0){  
+    
     //WORKING ON MODE "O" - SUBMODE "0"
     if(VCC.SUBMODE==0){
 
       //create a boolean variable type that will be true if we move our Manual POT down 0.5
-      boolean normalTrigger = comp1.Comparator(FALL,VCC.ReadCv(A,0),0.5); 
+      boolean normalTrigger = comp1.calc(FALL,VCC.ReadCv(A,0),0.5); 
 
       //create a boolean variable type that will be true after 5 second if we move our Manual POT above or down 0.5
-      boolean delayedTrigger = comp2.Comparator(CHANGE,VCC.ReadCv(A,1),0.5,2000);
-
-      
-   
+      boolean delayedTrigger = comp2.calc(CHANGE,VCC.ReadCv(A,1),0.5,2000);
 
       //if normalTrigger is true print a message in the Serial Monitor
       if(normalTrigger){
@@ -60,22 +56,8 @@ void loop(){
   }
 
 #ifdef DEBUG
-
   Serial.println();
   delay(10);
 #endif
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

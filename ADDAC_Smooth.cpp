@@ -22,7 +22,7 @@ ADDAC_Smooth::ADDAC_Smooth(){	// INITIALIZE CLASS
 
 
 // newValue - value to smooth, smoothFactor - smooth intensity 0-1.
-float ADDAC_Smooth::Smooth(float newValue, float smoothFactor){ 
+float ADDAC_Smooth::calc(float newValue, float smoothFactor){ 
     
     
     

@@ -32,7 +32,7 @@ public:
 		void update();
 		void update(int _t, int _t2);
 		void setInc(float _inc);
-		void calcs(float _amp, float _speedx, float _speedy, bool _mirror);
+		void calc(float _amp, float _speedx, float _speedy, bool _mirror);
 	
 	//LissSpeed Speed;
 	float ancho,alto,AX,BX,a,b,x,y;

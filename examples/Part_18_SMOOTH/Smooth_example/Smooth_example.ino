@@ -32,7 +32,7 @@ void loop(){
 
     if (VCC.SUBMODE==0){
       //Smooth a random value between 0-1 with a smooth factor of 0.99
-      smoothValue=SM.Smooth(random(2),0.99);
+      smoothValue=SM.calc(random(2),0.99);
       
       //Write the smoothed value in OUTPUT 0
       VCC.WriteChannel(0,smoothValue);    

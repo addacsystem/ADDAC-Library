@@ -37,10 +37,10 @@ public:
     void SINupdate();
     unsigned int SINget();
     
-    void sinMode(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top);
-    void sinMode(bool _inverted, float _freq, float _mult, unsigned int _offset);
-    void cosinMode(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top);
-    void cosinMode(bool _inverted, float _freq, float _mult, unsigned int _offset);
+    void SINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top);
+    void SINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset);
+    void COSINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top);
+    void COSINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset);
     void lfosMode(int _MODE, int _type, int _channel);
     
     

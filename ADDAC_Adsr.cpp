@@ -16,32 +16,33 @@ ADDAC_Adsr::ADDAC_Adsr(){
 //
 
 
-// --------------------------------------------------------------------------- LINEAR ADSR MODE --- OLD CLASS -> (to be deleted ...) ----------------------
+// --------------------------------------- LINEAR ADSR MODE --- OLD CLASS -> (to be deleted ...) ----------------------
 //
 //int _channel (1-8), bool _trigger (0=no - 1=yes), bool _inverted (0=no - 1=yes) 
 //float _A (percentage (0-100% = 0.0f to 1.0f), float _Atime (millis)
 
 // ADD top and bottom offset??
-void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D, float _Dtime,float _Stime, float _Rtime){
+void ADDAC_Adsr::update(bool _trigger, bool _inverted, float _Atime, float _D, float _Dtime,float _Stime, float _Rtime){
 	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();
-		CVstream=0;
+		CVstream=0.0;
 	}
-    float _A=1;
+    float _A=1.0f;
     float _S=_D;
 	//unsigned int toAddDif;
 	if(!_inverted){ // normal
 		if(millis()<=ADSRtriggerTime+_Atime){ 
 			// A
-			float _floatPercentage = _A * addacMaxResolution;
+			float _floatPercentage = _A;
 			float _actualPos = _Atime-(ADSRtriggerTime+_Atime-millis());
-			CVstream = (_actualPos / _Atime * _floatPercentage)/addacMaxResolution;		
+			CVstream = (_actualPos / _Atime * _floatPercentage);		
 			
 		}else if(millis()>ADSRtriggerTime+_Atime && millis()<=ADSRtriggerTime+_Atime+_Dtime){ 
 			// D
 			float _actualPos;
-			long percentageDif = (_A - _D) * addacMaxResolution; // intervalo
+			float percentageDif = (_A - _D) * addacMaxResolution; // intervalo
+      
 			if(percentageDif<0){
 				percentageDif = percentageDif*-1.0f;
 				toAddDif = _A*addacMaxResolution;
@@ -130,7 +131,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted, float _Atime, float _D,
 
 
 
-void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, float _D, float _Dtime, float _Stime, float _Rtime){
+void ADDAC_Adsr::update(bool _trigger, bool _inverted,float _A, float _Atime, float _D, float _Dtime, float _Stime, float _Rtime){
 	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();
@@ -242,7 +243,7 @@ void ADDAC_Adsr::adsrMode(bool _trigger, bool _inverted,float _A, float _Atime, 
 //
 //int _channel (1-8), bool _trigger (0=no - 1=yes), bool _inverted (0=no - 1=yes) 
 //float _A (0-1), float _Atime (millis), float _Ashape (0-1)
-void ADDAC_Adsr::adsrLogExpMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape, float _S, float _Stime, float _Sshape, float _Rtime, float _Rshape){
+void ADDAC_Adsr::updateLogExpMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape, float _S, float _Stime, float _Sshape, float _Rtime, float _Rshape){
 	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();
@@ -335,7 +336,7 @@ void ADDAC_Adsr::adsrLogExpMode(bool _trigger, bool _inverted, float _A, float _
 //float _A (0-1), float _Atime (millis), float _Ashape (0-1)
 
 // ADD OFFSET
-void ADDAC_Adsr::adsrWeirdMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape){
+void ADDAC_Adsr::updateWeirdMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape){
 	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();

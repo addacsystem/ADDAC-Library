@@ -24,7 +24,7 @@ ADDAC_Env::ADDAC_Env(){
 //float _A (percentage (0-100% = 0.0f to 1.0f), float _Atime (millis)
 
 // ADD top and bottom offset??
-void ADDAC_Env::envMode(bool _trigger, bool _inverted, float _A, float _Atime, float _D, float _Dtime, float _S,float _Stime, float _Rtime){
+void ADDAC_Env::update(bool _trigger, bool _inverted, float _A, float _Atime, float _D, float _Dtime, float _S,float _Stime, float _Rtime){
 	if(_trigger && !ENVtrigger){
 		ENVtrigger=true;
 		ENVtriggerTime=millis();
@@ -132,7 +132,7 @@ void ADDAC_Env::envMode(bool _trigger, bool _inverted, float _A, float _Atime, f
 //
 //int _channel (1-8), bool _trigger (0=no - 1=yes), bool _inverted (0=no - 1=yes) 
 //float _A (0-1), float _Atime (millis), float _Ashape (0-1)
-void ADDAC_Env::envLogExpMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape, float _S, float _Stime, float _Sshape, float _Rtime, float _Rshape){
+void ADDAC_Env::updateLogExpMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape, float _S, float _Stime, float _Sshape, float _Rtime, float _Rshape){
 	if(_trigger && !ENVtrigger){
 		ENVtrigger=true;
 		ENVtriggerTime=millis();
@@ -225,7 +225,7 @@ void ADDAC_Env::envLogExpMode(bool _trigger, bool _inverted, float _A, float _At
 //float _A (0-1), float _Atime (millis), float _Ashape (0-1)
 
 // ADD OFFSET
-void ADDAC_Env::envWeirdMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape){
+void ADDAC_Env::updateWeirdMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape){
 	if(_trigger && !ENVtrigger){
 		ENVtrigger=true;
 		ENVtriggerTime=millis();

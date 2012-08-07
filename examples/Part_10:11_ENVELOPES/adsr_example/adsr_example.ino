@@ -1,5 +1,7 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
 #include <StandardCplusplus.h>
-#include <vector>
+#include <vector>              
+////////////////////////////////////
 
 #include <ADDAC.h>
 #include <ADDAC_Adsr.h>
@@ -10,7 +12,7 @@ ADDAC_Adsr adsr1, adsr2, adsr3;
 
 
 // DEBUGGING CONSOLE
-#define DEBUG 
+//#define DEBUG 
 
 
 void setup(){
@@ -20,29 +22,25 @@ void setup(){
   #endif
   
   VCC.setup();
-
 }
 
-
-void loop(){
-  
+void loop(){  
   VCC.update();
   
-  if(VCC.MODE==0){  //  MODE 0 has several test/debug functions for the available functions and modules
-    // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 0 -
-
-    //
+  if(VCC.MODE==0){ 
+    
+    //WORKING ON MODE "O" - SUBMODE "0"
     if(VCC.SUBMODE==0){
       //bool _trigger, bool _inverted, float _Atime, float _D, float _Dtime,float _Stime, float _Rtime
       //attack will be tha max, 1 and Decay amplititude is set by user.
-     adsr1.adsrMode(true,false,2000,0.25,2000,2000,2000); 
+     adsr1.update(true,false,2000,VCC.ReadCv(A,0),2000,2000,2000); 
      
      //bool _trigger, bool _inverted, float _A, float _Atime, float _D, float _Dtime,float _Stime, float _Rtime
-      //attack will be tha max, 1.
-     adsr2.adsrMode(true,false,0.5,2000,0.25,2000,2000,2000);
+     //attack will be tha max, 1.
+     adsr2.update(true,false,0.5,2000,0.25,2000,2000,200);
     
      //log and exo mode
-     adsr3.adsrLogExpMode(true, false, 1, 2000, 0.9, 0.3, 500, 0.2, 0.2, 200, 0, 2000, 0.2); 
+     adsr3.updateLogExpMode(true, false, 1, 2000, 0.9, 0.3, 500, 0.2, 0.2, 200, 0, 2000, 0.2); 
      
      //Stream the env1 envelope to Output channel 0
      VCC.WriteChannel(0,adsr1.CVstream);

@@ -22,7 +22,7 @@
     //
 
 
-    bool ADDAC_Comparator::Comparator(int _state, float _input, float _threshold){ 
+    bool ADDAC_Comparator::calc(int _state, float _input, float _threshold){ 
 
         triggerComparator=false;
         
@@ -124,7 +124,7 @@
     }
 
 
-    bool ADDAC_Comparator::Comparator(int _state, float _input, float _threshold, float _delay){ 
+    bool ADDAC_Comparator::calc(int _state, float _input, float _threshold, float _delay){ 
       
         triggerComparator=false;
 

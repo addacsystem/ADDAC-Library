@@ -36,7 +36,7 @@ void loop(){
     if(VCC.SUBMODE==0){
 
       //Quantize random voltages
-      quantizedNote = quant1.quantize(random(1023)/1023.0f);
+      quantizedNote = quant1.calc(random(1023)/1023.0f);
 
       //write random quantized voltage to channel outPut1
       VCC.WriteChannel(1, quantizedNote);
@@ -54,22 +54,3 @@ void loop(){
 #endif
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

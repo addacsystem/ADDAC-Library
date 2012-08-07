@@ -22,7 +22,7 @@
 class ADDAC_Quantizer{
 public:
 	ADDAC_Quantizer();
-	float quantize(float _val);
+	float calc(float _val);
 	float Note(int _val, double _partial);
 	float Note(int _val);
 	

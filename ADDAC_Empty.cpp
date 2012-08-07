@@ -11,7 +11,7 @@
 
 ADDAC_Empty::ADDAC_Empty(){	// INITIALIZE CLASS
 	
-	CVstream = 0;
+	CVstream = 0.0f;
 	
 	//Serial.println("ADDAC_Empty INITIALIZED");
 }

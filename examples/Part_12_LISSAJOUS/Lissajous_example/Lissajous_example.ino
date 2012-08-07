@@ -38,7 +38,7 @@ void loop(){
 
       /*calculate lissajous courve with the following parameters:
       float amp, float _speedx, float _speedy, bool _mirror*/
-      liss1.calcs(VCC.ReadCv(A,0),0.9,0.9,true);
+      liss1.calc(VCC.ReadCv(A,0),0.9,0.9,true);
       
       //write the x position in channel 0
       VCC.WriteChannel(0,liss1.x);

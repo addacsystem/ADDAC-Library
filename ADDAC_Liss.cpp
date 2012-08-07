@@ -40,7 +40,7 @@ void ADDAC_Liss::setup(float _inc, float _inc2){
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
-void ADDAC_Liss::calcs(float _amp, float _speedx, float _speedy, bool _mirror) {
+void ADDAC_Liss::calc(float _amp, float _speedx, float _speedy, bool _mirror) {
     Ymin = 1023*2.0f-_amp*2.0f;
 	Ymax = _amp*2.0f;
     inc_t=_speedx/1184.0f; // TEMPO MIN = 0.0001 - > TEMPO MAX = 0.25

@@ -105,12 +105,11 @@ addPoint	KEYWORD2
 MultiEnvLoop	KEYWORD2
 PrintMultiEnv	KEYWORD2
 
-calcs	KEYWORD2
 setInc	KEYWORD2
 
 CVstream	KEYWORD2
-sinMode	KEYWORD2
-cosinMode	KEYWORD2
+SINupdate	KEYWORD2
+COSINupdate	KEYWORD2
 
 Comparator	KEYWORD2
 

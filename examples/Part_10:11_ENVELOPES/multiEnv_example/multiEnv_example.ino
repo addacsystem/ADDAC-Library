@@ -1,14 +1,11 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
 #include <StandardCplusplus.h>
-#include <vector>
+#include <vector>              
+////////////////////////////////////
 
 #include <ADDAC.h>
 #include <ADDAC_Env.h>
 #include <ADDAC_Comparator.h>
-
-
-//using namespace std;
-// <iostream> declares cout/cerr, but the application must define them
-// because it's up to you what to do with them.
 
 ADDAC VCC;
 ADDAC_Env ENV1, ENV2;
@@ -18,11 +15,6 @@ boolean envTrigger;
 
 // DEBUGGING CONSOLE
 //#define DEBUG 
-
-
-
-
-
 
 void setup()
 {
@@ -37,29 +29,24 @@ void loop(){
   VCC.update();
 
 
-  if(VCC.MODE==0){  //  MODE 0 has several test/debug functions for the available functions and modules
-    // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 0 -
-
-    //
+  if(VCC.MODE==0){  
+   
+    //WORKING ON MODE "O" - SUBMODE "0"
     if(VCC.SUBMODE==0){
 
-      boolean addPointTrigger = COMP1.Comparator(VCC.ReadManual(A,0),0.5);
-      envTrigger = COMP2.Comparator(VCC.ReadManual(A,1),0.5);        
-
+      boolean addPointTrigger = COMP1.calc(RISE,VCC.ReadManual(A,0),0.5);
+      envTrigger = COMP2.calc(RISE,VCC.ReadManual(A,1),0.5);        
 
       if(addPointTrigger){
 
         ENV1.addPoint(VCC.ReadCv(A,0),VCC.ReadCv(A,1));
-        ENV2.addPoint(VCC.ReadCv(A,0),VCC.ReadCv(A,1));      
-
+        ENV2.addPoint(VCC.ReadCv(A,0),VCC.ReadCv(A,1));
       }
 
-      ENV1.MultiEnvLoop(envTrigger,false); 
-      ENV2.MultiEnvLoop(envTrigger,false); 
-
-      VCC.WriteChannel(1,ENV1.CVstream); 
-      VCC.WriteChannel(2,ENV2.CVstream);     
-
+       ENV1.MultiEnv(envTrigger,false);
+      VCC.WriteChannel(1,ENV1.CVstream);   
+      ENV2.MultiEnvLoop(envTrigger,false);
+      VCC.WriteChannel(1,ENV2.CVstream);   
     }
 
     else if(VCC.SUBMODE==1){ 
@@ -75,15 +62,3 @@ void loop(){
   delay(10);
 #endif
 }
-
-
-
-
-
-
-
-
-
-
-
-
