@@ -1,8 +1,15 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
+#include <StandardCplusplus.h>
+#include <vector>              
+////////////////////////////////////
+
+
 #include <ADDAC.h>
 
 #include <ADDAC_Random.h>
 #include <ADDAC_Quantizer.h>
 #include <ADDAC_Lin2Log.h>
+#include <ADDAC_Comparator.h>
 
 
 // DEBUGGING CONSOLE
@@ -15,6 +22,7 @@ ADDAC VCC; // From now on the class will be called "VCC"
 ADDAC_Random Rnd, Rnd2;
 ADDAC_Quantizer Quant;
 ADDAC_Lin2Log L2G;
+ADDAC_Comparator Comp;
 
 void setup(){
   VCC.setup();
@@ -46,16 +54,20 @@ void loop(){
     //if MODE == 0 and SUBMODE == 1, Read CVAinput1 and controll voltage with it to cv output1 
     else if(VCC.SUBMODE==1){ 
       Rnd.setBrownianRandom(false);
-      Rnd.Random(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
-      VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000,L2G.calc(VCC.ReadCv(A,5)));
-      Rnd2.Random(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
-      VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000,L2G.calc(VCC.ReadCv(A,5)));
+      Rnd.update(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
+      VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000, L2G.calc(VCC.ReadCv(A,5)));
+
       VCC.WriteChannel(0, VCC.ReadCv(A,0));
-      VCC.WriteChannel(1, Rnd.CVstream);//(A,0)/1023.0f*addacMaxResolution);
+      VCC.WriteChannel(1, Rnd.CVstream);
       VCC.WriteChannel(2, Quant.quantize(Rnd.CVstream));
       VCC.WriteChannel(3, Rnd.ClockOut);
       VCC.WriteChannel(4, Rnd.GateOut);
       
+      
+      Rnd2.update(Comp.Comparator(0,VCC.ReadCv(A,2),0.75f), 
+          VCC.ReadCv(A,1),VCC.ReadCv(A,0),
+          VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000, L2G.calc(VCC.ReadCv(A,5)));
+
       VCC.WriteChannel(6, Rnd2.CVstream);//(A,0)/1023.0f*addacMaxResolution);
       VCC.WriteChannel(7, Quant.quantize(Rnd2.CVstream));
       
@@ -65,9 +77,9 @@ void loop(){
     //if MODE == 0 and SUBMODE == 1, Read CVAinput1 and controll voltage with it to cv output1 
     else if(VCC.SUBMODE==2){ 
       Rnd.setBrownianRandom(true);
-      Rnd.Random(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
+      Rnd.update(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
       VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000,VCC.ReadCv(A,5));
-      Rnd2.Random(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
+      Rnd2.update( VCC.ReadCv(A,1),VCC.ReadCv(A,0),
       VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000,VCC.ReadCv(A,5));
       VCC.WriteChannel(0, VCC.ReadCv(A,0));
       VCC.WriteChannel(1, Rnd.CVstream);//(A,0)/1023.0f*addacMaxResolution);
@@ -80,7 +92,7 @@ void loop(){
   }
   
     #ifdef DEBUG
-      //Serial.println();
+      Serial.println();
       delay(60);
     #endif
 
