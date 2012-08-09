@@ -5,16 +5,22 @@
 
 //include ADDAC class
 #include <ADDAC.h>
+
+//include ADDAC Random class
 #include <ADDAC_Random.h>
+
+//include ADDAC Quantizer class to quantize the random output
 #include <ADDAC_Quantizer.h>
 
 //Initialize and name the ADDAC class
 ADDAC VCC;
-ADDAC_Random Rnd, Rnd2;
+//Initialize and name 2 Random classes
+ADDAC_Random Rnd, Rnd2; 
+//Initialize and name one Quantizer class
 ADDAC_Quantizer Quant;
 
 
-// DEBUGGING CONSOLE
+// DEBUGGING CONSOLE 
 //#define DEBUG 
 
 void setup(){
@@ -25,55 +31,34 @@ void setup(){
 }
 
 void loop(){
-  VCC.update();
+  VCC.update(); // UPDATE the VCC class 
 
+  //WORKING ON MODE "O"
   if (VCC.MODE==0){
-
-     //WORKING ON MODE "O" - SUBMODE "0"
-    if (VCC.SUBMODE==0){
-      
-       for(int i=0;i<6;i++){      
-        VCC.WriteChannel(i, VCC.ReadCv(A,i));
-       }        
-    }
-    
-     //WORKING ON MODE "O" - SUBMODE "1"
-     else if(VCC.SUBMODE==1){ 
+      // Define Random type:
       Rnd.setBrownianRandom(false);
+      // Then update Random classes
+      // Rnd.update(Random Minimum (0 to 1),Random maximum(0 to 1), 
+      //            time minimum(millis), time maximum(millis), smooth(0 to 1));
+      //
+      // Update Random 1 - needed at all loops
       Rnd.update(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
       VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000,VCC.ReadCv(A,5));
+      
+      // Update Random 2 - needed at all loops
       Rnd2.update(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
       VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000,VCC.ReadCv(A,5));
       
       //Write OutPuts
-      VCC.WriteChannel(0, VCC.ReadCv(A,0));
-      VCC.WriteChannel(1, Rnd.CVstream);
-      VCC.WriteChannel(2, Quant.quantize(Rnd.CVstream));
-      VCC.WriteChannel(3, Rnd2.CVstream);
-      VCC.WriteChannel(4, Quant.quantize(Rnd2.CVstream));
-     }
-     
-      //WORKING ON MODE "O" - SUBMODE "2"
-      else if(VCC.SUBMODE==2){ 
-      Rnd.setBrownianRandom(true);
-      Rnd.update(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
-      VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000,VCC.ReadCv(A,5));
-      Rnd2.update(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
-      VCC.ReadCv(A,4)*10000,VCC.ReadCv(A,3)*10000,VCC.ReadCv(A,5));
-      
-      //Write OutPuts
-      VCC.WriteChannel(0, VCC.ReadCv(A,0));
-      VCC.WriteChannel(1, Rnd.CVstream);
-      VCC.WriteChannel(2, Quant.quantize(Rnd.CVstream));
-      VCC.WriteChannel(3, Rnd2.CVstream);
-      VCC.WriteChannel(4, Quant.quantize(Rnd2.CVstream));
-    }
-     
+      VCC.WriteChannel(0, Rnd.CVstream); // Pure Random 1 Output
+      VCC.WriteChannel(1, Quant.quantize(Rnd.CVstream)); // Quantized Random 1 Output
+      VCC.WriteChannel(2, Rnd2.CVstream); // Pure Random 2 Output
+      VCC.WriteChannel(3, Quant.quantize(Rnd2.CVstream)); // Quantized Random 2 Output    
   }
 
 #ifdef DEBUG
   Serial.println();
-  delay(10);
+  delay(20);
 #endif
 
 }
