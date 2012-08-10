@@ -1,8 +1,3 @@
-//INCLUDE STANDARDCPLUSPLUS LIBRARY//
-#include <StandardCplusplus.h>
-#include <vector>              
-////////////////////////////////////
-
 //include ADDAC MAIN LIBRARY
 #include <ADDAC.h>
 //include Physics class
@@ -10,33 +5,29 @@
 //iclude Comparators class
 #include <ADDAC_Comparator.h>
 
-
 //initiate ADDAC CLASS's and name them
 ADDAC VCC;
 ADDAC_Physics physics1;
 ADDAC_Comparator comp1;
 
-// DEBUGGING CONSOLE
-#define DEBUG 
+#define DEBUG   // Just comment this line if you are not debugging
 
-void setup()
-{
+void setup(){
+  //setup all VCC main settings
   VCC.setup();
 
+  //debug settings
 #ifdef DEBUG
+  //serial speed communication 
   Serial.begin(115200);
 #endif
-
 }
 
 void loop(){
+  //update VCC
   VCC.update();
-
-
-
+  
   if(VCC.MODE==0){
-
-
 
     //WORKING ON MODE "O" - SUBMODE "0"
     if(VCC.SUBMODE==0){
@@ -47,20 +38,15 @@ void loop(){
       VCC.WriteChannel(1, physics1.y);
 
       //create a comparator to trigger the bumper
-      boolean bumpTrigger= comp1.Comparator(RISE,VCC.ReadManual(A,0),0.5);  
+      boolean bumpTrigger= comp1.calc(RISE,VCC.ReadManual(A,0),0.5);  
 
       if(bumpTrigger){
-
         // bump the marble ball
         physics1.bump(500);
-
       }
-
     }
-
   }
-
-
+  
 #ifdef DEBUG
   Serial.print("x: ");
   Serial.print(physics1.x);
@@ -69,7 +55,6 @@ void loop(){
   Serial.println();
   delay(10);
 #endif
-
 }
 
 

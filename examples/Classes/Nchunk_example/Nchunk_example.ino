@@ -1,8 +1,10 @@
 
+#include <StandardCplusplus.h>
+#include <vector>
+
 // NEEDS WIRE LIBRARY AND FAST I2C COMMUNICATION
 #include <Wire.h>
 #define TWI_FREQ 400000L
-
 
 #include <ADDAC.h>
 #include <ADDAC_Nchunk.h>
@@ -22,7 +24,6 @@ void setup(){
     Nchunk.calibrate(); // Prints X Y Joystick values for calibration purposes, Serial must be Enabled!
   #endif
 }
-
 
 void loop(){
   VCC.update();

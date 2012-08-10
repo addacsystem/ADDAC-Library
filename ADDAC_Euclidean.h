@@ -36,7 +36,7 @@
 #include <WProgram.h>
 #endif
 
-#include <EEPROM.h>
+//#include <EEPROM.h>
 
 #define read_delay  50 // for debouncing 
 #define MaxChannels 8;

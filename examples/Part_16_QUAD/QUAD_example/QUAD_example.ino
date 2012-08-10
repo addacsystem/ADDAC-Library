@@ -1,14 +1,9 @@
-//INCLUDE STANDARDCPLUSPLUS LIBRARY//
-#include <StandardCplusplus.h>
-#include <vector>              
-////////////////////////////////////
-
 //include ADDAC MAIN LIBRARY
 #include <ADDAC.h>
 //include Physics class
 #include <ADDAC_Quad.h>
 
-//initiate ADDAC CLASS's and name them
+//Initialize ADDAC CLASS's and name them
 ADDAC VCC;
 ADDAC_Quad quad1;
 

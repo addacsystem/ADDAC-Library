@@ -1,66 +1,53 @@
-#include <StandardCplusplus.h>
-#include <vector>
-
-#include <ADDAC_Random.h>
-
-
+//include ADDAC class
 #include <ADDAC.h>
 
-// DEBUGGING CONSOLE
-//#define DEBUG // Just comment this line if you are not using debug 
+//Initialize and name the ADDAC class
+ADDAC VCC; 
 
-// INCLUDES THE MAIN ADDAC LIBRARY
-#include <ADDAC.h>
-// THEN INITIALIZES LIBRARY CLASS
-ADDAC VCC; // From now on the class will be called "VCC"
-<<<<<<< HEAD
-=======
-ADDAC_Random Rnd;
->>>>>>> random 1st test
+#define DEBUG    // Just comment this line if you are not debugging
 
 void setup(){
+  //setup all VCC main settings
   VCC.setup();
+
+//debug settings
+#ifdef DEBUG
+  //serial speed communication 
   Serial.begin(115200);
+#endif
+
 }
 
 void loop(){
-  VCC.update(); // NEED TO UPDATE THE VCC!
-  //VCC.ReadCvs(A);
-  
+  //update VCC
+  VCC.update(); 
 
-  //WORKING MODE
-  // ------------------------------------------------------------------------------------------------------------------------ MODE 0 
-  if(VCC.MODE==0){  
-
-    //WORKING SUBMODE-------------------------------------------------------------------------------------------------------- SUBMODE 0
-    //if MODE == 0 and SUBMODE == 0, send a ramdom voltage to all cv outputs 
-    if(VCC.SUBMODE==0){      
-      for(int i=0;i<6;i++){
-        //alterar (i-1).....................................................
-        VCC.WriteChannel(i, VCC.ReadCv(A,i));
-        VCC.PrintCv(A,i);
-
-      }
+  if(VCC.MODE==0){ 
+    if(VCC.SUBMODE==0){ 
+      //Stores preset in MODE “0”, SUBMODE “0”.
+      //Read all POTS from CV in socket A
+      VCC.ReadCvs(A);
     }
-    // ---------------------------------------------------------------------------------------------------------------------- SUBMODE 1
-    //if MODE == 0 and SUBMODE == 1, Read CVAinput1 and controll voltage with it to cv output1 
     else if(VCC.SUBMODE==1){ 
-      Rnd.Random(VCC.ReadCv(A,1),VCC.ReadCv(A,0),
-      VCC.ReadCv(A,4)*2000,VCC.ReadCv(A,3)*2000,VCC.ReadCv(A,5));
-      VCC.WriteChannel(0, Rnd.CVstream);//(A,0)/1023.0f*addacMaxResolution);
-      VCC.WriteChannel(1, VCC.ReadCv(A,0));
-      //Serial.print(Rnd.CVstream);
+      //Stores preset in MODE “0”, SUBMODE “1”.
+      //Read POT 1 from CV in socket B
+      VCC.ReadCv(B,1);
+      
     }
   }
-  
-    #ifdef DEBUG
-      //Serial.println();
-      delay(60);
-    #endif
+#ifdef DEBUG
+  if(VCC.SUBMODE==0){
+    Serial.print("A: ");
+    //Print the POTS values from socket A in the monitor log
+    VCC.PrintCvs(A);
+  }
+  else if(VCC.SUBMODE==1){
+    //Print POT value from socket B in the monitor log
+    Serial.print(" | B1: ");
+    VCC.PrintCv(B,1);
+  }
+  Serial.println();
+  delay(10);
+#endif
 
 }
-
-
-
-
-

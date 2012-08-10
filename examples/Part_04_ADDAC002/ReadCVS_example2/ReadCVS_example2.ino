@@ -1,21 +1,24 @@
-#include <StandardCplusplus.h>
-#include <vector>
-
+//include ADDAC class
 #include <ADDAC.h>
 
+//Initialize and name the ADDAC class
 ADDAC VCC; 
 
-#define DEBUG       // Just comment this line if you are not debugging
+#define DEBUG   // Comment this line if you are not debugging
 
 void setup(){
+  //setup all VCC main settings
   VCC.setup();
 
+//debug settings
 #ifdef DEBUG
+  //serial speed communication 
   Serial.begin(115200);
 #endif
 }
 
 void loop(){
+  //update VCC
   VCC.update(); 
 
   if(VCC.MODE==0){ 

@@ -1,18 +1,20 @@
-#include <StandardCplusplus.h>
-#include <vector>
-
 #include <ADDAC.h>
+#include <ADDAC_VCO.h>
 ADDAC VCC; 
 
-// DEBUGGING CONSOLE
-//#define DEBUG 
+//#define DEBUG   // Comment this line if you are not debugging
 
 void setup(){
+  //setup all VCC main settings
   VCC.setup();
+
+  //debug settings
 #ifdef DEBUG
+  //serial speed communication 
   Serial.begin(115200);
 #endif
 }
+
 
 void loop(){
   VCC.update();

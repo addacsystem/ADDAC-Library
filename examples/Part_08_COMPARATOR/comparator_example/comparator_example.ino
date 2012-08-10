@@ -1,32 +1,28 @@
-//INCLUDE STANDARDCPLUSPLUS LIBRARY//
-#include <StandardCplusplus.h>
-#include <vector>              
-////////////////////////////////////
-
 //include ADDAC MAIN LIBRARY
 #include <ADDAC.h>
 //include ADDAC COMPARATOR CLASS
 #include <ADDAC_Comparator.h>
 
-//initiate ADDAC CLASS's and name them
+//initiate all ADDAC classes and name them
 ADDAC VCC;
 ADDAC_Comparator comp1, comp2;
 
 
-// DEBUGGING CONSOLE
-#define DEBUG 
+//#define DEBUG    // Just comment this line if you are not debugging
 
-
-void setup()
-{
+void setup(){
+  //setup all VCC main settings
   VCC.setup();
+
+  //DEBUG settings
 #ifdef DEBUG
+  //Serial speed communication
   Serial.begin(115200);
 #endif
-
 }
 
 void loop(){
+  //update VCC
   VCC.update();
 
 
