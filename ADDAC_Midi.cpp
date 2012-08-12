@@ -47,6 +47,8 @@ ADDAC_Midi::ADDAC_Midi()
 	
 #endif
 	
+	CC =false;
+	
 }
 
 
@@ -470,16 +472,16 @@ void ADDAC_Midi::sendRealTime(kMIDIType Type)
  A valid message is a message that matches the input channel. \n\n
  If the Thru is enabled and the messages matches the filter, it is sent back on the MIDI output.
  */
-bool ADDAC_Midi::read()
+bool ADDAC_Midi::update()
 {
 	
-	return read(mInputChannel);
+	return update(mInputChannel);
 	
 }
 
 
 /*! \brief Reading/thru-ing method, the same as read() with a given input channel to read on. */
-bool ADDAC_Midi::read(const byte inChannel)
+bool ADDAC_Midi::update(const byte inChannel)
 {
 	
 	if (inChannel >= MIDI_CHANNEL_OFF) return false; // MIDI Input disabled.
@@ -495,7 +497,7 @@ bool ADDAC_Midi::read(const byte inChannel)
 #if USE_CALLBACKS
 			launchCallback();
 #endif
-			
+			launchReads();
 			return true;
 		}
 		
@@ -996,6 +998,7 @@ void ADDAC_Midi::launchCallback()
 			
 			// Continuous controllers
 		case ControlChange:			if (mControlChangeCallback != NULL)			mControlChangeCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+			
 		case PitchBend:				if (mPitchBendCallback != NULL)				mPitchBendCallback(mMessage.channel,(int)((mMessage.data1 & 0x7F) | ((mMessage.data2 & 0x7F)<< 7)) - 8192);	break; // TODO: check this
 		case AfterTouchPoly:		if (mAfterTouchPolyCallback != NULL)		mAfterTouchPolyCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
 		case AfterTouchChannel:		if (mAfterTouchChannelCallback != NULL)		mAfterTouchChannelCallback(mMessage.channel,mMessage.data1);	break;
@@ -1010,6 +1013,48 @@ void ADDAC_Midi::launchCallback()
 		case TuneRequest:			if (mTuneRequestCallback != NULL)			mTuneRequestCallback();	break;
 			
 		case SystemReset:			if (mSystemResetCallback != NULL)			mSystemResetCallback();	break;
+		case InvalidType:
+		default:
+			break;
+	}
+	
+}
+
+void ADDAC_Midi::launchReads()
+{
+	
+	// The order is mixed to allow frequent messages to trigger their callback faster.
+	
+	switch (mMessage.type) {
+		/*	// Notes
+		case NoteOff:				if (mNoteOffCallback != NULL)				mNoteOffCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+		case NoteOn:				if (mNoteOnCallback != NULL)				mNoteOnCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+			
+			// Real-time messages
+		case Clock:					if (mClockCallback != NULL)					mClockCallback();			break;			
+		case Start:					if (mStartCallback != NULL)					mStartCallback();			break;
+		case Continue:				if (mContinueCallback != NULL)				mContinueCallback();		break;
+		case Stop:					if (mStopCallback != NULL)					mStopCallback();			break;
+		case ActiveSensing:			if (mActiveSensingCallback != NULL)			mActiveSensingCallback();	break;
+		*/	
+			// Continuous controllers
+		case ControlChange:			if (CC)			useCC(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+		/*	
+		case PitchBend:				if (mPitchBendCallback != NULL)				mPitchBendCallback(mMessage.channel,(int)((mMessage.data1 & 0x7F) | ((mMessage.data2 & 0x7F)<< 7)) - 8192);	break; // TODO: check this
+		case AfterTouchPoly:		if (mAfterTouchPolyCallback != NULL)		mAfterTouchPolyCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+		case AfterTouchChannel:		if (mAfterTouchChannelCallback != NULL)		mAfterTouchChannelCallback(mMessage.channel,mMessage.data1);	break;
+			
+		case ProgramChange:			if (mProgramChangeCallback != NULL)			mProgramChangeCallback(mMessage.channel,mMessage.data1);	break;
+		case SystemExclusive:		if (mSystemExclusiveCallback != NULL)		mSystemExclusiveCallback(mMessage.sysex_array,mMessage.data1);	break;
+			
+			// Occasional messages
+		case TimeCodeQuarterFrame:	if (mTimeCodeQuarterFrameCallback != NULL)	mTimeCodeQuarterFrameCallback(mMessage.data1);	break;
+		case SongPosition:			if (mSongPositionCallback != NULL)			mSongPositionCallback((mMessage.data1 & 0x7F) | ((mMessage.data2 & 0x7F)<< 7));	break;
+		case SongSelect:			if (mSongSelectCallback != NULL)			mSongSelectCallback(mMessage.data1);	break;
+		case TuneRequest:			if (mTuneRequestCallback != NULL)			mTuneRequestCallback();	break;
+			
+		case SystemReset:			if (mSystemResetCallback != NULL)			mSystemResetCallback();	break;
+		*/
 		case InvalidType:
 		default:
 			break;
@@ -1156,6 +1201,48 @@ void ADDAC_Midi::thru_filter(byte inChannel)
 	}
 	
 }
+
+
+// -------------------------------- ADDAC SPECIFIC
+
+void ADDAC_Midi::useCC(byte channel, byte number, byte value){ // NOT RESPECTING CHANNEL!!!!
+	CCvals[channel][number]=value;
+#ifdef DEBUGcc
+	Serial.print("CChange:");
+	Serial.print(number);
+	Serial.print(" Val:");
+	Serial.println(value);
+#endif
+}
+
+void ADDAC_Midi::useCC(bool state){ // NOT RESPECTING CHANNEL!!!!
+	CC = state;
+}
+/*
+void ADDAC_Midi::ADDAC_MIDIclock(){ // MIDI CLOCK ACTIONS
+#ifdef DEBUGmidi
+	Serial.print(" - Midi_ClockBang - ");
+#endif
+}
+
+void ADDAC_Midi::ADDAC_MIDIstart(){ // MIDI START ACTIONS
+#ifdef DEBUGmidi
+	Serial.print(" - Midi_Start - ");
+#endif
+}
+
+void ADDAC_Midi::ADDAC_MIDIcontinue(){ // MIDI CONTINUE ACTIONS
+#ifdef DEBUGmidi
+	Serial.print(" - Midi_Continue - ");
+#endif
+}
+
+void ADDAC_Midi::ADDAC_MIDIstop(){ // MIDI STOP ACTIONS
+#ifdef DEBUGmidi
+	Serial.print(" - Midi_Stop - ");
+#endif
+}
+*/
 
 
 #endif // Thru

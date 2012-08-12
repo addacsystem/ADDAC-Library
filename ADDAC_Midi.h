@@ -28,6 +28,7 @@
     ###############################################################
  */
 
+//#define DEBUGcc
 
 #define COMPILE_MIDI_IN         1           // Set this setting to 1 to use the MIDI input.
 #define COMPILE_MIDI_OUT        1           // Set this setting to 1 to use the MIDI output. 
@@ -179,8 +180,14 @@ private:
 	
 public:
 	
-	bool read();
-	bool read(const byte Channel);
+	bool update();
+	bool update(const byte Channel);
+	
+	
+	// --------------------------------------- ADDAC SPECIFIC
+	void useCC(bool state);
+	void ADDAC_MIDInoteOn(byte channel, byte pitch, byte velocity);
+	
 	
 	// Getters
 	kMIDIType getType() const;
@@ -259,11 +266,15 @@ private:
 #if USE_CALLBACKS
 	
 	void launchCallback();
+	void launchReads();
 	
 	void (*mNoteOffCallback)(byte channel, byte note, byte velocity);
 	void (*mNoteOnCallback)(byte channel, byte note, byte velocity);
 	void (*mAfterTouchPolyCallback)(byte channel, byte note, byte velocity);
 	void (*mControlChangeCallback)(byte channel, byte, byte);
+	void useCC(byte channel, byte, byte);
+	
+	
 	void (*mProgramChangeCallback)(byte channel, byte);
 	void (*mAfterTouchChannelCallback)(byte channel, byte);
 	void (*mPitchBendCallback)(byte channel, int);
@@ -284,6 +295,8 @@ private:
 	
 #endif // COMPILE_MIDI_IN
 	
+	
+	
 
 /* ####### THRU COMPILATION BLOCK ####### */
 #if (COMPILE_MIDI_IN && COMPILE_MIDI_OUT && COMPILE_MIDI_THRU) // Thru
@@ -302,12 +315,22 @@ public:
 	void setThruFilterMode(const kThruFilterMode inThruFilterMode);
 	
 	
+	// INTERNAL STORAGE
+	byte CCvals[17][128];
+	
+	// INTERNAL CALLBACKS
+	bool CC;
+	
+	
 private:
 	
 	void thru_filter(byte inChannel);
 	
 	bool				mThruActivated;
 	kThruFilterMode		mThruFilterMode;
+	
+	
+	
 	
 #endif // Thru
 	
