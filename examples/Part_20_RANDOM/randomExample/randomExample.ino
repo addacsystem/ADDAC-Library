@@ -47,6 +47,7 @@ void loop(){
       //Write OutPuts
       VCC.WriteChannel(0, Rnd.CVstream); // Pure Random 1 Output
 <<<<<<< HEAD
+<<<<<<< HEAD
       VCC.WriteChannel(1, Quant.quantize(Rnd.CVstream)); // Quantized Random 1 Output
       VCC.WriteChannel(2, Rnd2.CVstream); // Pure Random 2 Output
       VCC.WriteChannel(3, Quant.quantize(Rnd2.CVstream)); // Quantized Random 2 Output    
@@ -55,6 +56,11 @@ void loop(){
       VCC.WriteChannel(2, Rnd2.CVstream); // Pure Random 2 Output
       VCC.WriteChannel(3, Quant.calc(Rnd2.CVstream)); // Quantized Random 2 Output    
 >>>>>>> more examples update!
+=======
+      VCC.WriteChannel(1, Quant.calc(Rnd.CVstream)); // Quantized Random 1 Output
+      VCC.WriteChannel(2, Rnd2.CVstream); // Pure Random 2 Output
+      VCC.WriteChannel(3, Quant.calc(Rnd2.CVstream)); // Quantized Random 2 Output    
+>>>>>>> rnd ex
   }
 
 #ifdef DEBUG
