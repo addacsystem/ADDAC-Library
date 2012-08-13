@@ -48,7 +48,7 @@ ADDAC_Midi::ADDAC_Midi()
 #endif
 	
 	CC =false;
-	
+	NOTES = false;
 }
 
 
@@ -801,7 +801,7 @@ bool ADDAC_Midi::input_filter(byte inChannel)
 	if (mMessage.type >= NoteOff && mMessage.type <= PitchBend) {
 		
 		// Then we need to know if we listen to it
-		if ((mMessage.channel == mInputChannel) || (mInputChannel == MIDI_CHANNEL_OMNI)) {
+		if ((mMessage.channel == mInputChannel) || (mInputChannel == ALL)) {
 			return true;
 			
 		}
@@ -1020,47 +1020,7 @@ void ADDAC_Midi::launchCallback()
 	
 }
 
-void ADDAC_Midi::launchReads()
-{
-	
-	// The order is mixed to allow frequent messages to trigger their callback faster.
-	
-	switch (mMessage.type) {
-		/*	// Notes
-		case NoteOff:				if (mNoteOffCallback != NULL)				mNoteOffCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
-		case NoteOn:				if (mNoteOnCallback != NULL)				mNoteOnCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
-			
-			// Real-time messages
-		case Clock:					if (mClockCallback != NULL)					mClockCallback();			break;			
-		case Start:					if (mStartCallback != NULL)					mStartCallback();			break;
-		case Continue:				if (mContinueCallback != NULL)				mContinueCallback();		break;
-		case Stop:					if (mStopCallback != NULL)					mStopCallback();			break;
-		case ActiveSensing:			if (mActiveSensingCallback != NULL)			mActiveSensingCallback();	break;
-		*/	
-			// Continuous controllers
-		case ControlChange:			if (CC)			useCC(mMessage.channel,mMessage.data1,mMessage.data2);	break;
-		/*	
-		case PitchBend:				if (mPitchBendCallback != NULL)				mPitchBendCallback(mMessage.channel,(int)((mMessage.data1 & 0x7F) | ((mMessage.data2 & 0x7F)<< 7)) - 8192);	break; // TODO: check this
-		case AfterTouchPoly:		if (mAfterTouchPolyCallback != NULL)		mAfterTouchPolyCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
-		case AfterTouchChannel:		if (mAfterTouchChannelCallback != NULL)		mAfterTouchChannelCallback(mMessage.channel,mMessage.data1);	break;
-			
-		case ProgramChange:			if (mProgramChangeCallback != NULL)			mProgramChangeCallback(mMessage.channel,mMessage.data1);	break;
-		case SystemExclusive:		if (mSystemExclusiveCallback != NULL)		mSystemExclusiveCallback(mMessage.sysex_array,mMessage.data1);	break;
-			
-			// Occasional messages
-		case TimeCodeQuarterFrame:	if (mTimeCodeQuarterFrameCallback != NULL)	mTimeCodeQuarterFrameCallback(mMessage.data1);	break;
-		case SongPosition:			if (mSongPositionCallback != NULL)			mSongPositionCallback((mMessage.data1 & 0x7F) | ((mMessage.data2 & 0x7F)<< 7));	break;
-		case SongSelect:			if (mSongSelectCallback != NULL)			mSongSelectCallback(mMessage.data1);	break;
-		case TuneRequest:			if (mTuneRequestCallback != NULL)			mTuneRequestCallback();	break;
-			
-		case SystemReset:			if (mSystemResetCallback != NULL)			mSystemResetCallback();	break;
-		*/
-		case InvalidType:
-		default:
-			break;
-	}
-	
-}
+
 
 
 #endif // USE_CALLBACKS
@@ -1205,7 +1165,51 @@ void ADDAC_Midi::thru_filter(byte inChannel)
 
 // -------------------------------- ADDAC SPECIFIC
 
-void ADDAC_Midi::useCC(byte channel, byte number, byte value){ // NOT RESPECTING CHANNEL!!!!
+
+void ADDAC_Midi::launchReads(){
+	// The order is mixed to allow frequent messages to trigger their callback faster.
+	switch (mMessage.type) {
+		// Notes
+		case NoteOff:				if (NOTES)				useNotesOff(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+		case NoteOn:				if (NOTES)				useNotesOn(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+			/* 
+			 // Real-time messages
+			 case Clock:					if (mClockCallback != NULL)					mClockCallback();			break;			
+			 case Start:					if (mStartCallback != NULL)					mStartCallback();			break;
+			 case Continue:				if (mContinueCallback != NULL)				mContinueCallback();		break;
+			 case Stop:					if (mStopCallback != NULL)					mStopCallback();			break;
+			 case ActiveSensing:			if (mActiveSensingCallback != NULL)			mActiveSensingCallback();	break;
+			 */	
+			// Continuous controllers
+		case ControlChange:			if (CC)			useCC(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+			/*	
+			 case PitchBend:				if (mPitchBendCallback != NULL)				mPitchBendCallback(mMessage.channel,(int)((mMessage.data1 & 0x7F) | ((mMessage.data2 & 0x7F)<< 7)) - 8192);	break; // TODO: check this
+			 case AfterTouchPoly:		if (mAfterTouchPolyCallback != NULL)		mAfterTouchPolyCallback(mMessage.channel,mMessage.data1,mMessage.data2);	break;
+			 case AfterTouchChannel:		if (mAfterTouchChannelCallback != NULL)		mAfterTouchChannelCallback(mMessage.channel,mMessage.data1);	break;
+			 
+			 case ProgramChange:			if (mProgramChangeCallback != NULL)			mProgramChangeCallback(mMessage.channel,mMessage.data1);	break;
+			 case SystemExclusive:		if (mSystemExclusiveCallback != NULL)		mSystemExclusiveCallback(mMessage.sysex_array,mMessage.data1);	break;
+			 
+			 // Occasional messages
+			 case TimeCodeQuarterFrame:	if (mTimeCodeQuarterFrameCallback != NULL)	mTimeCodeQuarterFrameCallback(mMessage.data1);	break;
+			 case SongPosition:			if (mSongPositionCallback != NULL)			mSongPositionCallback((mMessage.data1 & 0x7F) | ((mMessage.data2 & 0x7F)<< 7));	break;
+			 case SongSelect:			if (mSongSelectCallback != NULL)			mSongSelectCallback(mMessage.data1);	break;
+			 case TuneRequest:			if (mTuneRequestCallback != NULL)			mTuneRequestCallback();	break;
+			 
+			 case SystemReset:			if (mSystemResetCallback != NULL)			mSystemResetCallback();	break;
+			 */
+		case InvalidType:
+		default:
+			break;
+	}
+	
+}
+
+
+void ADDAC_Midi::useCC(bool state){ // TOGGLE USE ON OR OFF
+	CC = state;
+}
+void ADDAC_Midi::useCC(byte channel, byte number, byte value){ // UPDATES VALUES
 	CCvals[channel][number]=value;
 #ifdef DEBUGcc
 	Serial.print("CChange:");
@@ -1215,9 +1219,40 @@ void ADDAC_Midi::useCC(byte channel, byte number, byte value){ // NOT RESPECTING
 #endif
 }
 
-void ADDAC_Midi::useCC(bool state){ // NOT RESPECTING CHANNEL!!!!
-	CC = state;
+
+
+
+void ADDAC_Midi::useNotes(bool state){ // TOGGLE USE ON OR OFF
+	NOTES = state;
 }
+void ADDAC_Midi::useNotesOn(byte channel, byte number, byte value){ // UPDATES VALUES -> CHANNEL 1 ONLY
+	if(value != 0){
+		totalNotes++;
+		notesOn[int(number)] = true;
+		notesVelocity[int(number)] = value;
+		monoNote = number;
+		monoVelocity = value;
+	  #ifdef DEBUGnotes
+		Serial.print("Note:");
+		Serial.print(number);
+		Serial.print(" Velocity:");
+		Serial.println(value);
+	  #endif
+	}else{
+		totalNotes--;
+		useNotesOff(channel, number, value);
+	}
+}
+void ADDAC_Midi::useNotesOff(byte channel, byte number, byte value){ // UPDATES VALUES -> CHANNEL 1 ONLY
+	notesOn[int(number)] = false;
+	notesVelocity[int(number)] = 0;
+  #ifdef DEBUGnotes
+	Serial.print("Note:");
+	Serial.print(number);
+	Serial.println("off ");
+  #endif
+}
+
 /*
 void ADDAC_Midi::ADDAC_MIDIclock(){ // MIDI CLOCK ACTIONS
 #ifdef DEBUGmidi

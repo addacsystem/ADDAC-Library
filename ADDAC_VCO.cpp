@@ -21,13 +21,13 @@ ISR(TIMER3_OVF_vect)          // interrupt service routine that wraps a user def
   VCO.isrCallback();
 }
 
-void ADDAC_VCO::initialize()
-{
+void ADDAC_VCO::initialize(){
   TCCR3A = 0;                 // clear control register A 
   TCCR3B = _BV(WGM13);        // set mode as phase and frequency correct pwm, stop the timer
   setPeriod(10000);
 	offset=45;
 }
+
 
 void ADDAC_VCO::update(float _Notes05v, float _vol){ // DO SOMETHING !
 	float vol = _vol;
@@ -36,12 +36,12 @@ void ADDAC_VCO::update(float _Notes05v, float _vol){ // DO SOMETHING !
 	}
 	volOffset = (1-vol)/2.0f;
 	setPeriod(Period(_Notes05v));
-	
 }
 
 
 float ADDAC_VCO::Period(float _Notes05v){
-	float Note= (_Notes05v *5.0f)*12.0f; // entre 0 e 5 oitavas
+	float Note;
+	if(_Notes05v<=1) Note = (_Notes05v *5.0f)*12.0f; // entre 0 e 5 oitavas
 	//Serial.print("  note:");
 	//Serial.print(Note);
 	Note= pow(2,(Note- offset)/12) * 440;
@@ -55,6 +55,8 @@ float ADDAC_VCO::Period(float _Notes05v){
 	//Serial.print(period);
 	return period;
 } 
+
+
 
 void ADDAC_VCO::setPeriod(long microseconds)
 {

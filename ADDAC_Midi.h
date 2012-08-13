@@ -1,12 +1,17 @@
 //CODE BASED ON:
 /*!
- *  @file		MIDI.h
+ *  @original file		MIDI.h
  *  Project		MIDI Library
  *	@brief		MIDI Library for the Arduino
  *	Version		3.2
  *  @author		Francois Best 
  *	@date		24/02/11
  *  License		GPL Forty Seven Effects - 2011
+ 
+ 
+ @modified		08.2012
+ @author		ag
+ 
  */
 
 #ifndef LIB_MIDI_H_
@@ -29,6 +34,13 @@
  */
 
 //#define DEBUGcc
+#define DEBUGnotes
+
+// USED TO DEFINE HOW MANY CC CHANNELS USED, Always +1, starts at channel 1... 3 = channel 1 and 2, 0 is empty.
+#define MIDICHANNELS			2
+
+
+
 
 #define COMPILE_MIDI_IN         1           // Set this setting to 1 to use the MIDI input.
 #define COMPILE_MIDI_OUT        1           // Set this setting to 1 to use the MIDI output. 
@@ -57,7 +69,9 @@
 
 #define MIDI_BAUDRATE			31250
 
+
 #define MIDI_CHANNEL_OMNI		0
+#define ALL						0
 #define MIDI_CHANNEL_OFF		17			// and over
 
 #define MIDI_SYSEX_ARRAY_SIZE	255			// Maximum size is 65535 bytes.
@@ -184,9 +198,26 @@ public:
 	bool update(const byte Channel);
 	
 	
-	// --------------------------------------- ADDAC SPECIFIC
+	// ------------------------------------------------------------------------- ADDAC SPECIFIC
 	void useCC(bool state);
+	void useCC(byte channel, byte, byte);
+
+	void useNotes(bool state);	
+	void useNotesOn(byte channel, byte number, byte value);
+	void useNotesOff(byte channel, byte number, byte value);
+	
 	void ADDAC_MIDInoteOn(byte channel, byte pitch, byte velocity);
+	
+	// INTERNAL STORAGE:  Channel, Value
+	byte CCvals[MIDICHANNELS][128];
+	bool notesOn[128];
+	int totalNotes;
+	byte notesVelocity[128];
+	byte monoNote, monoVelocity;
+	
+	// INTERNAL CALLBACKS
+	bool CC, NOTES;
+	
 	
 	
 	// Getters
@@ -272,7 +303,6 @@ private:
 	void (*mNoteOnCallback)(byte channel, byte note, byte velocity);
 	void (*mAfterTouchPolyCallback)(byte channel, byte note, byte velocity);
 	void (*mControlChangeCallback)(byte channel, byte, byte);
-	void useCC(byte channel, byte, byte);
 	
 	
 	void (*mProgramChangeCallback)(byte channel, byte);
@@ -314,14 +344,6 @@ public:
 	
 	void setThruFilterMode(const kThruFilterMode inThruFilterMode);
 	
-	
-	// INTERNAL STORAGE
-	byte CCvals[17][128];
-	
-	// INTERNAL CALLBACKS
-	bool CC;
-	
-	
 private:
 	
 	void thru_filter(byte inChannel);
@@ -334,8 +356,10 @@ private:
 	
 #endif // Thru
 	
+	
+	
 };
 
-extern ADDAC_Midi MIDI;
+//extern ADDAC_Midi MIDI;
 
 #endif // LIB_MIDI_H_
