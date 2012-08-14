@@ -31,7 +31,7 @@ void loop(){
   if (VCC.MODE==0){
 
     if (VCC.SUBMODE==0){
-      //Convert CvPot to a logarithmic progression 
+      //Convert a linear CvPot to a logarithmic one 
       logV=lg.calc(VCC.ReadCv(A,0));      
     }
   }
