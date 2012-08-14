@@ -1,6 +1,6 @@
 //INCLUDE STANDARDCPLUSPLUS LIBRARY//
 #include <StandardCplusplus.h>
-#include <vector>              
+#include <vector>
 ////////////////////////////////////
 
 // INCLUDES THE ADDAC MAIN LIBRARY
@@ -21,7 +21,7 @@ ADDAC_Quantizer Quant;
 ADDAC_Comparator Comp,Comp2,Comp3;
 //ADDAC_VCO vco(0,0,0);
 
-//#define DEBUG
+//#define DEBUG  // Just comment this line if you are not debugging
 
 float tri;
 float interval = 25;
@@ -50,22 +50,27 @@ void VCO_update(){ // DO NOT OVERLOAD THIS FUNCTION!!!
 void loop(){
   VCC.update(); // NEED TO UPDATE THE VCC!
 
-  VCC.ReadCvs(A);
-  //VCC.PrintCvs(A);
+  if(VCC.MODE==0){
 
-  //update Random
-  Rnd.update(VCC.cvValuesA[1],          //Min Random value
-             VCC.cvValuesA[0],          //Max Random value
-             VCC.cvValuesA[3]*10000,    //Min Random frequency
-             VCC.cvValuesA[2]*10000,    //Max Random frequency
-             VCC.cvValuesA[4]);         //Smooth
-             
+    //WORKING ON MODE "O" - SUBMODE "0"
+    if(VCC.SUBMODE==0){
+      VCC.ReadCvs(A);
+      //VCC.PrintCvs(A);
 
-  //update VCO: Volage, Volume
-  VCO.update(Quant.calc(Rnd.CVstream), VCC.cvValuesA[5]);     
-             
-  //VCO.update(Rnd.CVstream,VCC.cvValuesA[5]);
-  //VCO.update(VCC.cvValuesA[0],VCC.cvValuesA[5]);
+      //update Random
+      Rnd.update(VCC.cvValuesA[1], //Min Random value
+      VCC.cvValuesA[0],            //Max Random value
+      VCC.cvValuesA[3]*10000,      //Min Random frequency
+      VCC.cvValuesA[2]*10000,      //Max Random frequency
+      VCC.cvValuesA[4]);           //Smooth
+
+      //update VCO: Volage, Volume
+      VCO.update(Quant.calc(Rnd.CVstream), VCC.cvValuesA[5]);     
+
+      //VCO.update(Rnd.CVstream,VCC.cvValuesA[5]);
+      //VCO.update(VCC.cvValuesA[0],VCC.cvValuesA[5]);
+    }
+  }
 
 #ifdef DEBUG
   Serial.println();
@@ -73,3 +78,5 @@ void loop(){
 #endif
 
 }
+
+
