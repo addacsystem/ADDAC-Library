@@ -1,3 +1,7 @@
+#include <StandardCplusplus.h>
+#include <vector>
+#include <Wire.h>
+
 //include ADDAC MAIN LIBRARY
 #include <ADDAC.h>
 //include LISSAJOUS class
@@ -8,7 +12,7 @@ ADDAC VCC;
 //Initialize and name the ADDAC Lissajous class
 ADDAC_Liss liss1;
 
-#define DEBUG   // Just comment this line if you are not debugging
+//#define DEBUG   // Just comment this line if you are not debugging
 
 void setup(){
   //setup all VCC main settings
@@ -37,6 +41,7 @@ void loop(){
       VCC.WriteChannel(0,liss1.x);
       //write y position in channel 1
       VCC.WriteChannel(1,liss1.y);
+      
     }
   }
 

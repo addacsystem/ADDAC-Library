@@ -88,8 +88,8 @@ void ADDAC_Liss::calc(float _amp, float _speedx, float _speedy, bool _mirror) {
 		//Serial.print(x);
     }
 	
-	x = x / 1023.0f * addacMaxResolution;
-	y = y / 1023.0f * addacMaxResolution;
+	x = x / 1023.0f;// * addacMaxResolution;
+	y = y / 1023.0f;// * addacMaxResolution;
 	//x*=addacMaxResolution;
 	//y*=addacMaxResolution;
     //x=(x*(_max/100.0f))+500-dif/2
