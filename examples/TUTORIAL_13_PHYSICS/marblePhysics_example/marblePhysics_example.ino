@@ -26,7 +26,7 @@ void setup(){
 void loop(){
   //update VCC
   VCC.update();
-  
+
   if(VCC.MODE==0){
 
     //WORKING ON MODE "O" - SUBMODE "0"
@@ -36,6 +36,8 @@ void loop(){
       physics1.update(VCC.ReadCv(A,0),VCC.ReadCv(A,1),VCC.ReadCv(A,5),VCC.ReadCv(A,3));//float _gx, float _gy, float _material, float _speed
       VCC.WriteChannel(0, physics1.x);
       VCC.WriteChannel(1, physics1.y);
+      VCC.WriteChannel(2, physics1.Velocity);
+
 
       //create a comparator to trigger the bumper
       boolean bumpTrigger= comp1.calc(RISE,VCC.ReadManual(A,0),0.5);  
@@ -46,33 +48,15 @@ void loop(){
       }
     }
   }
-  
+
 #ifdef DEBUG
   Serial.print("x: ");
   Serial.print(physics1.x);
   Serial.print(" | y: ");
   Serial.print(physics1.y);
+  Serial.print(" | Velocity: ");
+  Serial.print(physics1.Velocity);
   Serial.println();
   delay(10);
 #endif
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
