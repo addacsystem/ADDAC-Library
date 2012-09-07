@@ -1,6 +1,7 @@
 //INCLUDE STANDARDCPLUSPLUS LIBRARY//
 #include <StandardCplusplus.h>
-#include <vector>              
+#include <vector>       
+#include <Wire.h> 
 ////////////////////////////////////
 
 
@@ -60,22 +61,15 @@ void VCO_update(){ // DO NOT OVERLOAD THIS FUNCTION!!!
 
 void loop(){
   VCC.update(); // NEED TO UPDATE THE VCC!
-LFO1.SINupdate(false,  SM.calc(VCC.ReadCv(A,0)*1000.0f,0.998), 1, 0, 0, 1);
+LFO1.SINupdate(false, SM.calc(VCC.ReadManual(A,0)*1000.0f,0.998), 1, 0, 0, 1);
       VCC.ReadCvs(A);
       //VCC.PrintCvs(A);
       
-      int RndClock = Comp.calc(0,VCC.ReadCv(A,2),0.75f);
+   
       
-      Rnd.update(//RndClock,
-        VCC.cvValuesA[1],VCC.cvValuesA[0],
-        VCC.cvValuesA[3]*10000,VCC.cvValuesA[2]*10000, VCC.cvValuesA[4]);
-      
-    Serial.print("  pot:");
-    Serial.print(VCC.cvValuesA[0]);
-    Serial.print("  quantized:");
-    Serial.print(Quant.calc(VCC.cvValuesA[0]));
     
-      VCO.update(LFO1.CVstream, VCC.cvValuesA[5]);
+    
+      VCO.update(LFO1.CVstream, VCC.ReadManual(A,4));
       //VCO.update(Rnd.CVstream,VCC.cvValuesA[5]);
       //VCO.update(VCC.cvValuesA[0],VCC.cvValuesA[5]);
   

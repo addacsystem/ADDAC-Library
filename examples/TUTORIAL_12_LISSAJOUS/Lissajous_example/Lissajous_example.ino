@@ -1,6 +1,7 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
 #include <StandardCplusplus.h>
-#include <vector>
-#include <Wire.h>
+#include <vector>       
+////////////////////////////////////
 
 //include ADDAC MAIN LIBRARY
 #include <ADDAC.h>

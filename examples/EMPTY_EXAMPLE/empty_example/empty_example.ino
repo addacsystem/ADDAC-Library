@@ -1,3 +1,9 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
+#include <StandardCplusplus.h>
+#include <vector>       
+////////////////////////////////////
+
+
 #include <ADDAC.h>
 #include <ADDAC_VCO.h>
 ADDAC VCC; 

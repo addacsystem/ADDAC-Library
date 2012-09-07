@@ -1,3 +1,9 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
+#include <StandardCplusplus.h>
+#include <vector>       
+////////////////////////////////////
+
+
 //include ADDAC MAIN LIBRARY
 #include <ADDAC.h>
 //include ADDAC COMPARATOR CLASS

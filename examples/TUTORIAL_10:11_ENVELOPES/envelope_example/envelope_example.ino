@@ -1,12 +1,7 @@
-/*                                    
- When using the ENVELOPE class,        
- make sure to include the following    
- lines at the top of your code,         
- those are needed to compile           
- the ADDAC_Env class.                   
- */
-#include <StandardCplusplus.h>        
-#include <vector>                     
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
+#include <StandardCplusplus.h>
+#include <vector>       
+////////////////////////////////////
 
 
 //include ADDAC Main class

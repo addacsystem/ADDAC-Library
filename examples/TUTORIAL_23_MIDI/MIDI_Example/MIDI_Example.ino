@@ -1,7 +1,6 @@
 //INCLUDE STANDARDCPLUSPLUS LIBRARY//
 #include <StandardCplusplus.h>
 #include <vector>   
-#include <Wire.h>
 ////////////////////////////////////
 
 // DEBUG ?

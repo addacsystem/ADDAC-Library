@@ -1,3 +1,9 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
+#include <StandardCplusplus.h>
+#include <vector>       
+////////////////////////////////////
+
+
 // NEEDS WIRE LIBRARY AND FAST I2C COMMUNICATION
 #include <Wire.h>
 #define TWI_FREQ 400000L

@@ -1,3 +1,9 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
+#include <StandardCplusplus.h>
+#include <vector>       
+////////////////////////////////////
+
+
 //include ADDAC main library
 #include <ADDAC.h>
 //include ADDAC linear to logarithimic class

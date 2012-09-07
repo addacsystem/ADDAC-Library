@@ -1,3 +1,9 @@
+//INCLUDE STANDARDCPLUSPLUS LIBRARY//
+#include <StandardCplusplus.h>
+#include <vector>       
+////////////////////////////////////
+
+
 //include ADDAC class
 #include <ADDAC.h>
 //include ADDAC Random class
