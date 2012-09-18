@@ -5,7 +5,6 @@
 
 
 #include <ADDAC.h>
-#include <ADDAC_VCO.h>
 ADDAC VCC; 
 
 //#define DEBUG   // Comment this line if you are not debugging

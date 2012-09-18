@@ -267,7 +267,6 @@ void ADDAC::StoreCvs(int _socket, int _channel){ // Store for prints
 
 
 
-
 void ADDAC::PrintCvs(int _socket){
     if(_socket==A){
         Serial.print(" | CV0:");
@@ -733,6 +732,7 @@ void ADDAC::PrintGates(int _socket){
         Serial.print(gateValuesA[6],BIN);
         Serial.print(" | GATE7:");
         Serial.print(gateValuesA[7],BIN);
+        
     }
     else if(_socket==B){
         Serial.print(" | GATE0:");
