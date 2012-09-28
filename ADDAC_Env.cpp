@@ -24,6 +24,18 @@ ADDAC_Env::ADDAC_Env(){
 //float _A (percentage (0-100% = 0.0f to 1.0f), float _Atime (millis)
 
 // ADD top and bottom offset??
+
+/*! \brief update Envelope values
+ \param _trigger  trigger Envelope : true or false
+ \param _inverted invert Envelope : true or false
+ \param _A     Envelope Attack voltage
+ \param _Atime Envelope Attack time
+ \param _D     Envelope Decay voltage
+ \param _Dtime Envelope Decay time
+ \param _S     Envelope Sustain voltage
+ \param _Stime Envelope Sustain time
+ \param _Rtime Envelope Release time
+ */
 void ADDAC_Env::update(bool _trigger, bool _inverted, float _A, float _Atime, float _D, float _Dtime, float _S,float _Stime, float _Rtime){
 	if(_trigger && !ENVtrigger){
 		ENVtrigger=true;
@@ -219,45 +231,7 @@ void ADDAC_Env::updateLogExpMode(bool _trigger, bool _inverted, float _A, float 
 	}
 }
 
-// --------------------------------------------------------------------------- WEIRD AD ENVELOPE MODE -------------------------
-//
-//int _channel (1-8), bool _trigger (0=no - 1=yes), bool _inverted (0=no - 1=yes) 
-//float _A (0-1), float _Atime (millis), float _Ashape (0-1)
 
-// ADD OFFSET
-void ADDAC_Env::updateWeirdMode(bool _trigger, bool _inverted, float _A, float _Atime, float _Ashape, float _D, float _Dtime, float _Dshape){
-	if(_trigger && !ENVtrigger){
-		ENVtrigger=true;
-		ENVtriggerTime=millis();
-		CVstream=0;
-	}
-	if(!_inverted){ // normal
-		if(millis()<=ENVtriggerTime+_Atime){ 
-			// A
-			float _actualPos = (millis()-ENVtriggerTime)/_Atime;
-			float _expoente = 0.55f+exp(_Ashape*8.0f-4.5f)-(log(sin(_actualPos*PI)+1.0f)*exp(_actualPos));
-			CVstream = pow(_actualPos*_actualPos, _expoente) * (addacMaxResolution/2);		
-			Serial.print(" | A actualPos:");
-			Serial.print(_actualPos);
-			Serial.print(" | calcs:");
-			Serial.print(pow(_actualPos*_actualPos, _expoente));
-		}else if(millis()>ENVtriggerTime+_Atime && millis()<=ENVtriggerTime+_Atime+_Dtime){ 
-			// D
-			float _actualPos = (millis()-ENVtriggerTime-_Atime)/_Dtime;
-			CVstream = ((-pow(_actualPos*_actualPos, 0.55f+exp(_Ashape*8.0f-4.5f)-log(sin(_actualPos*PI)+1)*exp(_actualPos)))+1) * (addacMaxResolution/2);		
-			Serial.print(" | D actualPos:");
-			Serial.print(_actualPos);
-			Serial.print(" | calcs:");
-			Serial.print(((-pow(_actualPos*_actualPos, 0.55f+exp(_Ashape*8.0f-4.5f)-log(sin(_actualPos*PI)+1)*exp(_actualPos)))+1));
-		}else{
-			ENVtrigger=false;
-			CVstream=0;
-		}
-	}else{ // inverted
-		
-	}
-	
-}
 
 void ADDAC_Env::AD_trigger(float _A){ // a:VELOCITY PERCENTAGE 0.0f & 1.0f for notes on
 	Attack = _A;
@@ -473,6 +447,10 @@ void ADDAC_Env::ENV_update(float _A, float _Atime, float _D, float _Dtime, float
 
 // --------------------------------------------------------------------------- END ----------------------------------
 
+/*! \brief MultiEnvelope, trigger a multienvelope with as many points as you want
+ \param _trigger  trigger Envelope : true or false
+ \param _inverted invert Envelope : true or false
+ */
 
 void ADDAC_Env::MultiEnv(bool _trigger, bool _inverted){
     
@@ -557,6 +535,10 @@ void ADDAC_Env::MultiEnv(bool _trigger, bool _inverted){
 
 
 
+/*! \brief MultiEnvelopeLoop, trigger a multienvelope with as many points as you want in Loop
+ \param _trigger  trigger Envelope : true or false
+ \param _inverted invert Envelope : true or false
+ */
 void ADDAC_Env::MultiEnvLoop(bool _trigger, bool _inverted){
     
     //for (int i=0; i<amplitude.size(); i++) {
@@ -646,6 +628,10 @@ void ADDAC_Env::MultiEnvLoop(bool _trigger, bool _inverted){
 }
 
 
+/*! \brief add Points to MultiEnvelope
+ \param _amp  amplitude value
+ \param _time time value
+ */
 void ADDAC_Env::addPoint(float _amp, float _time){
     
     amplitude.push_back(_amp);
@@ -656,6 +642,10 @@ void ADDAC_Env::addPoint(float _amp, float _time){
 }
 
 
+/*! \brief Print multiEnvelope Points vector in monitor log - usefull for DEBUG
+ \param _amp  amplitude value
+ \param _time time value
+ */
 void ADDAC_Env::PrintMultiEnv(){
 
     for (int i=0; i<amplitude.size(); i++) {

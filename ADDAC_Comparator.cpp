@@ -8,7 +8,7 @@
     #include "ADDAC_Comparator.h"
 
     //-----------------------------------------------------------------------ADDAC  COMPARATOR-----------------
-
+    /*! \brief Default construtor for ADDAC_Comparator */
     ADDAC_Comparator::ADDAC_Comparator(){	// INITIALIZE CLASS
         
       
@@ -21,7 +21,11 @@
     // --------------------------------------------------------------------------- UPDATE -------------------------
     //
 
-
+/*! \brief calculate comparator
+ \param _state activate comparator : RISING, FALLING or CHANGE
+ \param _input input to comparate 
+ \param _threshold threshold for comparator
+ */
     bool ADDAC_Comparator::calc(int _state, float _input, float _threshold){ 
 
         triggerComparator=false;
@@ -124,6 +128,12 @@
     }
 
 
+/*! \brief calculate comparator with delay
+ \param _state activate comparator : RISING, FALLING or CHANGE
+ \param _input input to comparate 
+ \param _threshold threshold for comparator
+ \param _delay comparator delay
+ */
     bool ADDAC_Comparator::calc(int _state, float _input, float _threshold, float _delay){ 
       
         triggerComparator=false;

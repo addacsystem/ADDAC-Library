@@ -7,7 +7,7 @@
 
 
 //-----------------------------------------------------------------------ADDAC-----------------
-
+/*! \brief Default constructor for ADDAC_Random. */
 ADDAC_Random::ADDAC_Random(){	
 	CVstream = 0;
 	actualCVstream=0; 
@@ -37,6 +37,14 @@ ADDAC_Random::ADDAC_Random(){
 //random voltages between 0.0f & 1.0f
 //random frequencies in milliseconds
 
+
+/*! \brief Standard random uptade - internal clock
+ \param _randomMin min random voltage 
+ \param _randomMax max random voltage 
+ \param _randomFreqMin min time to randomize
+ \param _randomFreqMax max time to randomize
+ \param _smooth random smooth factor
+ */
 // Standard Update - Internal Clock
 void ADDAC_Random::update(float _randomMin, float _randomMax, int _randomFreqMin, int _randomFreqMax, float _smooth){ 
 	smooth = _smooth;
@@ -45,6 +53,14 @@ void ADDAC_Random::update(float _randomMin, float _randomMax, int _randomFreqMin
 }
 
 
+/*! \brief Gated random uptade - external clock
+ \param _gate activate random : true or false
+ \param _randomMin min random voltage 
+ \param _randomMax max random voltage 
+ \param _randomFreqMin min time to randomize
+ \param _randomFreqMax max time to randomize
+ \param _smooth random smooth factor
+ */
 
 // Gated Update - External Clock
 void ADDAC_Random::update(bool _gate, float _randomMin, float _randomMax, int _randomFreqMin, int _randomFreqMax, float _smooth){ 
@@ -59,13 +75,28 @@ void ADDAC_Random::update(bool _gate, float _randomMin, float _randomMax, int _r
 }
 
 
+
 // SET FUNCTIONS
+
+/*! \activate Brownian Random
+ \param brown set - true or false
+ */
+
 void ADDAC_Random::setBrownianRandom(bool brown){
 	BROWN = brown;
 }
+
+/*! \activate Brownian Time
+ \param brown set - true or false
+ */
+
 void ADDAC_Random::setBrownianTime(bool brown){
 	BROWNTIME = brown;
 }
+
+/*! \Reset step
+ \param _reset set - true or false
+ */
 
 void ADDAC_Random::setStepReset(bool _reset){
 	StepReset = _reset;

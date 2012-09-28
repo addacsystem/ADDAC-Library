@@ -3,7 +3,7 @@
 #include "ADDAC_Quantizer.h"
 
 //-----------------------------------------------------------------------ADDAC-----------------
-
+/*! \brief Default constructor for ADDAC_Quantizer. */
 ADDAC_Quantizer::ADDAC_Quantizer(){	
 	
 	// NOTES ACTIVE IN CHROMATIC SCALE
@@ -174,7 +174,9 @@ ADDAC_Quantizer::ADDAC_Quantizer(){
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
-
+/*! \brief quantize a voltage to the nearest note
+ \param _val voltage to quantize
+ */
 float ADDAC_Quantizer::calc(float _val){
 	for (int i=0; i<61; i++) {
 		if (_val<=NOTES[i]) { // GETS CLOSEST NOTE BELOW!!
@@ -195,6 +197,10 @@ float ADDAC_Quantizer::Note(int _midiVal){
 	return NOTES[_midiVal];
 }
 
+/*! \Quantization with X v/oct. For example, this is very useful to reach compatibility with Buchla 1.2v/oct standard
+ \param _val voltage to quantize
+ \param _partial partial value for quantization
+ */
 float ADDAC_Quantizer::Note(int _val, double _partial){
 	for( int i=0; i<128; i++){
 		NOTES[i] = _partial * i + offset;

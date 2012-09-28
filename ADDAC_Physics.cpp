@@ -5,7 +5,7 @@
 
 
 //-----------------------------------------------------------------------ADDAC-----------------
-
+/*! \brief Default constructor for ADDAC_Physics. */
 ADDAC_Physics::ADDAC_Physics(){	
 	AinitCondition = 2;
 	Angle = PI/2;
@@ -42,6 +42,12 @@ ADDAC_Physics::ADDAC_Physics(){
 
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
+/*! \brief Marble Physics update
+ \param _gx X gravity/force
+ \param _gy Y gravity/force
+ \param _material ball ellasticity
+ \param _speed ball spped
+ */
 
 void ADDAC_Physics::update(float _gx, float _gy, float _material, float _speed) {
     
@@ -103,6 +109,9 @@ void ADDAC_Physics::update(float _gx, float _gy, float _material, float _speed) 
   }
 
 
+/*! \brief Bump Marble
+ \param _fMinGateVal force
+ */
 void ADDAC_Physics::bump(int _fMinGateVal){
 	if(_fMinGateVal>gateThreshold){
         Serial.print(" GATED!");

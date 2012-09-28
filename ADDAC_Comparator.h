@@ -43,7 +43,7 @@
 #define addacMaxResolution 65535 
 
 
-
+/*! \ADDAC_Comparator class */
 class ADDAC_Comparator{
 public:
 	ADDAC_Comparator();

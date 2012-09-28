@@ -6,7 +6,7 @@
 
 
 //-----------------------------------------------------------------------ADDAC-----------------
-
+/*! \brief Default construtor for ADDAC_Lissajous */
 ADDAC_Liss::ADDAC_Liss(){	
 	ancho = 1023;
 	alto = 1023;
@@ -28,7 +28,7 @@ ADDAC_Liss::ADDAC_Liss(){
 	//HITMODE=0;
 	//Serial.println("ULTRALISS COMPLETE");
 }
-
+/*! \brief setup function */
 void ADDAC_Liss::setup(float _inc, float _inc2){
 	inc_t=_inc;
 	inc_t2=_inc;
@@ -40,6 +40,12 @@ void ADDAC_Liss::setup(float _inc, float _inc2){
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
+/*! \brief calculate a lissajous curve 
+ \param _amp lissajous amplitude
+ \param _speedx X speed 
+ \param _speedy Y speed
+ \param _mirror mode : true -> mirror, false -> warp around 
+ */
 void ADDAC_Liss::calc(float _amp, float _speedx, float _speedy, bool _mirror) {
     Ymin = 1023*2.0f-_amp*2.0f;
 	Ymax = _amp*2.0f;

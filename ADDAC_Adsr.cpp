@@ -3,7 +3,7 @@
 #include "ADDAC_Adsr.h"
 
 //-----------------------------------------------------------------------ADDAC-----------------
-
+/*! \brief Default construtor for ADDAC_ADSR */
 ADDAC_Adsr::ADDAC_Adsr(){	
 	
 	CVstream = 0;
@@ -22,7 +22,17 @@ ADDAC_Adsr::ADDAC_Adsr(){
 //float _A (percentage (0-100% = 0.0f to 1.0f), float _Atime (millis)
 
 // ADD top and bottom offset??
-void ADDAC_Adsr::update(bool _trigger, bool _inverted, float _Atime, float _D, float _Dtime,float _Stime, float _Rtime){
+
+/*! \brief update ADSR values - Attack will be max voltage
+ \param _trigger  trigger ADSR : true or false
+ \param _inverted invert ADSR : true or false
+ \param _Atime ADSR Attack time
+ \param _D ADSR Decay  voltage
+ \param _Dtime ADSR Decay time
+ \param _Stime ADSR Sustain time
+ \param _Rtime ADSR Release time
+ */
+void ADDAC_Adsr::update(bool _trigger, bool _inverted, float _Atime, float _D, float _Dtime, float _Stime, float _Rtime){
 	if(_trigger && !ADSRtrigger){
 		ADSRtrigger=true;
 		ADSRtriggerTime=millis();
@@ -130,6 +140,16 @@ void ADDAC_Adsr::update(bool _trigger, bool _inverted, float _Atime, float _D, f
 }
 
 
+/*! \brief update ADSR values
+ \param _trigger  trigger ADSR : true or false
+ \param _inverted invert ADSR : true or false
+ \param _A ADSR Attack to voltage
+ \param _Atime ADSR Attack time
+ \param _D ADSR Decay to voltage
+ \param _Dtime ADSR Decay time
+ \param _Stime ADSR Sustain time
+ \param _Rtime ADSR Release time
+ */
 
 void ADDAC_Adsr::update(bool _trigger, bool _inverted,float _A, float _Atime, float _D, float _Dtime, float _Stime, float _Rtime){
 	if(_trigger && !ADSRtrigger){
@@ -369,6 +389,8 @@ void ADDAC_Adsr::updateWeirdMode(bool _trigger, bool _inverted, float _A, float 
 	}
 	
 }
+
+
 
 void ADDAC_Adsr::AD_trigger(float _A){ // a:VELOCITY PERCENTAGE 0.0f & 1.0f for notes on
 	Attack = _A;

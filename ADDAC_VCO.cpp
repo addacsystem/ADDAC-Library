@@ -21,6 +21,7 @@ ISR(TIMER3_OVF_vect)          // interrupt service routine that wraps a user def
   VCO.isrCallback();
 }
 
+/*! \brief Initialize the VCO (the class comes pre-instantiated).  */
 void ADDAC_VCO::initialize(){
   TCCR3A = 0;                 // clear control register A 
   TCCR3B = _BV(WGM13);        // set mode as phase and frequency correct pwm, stop the timer
@@ -28,8 +29,12 @@ void ADDAC_VCO::initialize(){
 	offset=45;
 }
 
+/*! \brief update VCO
+ \param _Notes05v Voltage in
+ \param _vol Volume
+ */
 
-void ADDAC_VCO::update(float _Notes05v, float _vol){ // DO SOMETHING !
+void ADDAC_VCO::update(float _Notes05v, float _vol){ 
 	float vol = _vol;
 	if (vol<0.02) {
 		vol=0;
@@ -57,6 +62,9 @@ float ADDAC_VCO::Period(float _Notes05v){
 } 
 
 
+/*! \brief Set Period
+ \param microseconds Period (milliseconds)
+ */
 
 void ADDAC_VCO::setPeriod(long microseconds)
 {

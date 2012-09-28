@@ -8,7 +8,7 @@
 #include "ADDAC_Timer.h"
 
 //-----------------------------------------------------------------------ADDAC Timer-----------------
-
+/*! \brief Default constructor for ADDAC_Timer. */
 ADDAC_Timer::ADDAC_Timer(){	// INITIALIZE CLASS
 	
 	//Serial.println("ADDAC_Timer INITIALIZED");
@@ -22,6 +22,9 @@ ADDAC_Timer::ADDAC_Timer(){	// INITIALIZE CLASS
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
+/*! \brief Set a Timer/metro 
+ \param _time time (milliseconds) 
+ */
 
 bool ADDAC_Timer::set(long _time){ // DO SOMETHING !
 	

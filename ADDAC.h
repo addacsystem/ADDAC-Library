@@ -217,6 +217,12 @@ extern volatile unsigned long timer0_millis;
 #define VIRTUAL
 #endif
 
+
+
+/*! \Main class for ADDAC LIBRARY
+See member descriptions to know how to use it, or check out the examples supplied with the library
+ */
+
 class ADDAC{
 public:
 	ADDAC();
@@ -299,20 +305,9 @@ public:
 		boolean direction[8];
 		boolean Direction;
 		unsigned int rndStep[8];
-		void lfosMode(int _MODE, int _type, int _channel);
-		// RANDOM
-		void randomMode(int _MODE, int _channel);
-		void randomMode(int _channel, bool _inverted, float _randomMin, float _randomMax, float _randomFreqMin, float _randomFreqMax);
-		void randomModeSmoothed(int _channel, float _randomMin, float _randomMax, float _randomFreqMin, float _randomFreqMax, float _smooth);
-		// SIN
-		void sinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top);
-		void sinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset);
-		unsigned long SINoldTimes[8];
-		// coSIN
-		void cosinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top);
-		void cosinMode(int _channel, bool _inverted, float _freq, float _mult, unsigned int _offset);
-		// TAN
-		void tanMode(int _channel, bool _inverted, float _freq, int _bottom, int _top);
+		
+    
+		
 		// MIXER MODE
 		void mixerMode();
 		void mixerMode(int _upToX);

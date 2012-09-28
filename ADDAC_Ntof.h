@@ -20,8 +20,7 @@
  *
  *
  * or to simply get the current value back use:
- 
- unsigned int CV = Empty.CVstream;
+
  
  *
  *
@@ -39,7 +38,8 @@
 
 class ADDAC_Ntof{
 public: // Functions to be called from Arduino Environment
-	
+    
+	/*! \brief Default constructor for ADDAC_Ntof. */
 	ADDAC_Ntof(void){};
 	float calc(float _midiNote, int _offset){
 		return pow(2,(_midiNote - _offset)/12) * 440;

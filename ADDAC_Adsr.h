@@ -17,7 +17,7 @@
 
 //#define DEBUG
 //#define DEBUG_adsr
-
+/*! \ADDAC_ADSR class */
 class ADDAC_Adsr{
 public:
 	ADDAC_Adsr();

@@ -8,7 +8,7 @@
 #include "ADDAC_LFO.h"
 
 //-----------------------------------------------------------------------ADDAC EMPTY-----------------
-
+/*! \brief Default construtor for ADDAC_ADSR */
 ADDAC_LFO::ADDAC_LFO(){	// INITIALIZE CLASS
 	
 	position=0;
@@ -20,7 +20,15 @@ ADDAC_LFO::ADDAC_LFO(){	// INITIALIZE CLASS
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
-
+/*! \brief update ADSR values - Attack will be max voltage
+ \param _trigger  trigger ADSR : true or false
+ \param _inverted invert ADSR : true or false
+ \param _Atime ADSR Attack time
+ \param _Atime ADSR Decay to voltage
+ \param _Atime ADSR Decay time
+ \param _Atime ADSR Sustain time
+ \param _Atime ADSR Release time
+ */
 void ADDAC_LFO::update(float _freq){ // FREQUENCY DEFINED BY INCREMENT SIZE : 0.0f to 1.0f
 	
     position += (exp(4.0f*_freq)-1.0f)/62.0f; // exponential equation to adjust speed with more control (?), need testing!
@@ -30,6 +38,8 @@ void ADDAC_LFO::update(float _freq){ // FREQUENCY DEFINED BY INCREMENT SIZE : 0.
 
 // --------------------------------------------------------------------------- SIN -------------------------
 //
+
+
 // float _freq (increment (0.0-1.0)
 
 void ADDAC_LFO::SINupdate(){
@@ -49,6 +59,14 @@ unsigned int ADDAC_LFO::SINget(){
 //int _channel (1-8), bool _inverted (0=no - 1=yes) 
 //float _freq (hertz (0.0-20000.0), float _bottom (percentage 0-1), float _top (percentage 0-1)
 
+/*! \brief update ADSR values - Attack will be max voltage
+ \param _inverted invert SINE : true or false
+ \param _freq SINE frequency
+ \param _mult frequency multiply
+ \param _offset SINE offset
+ \param _bottom bottom Level
+ \param _top top Level
+ */
 void ADDAC_LFO::SINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
 	// EQUATION
 	//y=(s*cos(freq*x+offset)+a)*addacMax; freq=100; T=0.8; B=0.2; S=T-B; I=1; Offset=0.5, invert=0; offset=Offset+invert/2*2¹; s=S/2, a=s+B
@@ -74,6 +92,12 @@ void ADDAC_LFO::SINupdate(bool _inverted, float _freq, float _mult, unsigned int
    
 }
 
+/*! \brief update ADSR values - Attack will be max voltage
+ \param _inverted invert SINE : true or false
+ \param _freq SINE frequency
+ \param _mult frequency multiply
+ \param _offset SINE offset
+ */
 void ADDAC_LFO::SINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset){
 	_freq+=10;
 	_mult+=1;
@@ -99,6 +123,15 @@ void ADDAC_LFO::SINupdate(bool _inverted, float _freq, float _mult, unsigned int
 //int _channel (1-8), bool _inverted (0=no - 1=yes) 
 //float _freq (hertz (0.0-20000.0), int _bottom (percentage 0-100%), int _top (percentage 0-100%)
 
+
+/*! \brief update ADSR values - Attack will be max voltage
+ \param _inverted invert COSINE : true or false
+ \param _freq COSINE frequency
+ \param _mult frequency multiply
+ \param _offset COSINE offset
+ \param _bottom bottom Level
+ \param _top top Level
+ */
 void ADDAC_LFO::COSINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset, float _bottom, float _top){
 	_freq+=10;
 	_mult+=1;
@@ -122,6 +155,13 @@ void ADDAC_LFO::COSINupdate(bool _inverted, float _freq, float _mult, unsigned i
 
 	
 }
+
+/*! \brief update ADSR values - Attack will be max voltage
+ \param _inverted invert COSINE : true or false
+ \param _freq COSINE frequency
+ \param _mult frequency multiply
+ \param _offset COSINE offset
+ */
 void ADDAC_LFO::COSINupdate(bool _inverted, float _freq, float _mult, unsigned int _offset){
 	_freq+=10;
 	_mult+=1;

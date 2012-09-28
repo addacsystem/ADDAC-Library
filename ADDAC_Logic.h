@@ -33,10 +33,10 @@ public:
 	
 	bool OR(int _val1, int _val2);
 	bool OR(bool _val1, bool _val2);
-	
-	bool NOT(int _val1, int _val2);
-	bool NOT(bool _val1, bool _val2);
-	
+//	
+//	bool NOT(int _val1, int _val2);
+//	bool NOT(bool _val1, bool _val2);
+//	
 	bool NAND(int _val1, int _val2);
 	bool NAND(bool _val1, bool _val2);
 	

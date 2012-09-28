@@ -9,6 +9,7 @@
 
 //-----------------------------------------------------------------------ADDAC EMPTY-----------------
 
+/*! \brief Default construtor for ADDAC_GateDelay */
 ADDAC_GateDelay::ADDAC_GateDelay(){	// INITIALIZE CLASS
 	
 
@@ -17,7 +18,7 @@ ADDAC_GateDelay::ADDAC_GateDelay(){	// INITIALIZE CLASS
 
 
 
-
+/*! \brief Rise Time */
 void ADDAC_GateDelay::GateDelayRise(){ 
     
 	time = millis();
@@ -26,6 +27,7 @@ void ADDAC_GateDelay::GateDelayRise(){
 }
 
 
+/*! \brief Fall Time */
 void ADDAC_GateDelay::GateDelayFall(){ 
     
 	timeFall = millis();
@@ -41,7 +43,9 @@ void ADDAC_GateDelay::GateDelayFall(){
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
-
+/*! \brief Return true when GateDelay
+  \param _delay  delay (milliseconds)
+ */
 bool ADDAC_GateDelay::update(float _delay){ 
     
 

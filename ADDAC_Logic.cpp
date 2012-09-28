@@ -8,7 +8,7 @@
 #include "ADDAC_Logic.h"
 
 //-----------------------------------------------------------------------ADDAC EMPTY-----------------
-
+/*! \brief Default construtor for ADDAC_Logic */
 ADDAC_Logic::ADDAC_Logic(){	// INITIALIZE CLASS
 	//Serial.println("ADDAC_Logic INITIALIZED");
 }
@@ -19,6 +19,10 @@ ADDAC_Logic::ADDAC_Logic(){	// INITIALIZE CLASS
 //
 
 
+/*! \brief return true if input1 and input2 are both true  
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::AND(int _val1, int _val2){ // DO SOMETHING !
 	if (_val1 == 1 && _val2 ==1) {
 		return true;
@@ -28,6 +32,10 @@ bool ADDAC_Logic::AND(int _val1, int _val2){ // DO SOMETHING !
 	
 }
 
+/*! \brief return true if input1 and input2 are both true  
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::AND(bool _val1, bool _val2){ // DO SOMETHING !
 	if (_val1 && _val2) {
 		return true;
@@ -40,7 +48,10 @@ bool ADDAC_Logic::AND(bool _val1, bool _val2){ // DO SOMETHING !
 // --------------------------------------------------------------------------- OR -------------------------
 //
 
-
+/*! \brief return true if input1 or input2 are true  
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::OR(int _val1, int _val2){ // DO SOMETHING !
 	if (_val1 == 0 && _val2 ==0) {
 		return false;
@@ -50,6 +61,10 @@ bool ADDAC_Logic::OR(int _val1, int _val2){ // DO SOMETHING !
 	
 }
 
+/*! \brief return true if input1 or input2 is true  
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::OR(bool _val1, bool _val2){ // DO SOMETHING !
 	if (!_val1 && !_val2) {
 		return false;
@@ -63,7 +78,10 @@ bool ADDAC_Logic::OR(bool _val1, bool _val2){ // DO SOMETHING !
 // --------------------------------------------------------------------------- NAND -------------------------
 //
 
-
+/*! \brief return false if input1 and input2 are true  
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::NAND(int _val1, int _val2){ // DO SOMETHING !
 	if (_val1 == 1 && _val2 ==1) {
 		return false;
@@ -73,6 +91,10 @@ bool ADDAC_Logic::NAND(int _val1, int _val2){ // DO SOMETHING !
 	
 }
 
+/*! \brief return false if input1 and input2 are true  
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::NAND(bool _val1, bool _val2){ // DO SOMETHING !
 	if (_val1 && _val2) {
 		return false;
@@ -86,7 +108,10 @@ bool ADDAC_Logic::NAND(bool _val1, bool _val2){ // DO SOMETHING !
 // --------------------------------------------------------------------------- NOR -------------------------
 //
 
-
+/*! \brief Returns True if both input1 and input2 are False
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::NOR(int _val1, int _val2){ // DO SOMETHING !
 	if (_val1 == 0 && _val2 ==0) {
 		return true;
@@ -96,6 +121,10 @@ bool ADDAC_Logic::NOR(int _val1, int _val2){ // DO SOMETHING !
 	
 }
 
+/*! \brief Returns True if both input1 and input2 are False
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::NOR(bool _val1, bool _val2){ // DO SOMETHING !
 	if (!_val1 && !_val2) {
 		return true;
@@ -108,7 +137,10 @@ bool ADDAC_Logic::NOR(bool _val1, bool _val2){ // DO SOMETHING !
 // --------------------------------------------------------------------------- XOR -------------------------
 //
 
-
+/*! \brief Returns True if any of input1 or input2 is True. If both are True or both are false it returns False 
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::XOR(int _val1, int _val2){ // DO SOMETHING !
 	if (_val1 == 1 && _val2 ==1) {
 		return false;
@@ -119,7 +151,10 @@ bool ADDAC_Logic::XOR(int _val1, int _val2){ // DO SOMETHING !
 	}
 	
 }
-
+/*! \brief Returns True if any of input1 or input2 is True. If both are True or both are false it returns False 
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::XOR(bool _val1, bool _val2){ // DO SOMETHING !
 	if (_val1 && _val2){
 		return false;
@@ -134,8 +169,10 @@ bool ADDAC_Logic::XOR(bool _val1, bool _val2){ // DO SOMETHING !
 
 // --------------------------------------------------------------------------- XNOR -------------------------
 //
-
-
+/*! \brief Returns True if both of input1 or input2 are True or False.
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::XNOR(int _val1, int _val2){ // DO SOMETHING !
 	if (_val1 == 1 && _val2 ==1) {
 		return true;
@@ -147,6 +184,10 @@ bool ADDAC_Logic::XNOR(int _val1, int _val2){ // DO SOMETHING !
 	
 }
 
+/*! \brief Returns True if both of input1 or input2 are True or False.
+ \param _val1 input 1
+ \param _val2 input 2
+ */
 bool ADDAC_Logic::XNOR(bool _val1, bool _val2){ // DO SOMETHING !
 	if (_val1 && _val2){
 		return true;
