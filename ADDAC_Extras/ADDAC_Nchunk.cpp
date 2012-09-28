@@ -10,7 +10,7 @@
 
 
 //-----------------------------------------------------------------------ADDAC-----------------
-
+/*! \brief Default construtor for ADDAC_Nchunk */
 ADDAC_Nchunk::ADDAC_Nchunk(){	
 	
 	
@@ -25,6 +25,12 @@ ADDAC_Nchunk::ADDAC_Nchunk(){
 //
 
 // RANDOMS
+/*! \brief Default Setup function with Defalut calibration settings
+  \param _calibrationBottomX  	Joystick X min position
+  \param _calibrationTopX       Joystick X max position
+  \param _calibrationBottomY    Joystick Y min position
+  \param _calibrationTopY        Joystick Y max position
+ */
 void ADDAC_Nchunk::setup(int _calibrationBottomX, int _calibrationTopX, int _calibrationBottomY, int _calibrationTopY){	
 	calibrationTopX = _calibrationTopX;
 	calibrationBottomX = _calibrationBottomX;
@@ -33,7 +39,7 @@ void ADDAC_Nchunk::setup(int _calibrationBottomX, int _calibrationTopX, int _cal
 	
 	nunchuck_init();
 }
-
+/*! \brief Default Setup function with Defalut calibration settings */
 void ADDAC_Nchunk::setup(){	
 	calibrationTopX = 245;
 	calibrationBottomX = 15;
@@ -43,7 +49,7 @@ void ADDAC_Nchunk::setup(){
 	nunchuck_init();
 }
 
-
+/*! \brief Update all Nchunk atributes  */
 // Standard Update
 void ADDAC_Nchunk::update(){ 
 	nunchuck_get_data();

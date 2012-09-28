@@ -35,6 +35,15 @@ public:
 	int calibrationBottomY;
 
 	uint8_t nunchuck_buf[6];   // array to store nunchuck data,
+    /*! \Nchunk data
+        \param Data[0] -  Joystick X position
+        \param Data[1] -  Joystick Y position
+        \param Data[2] -  Accelerometer X position
+        \param Data[3] -  Accelerometer Y position
+        \param Data[4] -  Accelerometer Z position
+        \param Data[5] -  Button C
+        \param Data[6] -  Button C
+     */
 	float Data[7];
 	float oldAccel[3];
 	bool CALIBRATING;
