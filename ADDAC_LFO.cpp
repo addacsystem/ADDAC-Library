@@ -20,15 +20,8 @@ ADDAC_LFO::ADDAC_LFO(){	// INITIALIZE CLASS
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
-/*! \brief update ADSR values - Attack will be max voltage
- \param _trigger  trigger ADSR : true or false
- \param _inverted invert ADSR : true or false
- \param _Atime ADSR Attack time
- \param _Atime ADSR Decay to voltage
- \param _Atime ADSR Decay time
- \param _Atime ADSR Sustain time
- \param _Atime ADSR Release time
- */
+/*! \brief update LFO
+ \param _freq LFO frequency value : 0.0f - 1.0f */
 void ADDAC_LFO::update(float _freq){ // FREQUENCY DEFINED BY INCREMENT SIZE : 0.0f to 1.0f
 	
     position += (exp(4.0f*_freq)-1.0f)/62.0f; // exponential equation to adjust speed with more control (?), need testing!
@@ -59,7 +52,7 @@ unsigned int ADDAC_LFO::SINget(){
 //int _channel (1-8), bool _inverted (0=no - 1=yes) 
 //float _freq (hertz (0.0-20000.0), float _bottom (percentage 0-1), float _top (percentage 0-1)
 
-/*! \brief update ADSR values - Attack will be max voltage
+/*! \brief update SINE WAVE
  \param _inverted invert SINE : true or false
  \param _freq SINE frequency
  \param _mult frequency multiply
@@ -92,7 +85,7 @@ void ADDAC_LFO::SINupdate(bool _inverted, float _freq, float _mult, unsigned int
    
 }
 
-/*! \brief update ADSR values - Attack will be max voltage
+/*! \brief update SINE WAVE
  \param _inverted invert SINE : true or false
  \param _freq SINE frequency
  \param _mult frequency multiply
@@ -124,7 +117,7 @@ void ADDAC_LFO::SINupdate(bool _inverted, float _freq, float _mult, unsigned int
 //float _freq (hertz (0.0-20000.0), int _bottom (percentage 0-100%), int _top (percentage 0-100%)
 
 
-/*! \brief update ADSR values - Attack will be max voltage
+/*! \brief update COSINE WAVE
  \param _inverted invert COSINE : true or false
  \param _freq COSINE frequency
  \param _mult frequency multiply
@@ -156,7 +149,7 @@ void ADDAC_LFO::COSINupdate(bool _inverted, float _freq, float _mult, unsigned i
 	
 }
 
-/*! \brief update ADSR values - Attack will be max voltage
+/*! \brief update COSINE WAVE
  \param _inverted invert COSINE : true or false
  \param _freq COSINE frequency
  \param _mult frequency multiply

@@ -16,8 +16,6 @@ ADDAC_GateDelay::ADDAC_GateDelay(){	// INITIALIZE CLASS
 }
 
 
-
-
 /*! \brief Rise Time */
 void ADDAC_GateDelay::GateDelayRise(){ 
     

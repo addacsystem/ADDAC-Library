@@ -21,7 +21,7 @@ ADDAC_Lin2Log::ADDAC_Lin2Log(){	// INITIALIZE CLASS
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
-/*! \brief transforms a linear progression to logarithmic witha default factor of 10  
+/*! \brief transforms a linear progression to logarithmic with a default factor of 10  
  \param _val value to convert
  */
 float ADDAC_Lin2Log::calc(float _val){ // DO SOMETHING !

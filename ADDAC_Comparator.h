@@ -53,6 +53,7 @@ public:
     bool triggerState;
     bool triggerComparator;
     bool triggerStateChange;
+       bool triggerStateChangeUP;
     bool triggerComparatorRise;
     bool triggerStateRise;
     bool triggerComparatorFall;

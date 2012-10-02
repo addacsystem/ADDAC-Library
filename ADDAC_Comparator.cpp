@@ -22,7 +22,7 @@
     //
 
 /*! \brief calculate comparator
- \param _state activate comparator : RISING, FALLING or CHANGE
+ \param _state activate comparator : RISE, FALL or CHANGE
  \param _input input to comparate 
  \param _threshold threshold for comparator
  */
@@ -30,7 +30,8 @@
 
         triggerComparator=false;
         
-        
+        rising = false;
+        falling = false;
 
         
         if (_state==0) {
@@ -79,9 +80,8 @@
             
             if (_input > oldInput) { //up - Rising
                 
-                //rising=true;
                 if(_input>=_threshold && !triggerStateChange){ // TRUE
-                    triggerState = true;
+                    triggerStateChange = true;
                     rising=true;
                     
                 }
@@ -92,15 +92,16 @@
                 else if(_input<=_threshold && triggerStateChange){
                     triggerStateChange=false;
                 }
+            
                 oldInput= _input;
-                
             }
             
               
             if(_input < oldInput){ // down - Falling
                         //rising=false;
-                if(_input<=_threshold && !triggerState){ // TRUE
-                    triggerState = true;
+
+                if(_input<=_threshold && !triggerStateChange){ // TRUE
+                    triggerStateChange = true;
                     falling=true;
                     
                 }
@@ -111,25 +112,27 @@
                 else if(_input>=_threshold && triggerStateChange){
                     triggerStateChange=false;
                 }
-                oldInput= _input;
                 
+                oldInput= _input;
+
             }
-            
+                
              
+            
              if(rising)
                  return rising;
             else if(falling)
                 return falling;
             else 
                 return 0;
-        }
+       }
         
         
     }
 
 
 /*! \brief calculate comparator with delay
- \param _state activate comparator : RISING, FALLING or CHANGE
+ \param _state activate comparator : RISE, FALL or CHANGE
  \param _input input to comparate 
  \param _threshold threshold for comparator
  \param _delay comparator delay
@@ -254,7 +257,7 @@
                 }
                 else if(_input<=_threshold && triggerStateChange){
 
-                    _input=0;
+                    _input=1;
                 }
                 else if(_input>=_threshold && triggerStateChange){
                     triggerStateChange=false;

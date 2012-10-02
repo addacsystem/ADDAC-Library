@@ -14,7 +14,7 @@ ADDAC VCC;
 ADDAC_Comparator comp1, comp2;
 
 
-//#define DEBUG    // Just comment this line if you are not debugging
+#define DEBUG    // Just comment this line if you are not debugging
 
 void setup(){
   //setup all VCC main settings
@@ -40,8 +40,8 @@ void loop(){
       //create a boolean variable type that will be true if we move our Manual POT down 0.5
       boolean normalTrigger = comp1.calc(FALL,VCC.ReadCv(A,0),0.5); 
 
-      //create a boolean variable type that will be true after 5 second if we move our Manual POT above or down 0.5
-      boolean delayedTrigger = comp2.calc(CHANGE,VCC.ReadCv(A,1),0.5,2000);
+      //create a boolean variable type that will be true after 2 second if we move our Manual POT above or down 0.5
+      boolean delayedTrigger = comp2.calc(CHANGE,VCC.ReadCv(A,5),0.5,2000);
 
       //if normalTrigger is true print a message in the Serial Monitor
       if(normalTrigger){

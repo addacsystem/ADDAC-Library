@@ -8,14 +8,14 @@
 //-----------------------------------------------------------------------ADDAC-----------------
 /*! \brief Default construtor for ADDAC_Lissajous */
 ADDAC_Liss::ADDAC_Liss(){	
-	ancho = 1023;
-	alto = 1023;
+	ancho = 1023.0f;
+	alto = 1023.0f;
 	
 	AX = ancho/2.0f;
 	BX = alto/2.0f;
 	
-	a = 1;
-	b= 2;
+	a = 1.0f;
+	b= 2.0f;
 	delta = PI/2.0f;
 	
 	t=0.0f;
@@ -47,7 +47,12 @@ void ADDAC_Liss::setup(float _inc, float _inc2){
  \param _mirror mode : true -> mirror, false -> warp around 
  */
 void ADDAC_Liss::calc(float _amp, float _speedx, float _speedy, bool _mirror) {
-    Ymin = 1023*2.0f-_amp*2.0f;
+    
+    _amp*=1000.0f;
+    _speedx*=1000.0f;
+    _speedy*=1000.0f;
+    
+    Ymin = 1023.0f*2.0f-_amp*2.0f;
 	Ymax = _amp*2.0f;
     inc_t=_speedx/1184.0f; // TEMPO MIN = 0.0001 - > TEMPO MAX = 0.25
 	if(inc_t>=1)inc_t=0.999f;
@@ -67,8 +72,8 @@ void ADDAC_Liss::calc(float _amp, float _speedx, float _speedy, bool _mirror) {
     x=x*(Ymin/1023.0f); //(Ymin/1000.0f);
     y=y*(Ymin/1023.0f); //(Ymax/1000.0f);
     
-    x+=1023/2.0f;
-    y+=1023/2.0f;
+    x+=1023.0f/2.0f;
+    y+=1023.0f/2.0f;
 	
 	if(!_mirror==0){
 		// COLLISION REFLECTION
@@ -96,6 +101,7 @@ void ADDAC_Liss::calc(float _amp, float _speedx, float _speedy, bool _mirror) {
 	
 	x = x / 1023.0f;// * addacMaxResolution;
 	y = y / 1023.0f;// * addacMaxResolution;
+    
 	//x*=addacMaxResolution;
 	//y*=addacMaxResolution;
     //x=(x*(_max/100.0f))+500-dif/2
