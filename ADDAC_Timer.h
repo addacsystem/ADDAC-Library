@@ -43,9 +43,9 @@
 class ADDAC_Timer{
 public:
     
-    float oldTime;
-    float actualTime;
-    float elapsedTime;
+    long oldTime;
+    long actualTime;
+    long elapsedTime;
     
     
 	ADDAC_Timer();
