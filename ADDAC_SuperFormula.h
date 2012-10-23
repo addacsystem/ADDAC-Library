@@ -88,11 +88,24 @@ public:
     
     float pX;
     float pY;
+    float oldX;
+    float oldY;
+    float x;
+    float y;
     int pos;
     int numPoints;
     int loopMin;
     
     ADDAC_Timer metro;
+    long metroTime;
+    
+    
+    float CPUtime();
+    long cpuTime[10];
+    int cpuPos;
+    long actualTime;
+
+    
       
 };
 #endif
