@@ -5,11 +5,6 @@
 */
 
 
-
-
-/// CPUtime!!!!!!!!!!!!!!!!!!!!check!!!!
-
-
 #include "ADDAC_SuperFormula.h"
 
 //-----------------------------------------------------------------------ADDAC SuperFormula-----------------
@@ -22,7 +17,8 @@ ADDAC_SuperFormula::ADDAC_SuperFormula(){	// INITIALIZE CLASS
     pY=0;
     numPoints = 360;
     loopMin=0;
-	
+    inc=1;
+	mirror = false;
 	//Serial.println("ADDAC_SuperFormula INITIALIZED");
 }
 
@@ -45,20 +41,56 @@ long ADDAC_SuperFormula::update(float _val){ // DO SOMETHING !
 
 void ADDAC_SuperFormula::superformula(float m, float n1, float n2, float n3, long _time) {
    
+    long oldTime=millis();
+    
     float phi = TWO_PI / 360;
-   
     metroTime=_time;
     
-   if(metro.set(_time)){
-    pos++;
-    if(pos>numPoints-1) pos = loopMin;
+   if(metro.set(metroTime)){
        
-      
-       superformulaPoint(m, n1, n2, n3, phi);
-        
-      
+
+       
+       if (mirror) {
+
+           
+           
+           if(pos>numPoints){
+               pos=numPoints;
+               inc=-1;
+           
+           }
+           
+           if(pos<loopMin){
+               pos=loopMin;
+               inc=1;
+           
+           }
+           
+           pos+=inc;
+           
+       }
+       else{ 
+           pos++;
+           if(pos>numPoints) pos = loopMin;
+       }
+       Serial.print("min: ");
+       Serial.print(loopMin);
+       Serial.print(" pos: ");
+       Serial.print(pos);
+       Serial.print(" max: ");
+       Serial.println(numPoints);
+       oldPos=pos;
+    superformulaPoint(m, n1, n2, n3, phi);
  }
-     
+    
+    long timeCpu=fabs(actualTime-oldTime);
+    
+    cpuPos++;
+    if(cpuPos>9) cpuPos=0;
+    
+    cpuTime[cpuPos]=timeCpu;
+    
+    actualTime=millis();
      
 }
 
@@ -97,12 +129,14 @@ void ADDAC_SuperFormula::superformulaPoint(float m, float n1, float n2, float n3
     
     //MIN and MAX
     //max and min values checked on processing if n1 value set to 50 //???
-    x=constrain(x,-1.6999406,1.6999406);
-    y=constrain(y,-1.6999406,1.6999406);
+    x=constrain(x,minValueX,maxValueX);
+    y=constrain(y,minValueY,maxValueY);
     
     
     
-    //ponto anterior//arranjar outra maneira de calcular ponto anterior!!!!!!!
+    //ponto anterior
+    //arranjar outra maneira de calcular ponto anterior!!!!!!!
+    
     r = 0;
     t1 = 0;
     t2 = 0;
@@ -133,64 +167,51 @@ void ADDAC_SuperFormula::superformulaPoint(float m, float n1, float n2, float n3
     
     //MIN and MAX
     // max and min values checked on processing if n1 value set to 50 //???
-    oldX=constrain(oldX,-1.6999406,1.6999406);
-    oldY=constrain(oldY,-1.6999406,1.6999406);
+    oldX=constrain(oldX,minValueX,maxValueX);
+    oldY=constrain(oldY,minValueY,maxValueY);
         
       
 }
 
 float ADDAC_SuperFormula::getX(){
 
-    float interpolationX = (((float)fabs(oldX-x)) / ((float)(metroTime)/CPUtime()));
+    float interpolationX = (((float)fabs(oldX-x)) / ((float)(metroTime)/(float)CPUtime()));
     
-    oldX+=interpolationX;
-    
-    Serial.println(oldX);
-    
-    //map max and min values checked on processing if n1 value set to 50 //???
-    pX=mapfloat(oldX,-1.6999406,1.6999406,0.0f,1.0f);
+    if(oldX<x)oldX+=interpolationX;
+    if(oldX>x)oldX-=interpolationX;
 
+    
+  
+    //map max and min values checked on processing if n1 value set to 50 //???
+    pX = mapfloat(oldX, minValueX, maxValueX, 0.0f, 1.0f);
+    
+    //??
+    pX = constrain(pX,0.0f,1.0f);
+    
     return pX;
 
 }
 
 float ADDAC_SuperFormula::getY(){
     
-    float interpolationY = (((float)fabs(oldY-y)) / ((float)(metroTime)/CPUtime()));
+    float interpolationY = (((float)fabs(oldY-y)) / ((float)(metroTime)/(float)CPUtime()));
     
-    oldY+=interpolationY;
+    if(oldY<y)oldY+=interpolationY;
+    if(oldY>y)oldY-=interpolationY;
+
     
     // Serial.println(oldY);
 
     //map max and min values checked on processing if n1 value set to 50 //???
-    pY=mapfloat(oldY,-1.6999406,1.6999406,0.0f,1.0f);
+    pY=mapfloat(oldY,minValueY,maxValueY,0.0f,1.0f);
+    
+    //??
+    pY=constrain(pY,0.0f,1.0f);
     
     return pY;
 
 }
 
-///min/max
-
-void ADDAC_SuperFormula::getMinMax(){
-    
-    
-//    minValueX=pointX[0];
-//    maxValueX=pointX[0];
-//    
-//    minValueY=pointY[0];
-//    maxValueY=pointY[0];
-//    
-//    for (int i = 0; i<numPoints-1; i++) {
-//        
-//        if (pointX[i]<minValueX) minValueX=pointX[i];
-//        if (pointX[i]>maxValueX) maxValueX=pointX[i];
-//        
-//        if (pointY[i]<minValueY) minValueY=pointY[i];
-//        if (pointY[i]>maxValueY) maxValueY=pointY[i];
-//    }
-//    
-//    
-}
 
 
 void ADDAC_SuperFormula::setLoopMax(int _max){
@@ -208,6 +229,13 @@ void ADDAC_SuperFormula::setLoopMin(int _min){
     
 }
 
+void ADDAC_SuperFormula::setMirror(bool _mirror){
+    
+    mirror=_mirror;
+    
+    
+}
+
 
 
 float ADDAC_SuperFormula::mapfloat(float x, float in_min, float in_max, float out_min, float out_max)
@@ -219,17 +247,7 @@ float ADDAC_SuperFormula::mapfloat(float x, float in_min, float in_max, float ou
 //CPU AVERAGE
 float ADDAC_SuperFormula::CPUtime()
 {
-    cpuPos++;
-    if(cpuPos>10) cpuPos=0;
-    
-    long oldTime=millis();
-    
-    long time=abs(actualTime-oldTime);
-    
-    cpuTime[cpuPos]=time;
-    
-    actualTime=millis();
-    
+   
 
 float timeAverage;
 

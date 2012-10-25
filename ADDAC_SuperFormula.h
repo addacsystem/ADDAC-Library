@@ -42,6 +42,11 @@
 
 #include <ADDAC_Timer.h>
 
+#define minValueX -1.6999406
+#define maxValueX  1.6999398
+
+#define minValueY -1.6999372
+#define maxValueY  1.6999389
 
 using namespace std;
 
@@ -65,27 +70,19 @@ public:
 
     void superformulaPoint(float m, float n1, float n2, float n3, float phi);
     
-    void getMinMax();
-    
-    float minValueX;
-    float maxValueX;
-    
-    float minValueY;
-    float maxValueY;
-    
     float getX();
     float getY();
     
-    
     float mapfloat(float x, float in_min, float in_max, float out_min, float out_max);
     
-//    float pointX[120];
-//    float pointY[120];
     void setLoopMin(int _min);
     void setLoopMax(int _max);
+    void setMirror(bool _mirror);
+    bool mirror;
+    
+    
     
     float oldValue;
-    
     float pX;
     float pY;
     float oldX;
@@ -93,6 +90,8 @@ public:
     float x;
     float y;
     int pos;
+    int inc;
+    int oldPos;
     int numPoints;
     int loopMin;
     
