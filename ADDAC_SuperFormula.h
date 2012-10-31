@@ -42,33 +42,28 @@
 
 #include <ADDAC_Timer.h>
 
+
+//max and min values checked on processing if n1 value set to 50
 #define minValueX -1.6999406
 #define maxValueX  1.6999398
 
 #define minValueY -1.6999372
 #define maxValueY  1.6999389
 
-using namespace std;
-
-// because it's up to you what to do with them.
-
-
-#define addacMaxResolution 65535 
 
 
 
 class ADDAC_SuperFormula{
 public:
 	ADDAC_SuperFormula();
-    void calc(float m, float n1, float n2, float n3);
+    void calc(float m, float n2, float n3);
 	long update(float _val); // Function to be called from Arduino Environment
 	
 	float CVstream; // Public Variables
     
+    void superformula(float m, float n2, float n3, long _time); 
 
-    void superformula(float m, float n1, float n2, float n3, long _time); 
-
-    void superformulaPoint(float m, float n1, float n2, float n3, float phi);
+    void superformulaPoint(float m, float n2, float n3, float phi);
     
     float getX();
     float getY();
@@ -78,9 +73,9 @@ public:
     void setLoopMin(int _min);
     void setLoopMax(int _max);
     void setMirror(bool _mirror);
+    
     bool mirror;
-    
-    
+    bool startUp;
     
     float oldValue;
     float pX;
@@ -89,6 +84,8 @@ public:
     float oldY;
     float x;
     float y;
+    float interpolationX;
+    float interpolationY;
     int pos;
     int inc;
     int oldPos;
@@ -96,8 +93,9 @@ public:
     int loopMin;
     
     ADDAC_Timer metro;
+    ADDAC_Timer metro2;
     long metroTime;
-    
+
     
     float CPUtime();
     long cpuTime[10];
