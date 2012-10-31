@@ -72,7 +72,7 @@ public:
     
     void setLoopMin(int _min);
     void setLoopMax(int _max);
-    void setMirror(bool _mirror);
+    void setPingPongMode(bool _mirror);
     
     bool mirror;
     bool startUp;

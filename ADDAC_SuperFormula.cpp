@@ -218,7 +218,7 @@ void ADDAC_SuperFormula::setLoopMin(int _min){
     
 }
 
-void ADDAC_SuperFormula::setMirror(bool _mirror){
+void ADDAC_SuperFormula::setPingPongMode(bool _mirror){
     
     mirror=_mirror;
     
