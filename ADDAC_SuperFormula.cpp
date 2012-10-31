@@ -152,9 +152,7 @@ void ADDAC_SuperFormula::superformulaPoint(float m, float n2, float n3, float ph
 }
 
 float ADDAC_SuperFormula::getX(){
-    
-  
-    
+
     if(oldX<=x)oldX+=interpolationX;
     if(oldX>=x)oldX-=interpolationX;
    
@@ -164,23 +162,19 @@ float ADDAC_SuperFormula::getX(){
     pX = mapfloat(oldX, minValueX, maxValueX, 0.0f, 1.0f);
     pX = constrain(pX,0.0f,1.0f);
     
-    Serial.print("OldX : ");
-    Serial.print(oldX);
-    Serial.print(" X : ");
-    Serial.print(x);
-    Serial.print(" interpolationX : ");
-    Serial.print(interpolationX);
+//    Serial.print("OldX : ");
+//    Serial.print(oldX);
+//    Serial.print(" X : ");
+//    Serial.print(x);
+//    Serial.print(" interpolationX : ");
+//    Serial.print(interpolationX);
     
     return pX;
     
 }
 
 float ADDAC_SuperFormula::getY(){
-    
-    
-    
-     
-      
+   
     if(oldY<=y)oldY+=interpolationY;
     if(oldY>=y)oldY-=interpolationY;
     
@@ -190,12 +184,12 @@ float ADDAC_SuperFormula::getY(){
     pY=constrain(pY,0.0f,1.0f);
     
     
-    Serial.print("OldY : ");
-    Serial.print(oldY);
-    Serial.print(" Y : ");
-    Serial.print(y);
-    Serial.print(" interpolationY : ");
-    Serial.print(interpolationY,DEC);
+//    Serial.print("OldY : ");
+//    Serial.print(oldY);
+//    Serial.print(" Y : ");
+//    Serial.print(y);
+//    Serial.print(" interpolationY : ");
+//    Serial.print(interpolationY,DEC);
     
     return pY;
     
