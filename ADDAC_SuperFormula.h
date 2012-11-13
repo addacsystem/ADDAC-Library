@@ -56,19 +56,13 @@
 class ADDAC_SuperFormula{
 public:
 	ADDAC_SuperFormula();
-    void calc(float m, float n2, float n3);
-	long update(float _val); // Function to be called from Arduino Environment
-	
-	float CVstream; // Public Variables
-    
-    void superformula(float m, float n2, float n3, long _time); 
-
+ 
+    void update(float m, float n2, float n3, long _time); 
     void superformulaPoint(float m, float n2, float n3, float phi);
     
+    float mapfloat(float x, float in_min, float in_max, float out_min, float out_max);
     float getX();
     float getY();
-    
-    float mapfloat(float x, float in_min, float in_max, float out_min, float out_max);
     
     void setLoopMin(int _min);
     void setLoopMax(int _max);
@@ -86,23 +80,21 @@ public:
     float y;
     float interpolationX;
     float interpolationY;
+    
     int pos;
     int inc;
     int oldPos;
     int numPoints;
     int loopMin;
     
-    ADDAC_Timer metro;
-    ADDAC_Timer metro2;
-    long metroTime;
-
-    
     float CPUtime();
     long cpuTime[10];
-    int cpuPos;
     long actualTime;
-
+    int cpuPos;
     
-      
+    long metroTime;
+    ADDAC_Timer metro;
+    ADDAC_Timer metro2;
+          
 };
 #endif

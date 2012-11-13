@@ -7,10 +7,9 @@
 #include "ADDAC_SuperFormula.h"
 
 //-----------------------------------------------------------------------ADDAC SuperFormula-----------------
-
+/*! \brief Default constructor for ADDAC_SuperFormula. */
 ADDAC_SuperFormula::ADDAC_SuperFormula(){	// INITIALIZE CLASS
 	
-	CVstream = 0.0f;
     pos=0;
     pX=0;
     pY=0;
@@ -24,27 +23,26 @@ ADDAC_SuperFormula::ADDAC_SuperFormula(){	// INITIALIZE CLASS
 
 
 
-// --------------------------------------------------------------------------- UPDATE -------------------------
-//
-
-
-long ADDAC_SuperFormula::update(float _val){ // DO SOMETHING !
-	
-	// return the value
-	return CVstream;
-    
-}
 
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
 
-void ADDAC_SuperFormula::superformula(float m, float n2, float n3, long _time) {
+/*! \brief update SuperFormula calcs
+ \param m Superformula number of petals : 0 - 1
+ \param n2 Superformula shape variable 1 : 0 - 1
+ \param n3 Superformula shape variable 2 : 0 - 1 
+ \param _speed Superformula speed calculation
+ */
+// newValue - value to smooth, smoothFactor - smooth intensity 0-1.
+void ADDAC_SuperFormula::update(float m, float n2, float n3, long _speed) {
     
     long oldTime=millis();
-    
+    m*=1000.0f;
+    m*2;
+    n2*=100.0f;
+    n3*=100.0f;
     //values checked on processing for default min and max values//
-    m=m*2;
     n2=constrain(n2,0,100);
     n3=constrain(n3,0,100);
     n2=mapfloat(n2,0,100,-50,100);
@@ -57,7 +55,7 @@ void ADDAC_SuperFormula::superformula(float m, float n2, float n3, long _time) {
         startUp=false;
         
     }
-    else metroTime=_time;
+    else metroTime=_speed;
     
     if(metro.set(metroTime)){
         
@@ -102,12 +100,8 @@ void ADDAC_SuperFormula::superformula(float m, float n2, float n3, long _time) {
 
 void ADDAC_SuperFormula::superformulaPoint(float m, float n2, float n3, float phi) {
     
-    //MIN and MAX
-    // max and min values checked on processing if n1 value set to 50 //???
-   // oldX=constrain(oldX,minValueX,maxValueX);
-   // oldY=constrain(oldY,minValueY,maxValueY);
-    
-    //ponto actual
+  
+    //actual Point
     float r;
     float t1, t2;
     float a=1, b=1;
@@ -151,6 +145,10 @@ void ADDAC_SuperFormula::superformulaPoint(float m, float n2, float n3, float ph
     
 }
 
+
+/*! \Get SuperFormula X position Stream
+ */
+
 float ADDAC_SuperFormula::getX(){
 
     if(oldX<=x)oldX+=interpolationX;
@@ -172,6 +170,9 @@ float ADDAC_SuperFormula::getX(){
     return pX;
     
 }
+
+/*! \Get SuperFormula Y position Stream
+ */
 
 float ADDAC_SuperFormula::getY(){
    
@@ -197,6 +198,10 @@ float ADDAC_SuperFormula::getY(){
 
 
 
+/*! \Set the loop Max value
+  \param _max max value of the loop : 0 - 360 | Default 360
+ */
+
 void ADDAC_SuperFormula::setLoopMax(int _max){
     
     numPoints=_max;
@@ -205,6 +210,9 @@ void ADDAC_SuperFormula::setLoopMax(int _max){
 }
 
 
+/*! \Set the loop Min value
+ \param _min min value of the loop : 0 - 360 | Defalut 0
+ */
 void ADDAC_SuperFormula::setLoopMin(int _min){
     
     loopMin=_min;
@@ -212,6 +220,9 @@ void ADDAC_SuperFormula::setLoopMin(int _min){
     
 }
 
+/*! \Turn On/Off the PingPong Mode | Default false
+ \param _max max value of the loop : 0 - 360
+ */
 void ADDAC_SuperFormula::setPingPongMode(bool _mirror){
     
     mirror=_mirror;
