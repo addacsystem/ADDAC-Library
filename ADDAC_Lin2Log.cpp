@@ -39,9 +39,18 @@ float ADDAC_Lin2Log::calc(float _val){ // DO SOMETHING !
  \param _factor logarithmic factor 
  */
 float ADDAC_Lin2Log::calc(float _val, float _factor){ // factor between 0.0f & 1.0f
-	// do some fancy calculations
-	CVstream = log10(_val)/((_factor+1.0f)*10.0f)+1;
-	if(CVstream<0.05f)CVstream=0.0f;
+    
+    _val=constrain(_val,0.0f,1.0f);
+    
+    if (_factor< 0.5f) {
+        _factor = _factor*2.0f *0.84 +0.16f;  // 0.3 -> 1.0
+    }
+    else {
+        _factor = (_factor - 0.5f) *2.0f *5.3f + 1.0f; // 1.0 -> 3.3
+    }
+    
+    CVstream=pow(_val, _factor);
+	
 	// return the value
 	return CVstream;
 	
@@ -49,6 +58,7 @@ float ADDAC_Lin2Log::calc(float _val, float _factor){ // factor between 0.0f & 1
 
 
 float ADDAC_Lin2Log::log10(float _x){ // DO SOMETHING !
+    
 		return (log(_x) / log(10));
 	
 }

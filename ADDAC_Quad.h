@@ -30,12 +30,12 @@ class ADDAC_Quad{
 public:
 	ADDAC_Quad();
     //void setup();
-    void calc(int MODE, float _r, float _theta, float _in1, float _in2,float _in3);
+    void calc(bool _MODE, bool _WRAPmode, float _r, float _theta, float _free1, float _free2, float _free3);
 	
-    bool WRAPmode;
+    bool WRAPmode, MODE;
     
     float r;
-    float theta, oldTheta;
+    float theta, oldTheta, thetaA;
     bool thetaUP;
     
     float x1;
@@ -63,6 +63,7 @@ public:
     
     float xAbs, yAbs;
     
+    float oldAngle, diff;  
 
 	
 };

@@ -53,7 +53,7 @@ public:
     bool triggerState;
     bool triggerComparator;
     bool triggerStateChange;
-       bool triggerStateChangeUP;
+    bool triggerStateChangeUP;
     bool triggerComparatorRise;
     bool triggerStateRise;
     bool triggerComparatorFall;
@@ -61,6 +61,8 @@ public:
     bool triggerTimeCount;
     bool rising;
     bool falling;
+    
+    bool startUp;
     
     float timeEleapsed;
     float time;

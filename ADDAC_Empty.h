@@ -36,7 +36,7 @@
 #include <WProgram.h>
 #endif
 
-#define addacMaxResolution 65535 
+
 
 
 
