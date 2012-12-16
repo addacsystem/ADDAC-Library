@@ -60,12 +60,17 @@ void loop() {
     dmx.strobe(1,50); // strobe DMXchannel 1 with a rate of 50milliseconds.
   }
 
+  //set DMX channel 3 DMXstream to 26 (range:0-255)
+  dmx.set(3,26);
+  //set DMX channel 10 DMXstream to "CVInput 0" (range:0-255)
+  dmx.set(10,VCC.ReadCv(A,0)*255);
+  
   //update and write all DMXchannels.
   dmx.update();
 
   //DEBUG UTILITY
 #ifdef DEBUG
-  Serial.print(dmx.DMXstream(1));
+  Serial.print(dmx.DMXstream(3));
   Serial.println();
   delay(10);
 #endif

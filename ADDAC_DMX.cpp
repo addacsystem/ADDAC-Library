@@ -324,7 +324,7 @@ void ADDAC_DMX::fadeIn(int _channel, int _maxValue, long _time){
         if (_channel == channel[i].channel) channelFadeIn = i;
         
     }
-    Serial.println(channelFadeIn);
+//    Serial.println(channelFadeIn);
     channel[channelFadeIn].fadeIn(_maxValue, _time);
    
 }
@@ -338,7 +338,7 @@ void ADDAC_DMX::fadeIn(int _channel, int _maxValue, long _time){
             if (_channel == channel[i].channel) channelFadeOut = i;
             
         }
-       Serial.println(channelFadeOut);
+//       Serial.println(channelFadeOut);
        channel[channelFadeOut].fadeOut(_minValue, _time);
         
     }
@@ -353,9 +353,23 @@ void ADDAC_DMX::fadeIn(int _channel, int _maxValue, long _time){
                 
             }
             
-            Serial.println(channelStrobe);
+//            Serial.println(channelStrobe);
             channel[channelStrobe].strobe(_time);
 
+}
+
+
+void ADDAC_DMX::set(int _channel, int _value){
+    
+    int channelStream = 0;
+    
+    for (int i = 0; i<channel.size(); i++) {
+        
+        if (_channel == channel[i].channel) channelStream=i;
+    }
+    
+    channel[channelStream].DMXstream=_value;
+      
 }
    
 
@@ -373,6 +387,7 @@ int ADDAC_DMX::DMXstream(int _channel){
 
 }
     
+
     
 
 

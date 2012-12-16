@@ -73,6 +73,8 @@ public:
     void fadeIn(int _channel, int _maxValue, long _time);
     void fadeOut(int _channel, int _minValue, long _time);
     void strobe(int _channel, long _time);
+    
+    void set(int _channel, int _value);
     int DMXstream(int _channel);
     
     ADDAC_Timer delayControl;
