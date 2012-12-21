@@ -3,16 +3,18 @@
 #include <vector>       
 ////////////////////////////////////
 
-
 #include <ADDAC.h>
 #include <ADDAC_Probabilistic.h>
 #include <ADDAC_Comparator.h>
+#include <ADDAC_Quantizer.h>
 #include <ADDAC_Timer.h>
 
 ADDAC VCC;
 ADDAC_Probabilistic prb; 
 ADDAC_Comparator cp, cp1; 
+ADDAC_Quantizer qt;
 ADDAC_Timer tm;
+
 
 //#define DEBUG   // Comment this line if you are not debugging
 
@@ -27,7 +29,6 @@ void setup(){
 #endif
 }
 
-
 void loop(){
   //update VCC class
   VCC.update();
@@ -41,7 +42,6 @@ void loop(){
 
       //Turn On Glide.
       prb.setGlide(true); //Turn Off - prb.setGlide(false); 
-
 
       //Create a timer and store his resut. 
       boolean timer = tm.set(VCC.ReadCv(A,5)*1000);      
@@ -61,11 +61,11 @@ void loop(){
 
       //write CVout on outPut 5
       VCC.WriteChannel(5, prb.CVstream);
+       //write CVout quantized on outPut 5
+      VCC.WriteChannel(6, qt.calc(prb.CVstream));
 
- 
 
 #ifdef DEBUG
-
   Serial.print("OUT 1 - ");
   Serial.print(prb.out1);
   Serial.print("  OUT 2 - ");
