@@ -25,8 +25,6 @@ ADDAC_Probabilistic::ADDAC_Probabilistic(){	// INITIALIZE CLASS
     
 }
 
-
-
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
@@ -71,8 +69,8 @@ void ADDAC_Probabilistic::update(float _p1, float _p2, float _p3, float _p4, flo
 void ADDAC_Probabilistic::calc(){
 
     
-    randomResultOld = randomResult;
-    glideStream = randomResultOld;
+    randomResultOld = actualPosition;
+    //glideStream = randomResultOld;
     bangTimeOld = bangTime;
     inct=bangTimeOld;
     
@@ -134,10 +132,6 @@ void ADDAC_Probabilistic::calc(){
     }
     
     randomResult += voltageA;
-     
-    
-    //    if (randomResultOld<randomResult)cvUP=true;
-    //    if (randomResultOld>randomResult)cvUP=false;
 
 }
 
@@ -153,8 +147,7 @@ float ADDAC_Probabilistic::glide() {
     
     long inct=(long)constrain(millis()-diffTime,bangTimeOld,bangTime);
     
-   // glideStream=mapfloat(inct,bangTimeOld,bangTime,actualPosition,randomResult);
-     glideStream=mapfloat(inct,bangTimeOld,bangTime,randomResultOld,randomResult);
+    glideStream=mapfloat(inct,bangTimeOld,bangTime,randomResultOld,randomResult);
     
     actualPosition=glideStream;
     
