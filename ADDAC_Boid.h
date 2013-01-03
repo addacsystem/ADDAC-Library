@@ -15,15 +15,26 @@
 #include "ADDAC_PVector.h"
 
 
+
+//min and max values - - - check if it's ok!!
+#define maxWidth 1000
+#define maxHeight 1000
+//
+
 class ADDAC_Boid{
     
 public:
     ADDAC_Boid();
 	ADDAC_Boid(float _x, float _y);
     void update(ADDAC_Boid boids[4], bool _warpAround);//POINTER???
-	void update(); // Function to be called from Arduino Environment
+	void update(bool _warpAround); // Function to be called from Arduino Environment
     void applyForce(ADDAC_PVector force);
     void flock(ADDAC_Boid boids[4]);//POINTER???
+    
+    ADDAC_PVector steer(ADDAC_PVector target, bool slowdown);
+    
+    
+     float dist(ADDAC_PVector pt1, ADDAC_PVector pt2);
     
     ADDAC_PVector separate(ADDAC_Boid boids[4]);
     ADDAC_PVector align(ADDAC_Boid boids[4]);
@@ -37,6 +48,11 @@ public:
     float maxForce;
     float maxSpeed;
     float mass;
+    
+    float separationV;
+    float cohesionV;
+    float alignV;
+    float speedV;
     
 };
 #endif

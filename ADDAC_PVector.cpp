@@ -9,12 +9,19 @@
 
 //-----------------------------------------------------------------------ADDAC EMPTY-----------------
 
+/*! \brief Default constructor for ADDAC_PVector. */
 ADDAC_PVector::ADDAC_PVector(){	// INITIALIZE CLASS
 	
 	x=0;
     y=0;
     z=0;
 }
+
+/*! \brief PVector constructor
+ \param _x Point X value
+ \param _y Point Y value
+ */
+
 
 ADDAC_PVector::ADDAC_PVector(float _x, float _y){	// INITIALIZE CLASS
 	
@@ -23,7 +30,11 @@ ADDAC_PVector::ADDAC_PVector(float _x, float _y){	// INITIALIZE CLASS
     z=0;
 }
 
-
+/*! \brief PVector constructor
+ \param _x Point X value
+ \param _y Point Y value
+ \param _z Point Z value
+ */
 ADDAC_PVector::ADDAC_PVector(float _x, float _y, float _z){	// INITIALIZE CLASS
 	
 	x=_x;
@@ -49,6 +60,10 @@ void ADDAC_PVector::set(float _x, float _y, float _z){
 }
 
 
+/*! \brief Add some value to PVector
+ \param _add Value to add
+ */
+
 void ADDAC_PVector::add(float _add){    
     
     x+=_add;
@@ -58,6 +73,10 @@ void ADDAC_PVector::add(float _add){
 }
 
 
+/*! \brief Add PVector to PVector
+ \param _add PVector to add
+ */
+
 void ADDAC_PVector::add(ADDAC_PVector _add){    
     
     x+=_add.x;
@@ -66,6 +85,9 @@ void ADDAC_PVector::add(ADDAC_PVector _add){
     
 }
 
+/*! \brief Subtract some value to PVector
+ \param _sub Value to subtract
+ */
 
 void ADDAC_PVector::sub(float _sub){    
     
@@ -76,6 +98,24 @@ void ADDAC_PVector::sub(float _sub){
 }
 
 
+/*! \brief Subtract PVector to PVector
+ \param _sub PVector to subtract
+ */
+
+
+void ADDAC_PVector::sub(ADDAC_PVector _sub){    
+    
+    x-=_sub.x;
+    y-=_sub.y;
+    z-=_sub.z;
+    
+}
+
+
+/*! \brief Multiply PVector by some value 
+ \param _mult Value to multiply
+ */
+
 void ADDAC_PVector::mult(float _mult){    
     
     x*=_mult;
@@ -83,6 +123,10 @@ void ADDAC_PVector::mult(float _mult){
     z*=_mult;
     
 }
+
+/*! \brief Divide PVector by some value
+ \param _mult Value to multiply
+ */
 
 void ADDAC_PVector::div(float _div){    
     
@@ -117,6 +161,8 @@ ADDAC_PVector ADDAC_PVector::div(ADDAC_PVector pv, float _div){
 }
 
 
+/*! \brief Normalize PVector
+ */
 
 void ADDAC_PVector::normalize(){  
     
@@ -127,6 +173,8 @@ void ADDAC_PVector::normalize(){
     z/=length;
     
 }
+
+
 
 
 

@@ -33,9 +33,12 @@ public:
     void add(float _add);
     void add(ADDAC_PVector _add);
     void sub(float _sub);
+    void sub(ADDAC_PVector _sub);
     void mult(float _mult);
     void div(float _div);
     void normalize();
+    
+   
     
     
     ADDAC_PVector divR(float _div);

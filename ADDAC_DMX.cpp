@@ -225,12 +225,7 @@ void dmxMaxChannel(int channel) {
     }
 }
 
-/* C++ wrapper */
 
-
-/** Set output pin
- * @param pin Output digital pin to use
- */
 void ADDAC_DMX::usePin(uint8_t pin) {
     dmxPin = pin;
     if (dmxStarted && (pin != dmxPin)) {
@@ -239,16 +234,13 @@ void ADDAC_DMX::usePin(uint8_t pin) {
     }
 }
 
-/** Set DMX maximum channel
- * @param channel The highest DMX channel to use
- */
+
+
 void ADDAC_DMX::maxChannel(int channel) {
     dmxMaxChannel(channel);
 }
 
-/** Write to a DMX channel
- * @param address DMX address in the range 1 - 512
- */
+
 void ADDAC_DMX::write(int address, uint8_t value)
 {
 	dmxWrite(address, value);
@@ -256,19 +248,13 @@ void ADDAC_DMX::write(int address, uint8_t value)
 ADDAC_DMX DmxSimple;
 
 
-
-
-
-
-
-
-
-
-
 /*______________________________________________________ADDAC_FUNCTIONS_____________________________________________________________*/
 
 
-//DEFAULT SETUP - SOCKET A, 4 CHANNELS
+
+
+/*! \brief Default setup method*/
+//DEFAULT SETUP - SOCKET A, 4 CHANNELS.
 void ADDAC_DMX::setup()
 {
     usePin(DMXA);
@@ -278,18 +264,23 @@ void ADDAC_DMX::setup()
 }
 
 
+
+/*! \brief Secondary setup method - choose socket(A-B).
+ \param _pin DMXA - socket A : DMXB - socket B 
+ */
 //secondary setup - choose socket(A-B) and max channels
 void ADDAC_DMX::setup(int _pin)
 {
     usePin(_pin);
     dmxMaxChannel(channel.size());
     CVstream=0;
-    
-   
 
 }
 
 
+/*! \brief Update and write all the DMX variables.
+
+ */
 void ADDAC_DMX::update()
 {
     
@@ -306,14 +297,20 @@ void ADDAC_DMX::update()
 
 
 
+/*! \brief add a DMX Channel - all channel should be added before the dmx setup method.
+ \param _channel - dmx channel number.
+ */
 void ADDAC_DMX::addChannel(int _channel){
-
     
     channel.push_back(ADDAC_dmxChannel(_channel));
-
-
 }
 
+
+/*! \brief create a fade In
+ \param _channel - dmx channel number.
+ \param _maxValue - fadeIn max value
+ \param _time - fadeIn time.
+ */
 
 void ADDAC_DMX::fadeIn(int _channel, int _maxValue, long _time){
     
@@ -329,6 +326,14 @@ void ADDAC_DMX::fadeIn(int _channel, int _maxValue, long _time){
    
 }
 
+
+
+/*! \brief create a fade Out
+ \param _channel - dmx channel number.
+ \param _maxValue - fadeOut min value
+ \param _time - fadeOut time.
+ */
+
     void ADDAC_DMX::fadeOut(int _channel, int _minValue, long _time){
         
         int channelFadeOut = 0;
@@ -342,6 +347,13 @@ void ADDAC_DMX::fadeIn(int _channel, int _maxValue, long _time){
        channel[channelFadeOut].fadeOut(_minValue, _time);
         
     }
+
+
+/*! \brief create a strobe
+ \param _channel - dmx channel number.
+ \param _time - strobe rate.
+ */
+
         
         void ADDAC_DMX::strobe(int _channel, long _time){
             
@@ -359,6 +371,11 @@ void ADDAC_DMX::fadeIn(int _channel, int _maxValue, long _time){
 }
 
 
+/*! \brief set dmx value (0-255)
+ \param _channel - dmx channel number.
+ \param _value - value(0-255).
+ */
+
 void ADDAC_DMX::set(int _channel, int _value){
     
     int channelStream = 0;
@@ -372,6 +389,12 @@ void ADDAC_DMX::set(int _channel, int _value){
       
 }
    
+
+/*! \brief get dmx value(DMXstream). 
+ \param _channel - dmx channel number.
+ */
+
+
 
 int ADDAC_DMX::DMXstream(int _channel){
     

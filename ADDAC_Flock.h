@@ -22,7 +22,18 @@ public:
     
     void setup();
     
-    ADDAC_PVector getBoidPosition(int _boidNumber);
+    
+    //check this functions - look for min and max, get better names!
+    void setSeparation(float _sep);
+    void setCohesion(float _coe);
+    void setAlign(float _ali);
+    void setSpeed(float _speed);
+    //-------
+    
+    
+    float getBoidPositionX(int _boidNumber);
+    float getBoidPositionY(int _boidNumber);
+    float getBoidPositionM(int _boidNumber);
     
     ADDAC_Boid boids[4];
 	

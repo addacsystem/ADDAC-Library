@@ -1,29 +1,13 @@
 /*
  * ADDAC_SuperFormula
  * 
- * Developer's blank page Class example
+ * 
  *
  * in Arduino environment simply add at the very top:
  
  #include <ADDAC_SuperFormula.h> // This loads the Class when compiling
  ADDAC_SuperFormula SuperFormula; // This Instantiates 1 Class with the name "SuperFormula"
  
- *
- *
- * then in BEHAVIOUR() add at a position of your choice:
- 
- unsigned int CV = SuperFormula.update(random(0, 65535));
- 
- or if you want to write it straight out at channel 1 for ex.:
- VCC.WriteChannel(1, SuperFormula.update(random(0, 65535)) );
- 
- *
- *
- * or to simply get the current value back use:
- 
- unsigned int CV = SuperFormula.CVstream;
- 
- *
  *
  */
 

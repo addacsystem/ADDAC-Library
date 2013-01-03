@@ -8,6 +8,7 @@
 #include "ADDAC_Probabilistic.h"
 
 //-----------------------------------------------------------------------ADDAC PROBABILISTIC-----------------
+/*! \brief Default constructor for ADDAC_Probabilistic. */
 
 ADDAC_Probabilistic::ADDAC_Probabilistic(){	// INITIALIZE CLASS
     
@@ -28,6 +29,14 @@ ADDAC_Probabilistic::ADDAC_Probabilistic(){	// INITIALIZE CLASS
 // --------------------------------------------------------------------------- UPDATE -------------------------
 //
 
+
+/*! \brief Probalibilstc class Update
+ \param _p1 first field percentage
+ \param _p2 second field percentage
+ \param _p3 third field percentage
+ \param _p4 fourth field percentage
+ \param _offSet percentages offset
+ */
 
 void ADDAC_Probabilistic::update(float _p1, float _p2, float _p3, float _p4, float _offSet){ // DO SOMETHING !
 	    
@@ -65,6 +74,10 @@ void ADDAC_Probabilistic::update(float _p1, float _p2, float _p3, float _p4, flo
 // --------------------------------------------------------------------------- CALC ----------------------------------
 //
 
+
+/*! \brief Calculate a Random value and check in witch field it fits
+
+ */
 
 void ADDAC_Probabilistic::calc(){
 
@@ -159,6 +172,11 @@ float ADDAC_Probabilistic::glide() {
 //
 
 
+
+/*! \brief Activate glide Mode 
+ \param _state glide state (On/Off) 
+ */
+
 void ADDAC_Probabilistic::setGlide(bool _state){
 
     glideOn=_state;
@@ -169,7 +187,8 @@ void ADDAC_Probabilistic::setGlide(bool _state){
 // --------------------------------------------------------------------------- GLIDE SWITCH STATE ----------------------------------
 //
 
-
+/*! \brief Switch glide Mode - if On->Off | if Off->On | usefull for comparators.
+ */
 void ADDAC_Probabilistic::switchGlide(){
     
     glideOn=!glideOn;
