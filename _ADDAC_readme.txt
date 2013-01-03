@@ -13,7 +13,7 @@ CHANGES + REVISIONS + ADDITIONS . 10/2012
 
 - Check the Getting Started guide at the VCC dedicated website
 
-http://vcc.addacsystem.com/index.php/start/
+http://vcc.addacsystem.com/index.php/tutorials/getting-started-/
 
 
 
