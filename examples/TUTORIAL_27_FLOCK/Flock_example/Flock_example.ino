@@ -34,10 +34,10 @@ void loop(){
   fl.setSeparation(VCC.ReadCv(A,4)*1000);
   fl.setSpeed(VCC.ReadCv(A,5));
 
-  VCC.WriteChannel(0,fl.getBoidPositionM(0));
-  VCC.WriteChannel(1,fl.getBoidPositionM(1));
-  VCC.WriteChannel(2,fl.getBoidPositionM(2));
-  VCC.WriteChannel(3,fl.getBoidPositionM(3));
+  VCC.WriteChannel(0,fl.getBoidPositionA(0));
+  VCC.WriteChannel(1,fl.getBoidPositionA(1));
+  VCC.WriteChannel(2,fl.getBoidPositionA(2));
+  VCC.WriteChannel(3,fl.getBoidPositionA(3));
 
 
 #ifdef DEBUG
@@ -64,17 +64,16 @@ void loop(){
 
 
   Serial.print("boid1: " );
-  Serial.print(fl.getBoidPositionM(0));
+  Serial.print(fl.getBoidPositionA(0));
 
   Serial.print("  boid2: " );
-  Serial.print(fl.getBoidPositionM(1));
+  Serial.print(fl.getBoidPositionA(1));
 
   Serial.print("  boid3: " );
-  Serial.print(fl.getBoidPositionM(2));
+  Serial.print(fl.getBoidPositionA(2));
 
   Serial.print("  boid4: " );
-  Serial.print(fl.getBoidPositionM(3));
-
+  Serial.print(fl.getBoidPositionA(3));
 
   Serial.println();
   delay(10);
