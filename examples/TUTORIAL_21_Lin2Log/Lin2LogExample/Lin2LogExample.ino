@@ -37,8 +37,8 @@ void loop(){
   if (VCC.MODE==0){
 
     if (VCC.SUBMODE==0){
-      //Convert a linear CvPot to a logarithmic one 
-      logV=lg.calc(VCC.ReadCv(A,0));      
+      //Convert a linear CvPot to a logarithmic one witha a factor of 0.85
+      logV=lg.calc(VCC.ReadCv(A,0),0.55f);      
     }
   }
 

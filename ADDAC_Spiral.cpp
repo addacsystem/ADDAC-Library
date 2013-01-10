@@ -28,80 +28,72 @@ void ADDAC_Spiral::setup(){ // DO SOMETHING !
     
         point[i] =  ADDAC_Points(i);
     
-    
     }
-    
     
 }
 
 
 
-void ADDAC_Spiral::update(){ // DO SOMETHING !
+void ADDAC_Spiral::update(float _speed, float _factor, float _offset){ // DO SOMETHING !
 	
 	for (int i = 0; i < numB; i++){
         
-        point[i].update();
-        
+        point[i].update(_speed, _factor, _offset);
+        checkSlots(i);
     }
-    checkSlots();
+    
+    //Reset slots - std 30millis | 60 millis for now!
+    if(tm.set(60)){
+        for (int p = 0; p < 6; p++){
+            if(slot[p])
+                slot[p]=0;
+        }
+    }
+    
 }
     
-    void ADDAC_Spiral::checkSlots(){
+    void ADDAC_Spiral::checkSlots(int i){
     
-        for (int i = 0; i < numB; i++){
+      //TRIGGERS VS GATES - triggers for now!
             
-            if(point[i].slot==0 && point[i].activated){
-                slot[0]=1;
-                point[i].activated=0;
-            }
-            
-            if(point[i].slot==1 && point[i].activated){
-                slot[1]=1;
-                point[i].activated=0;
+            if( point[i].activated){
+                
+            switch (point[i].slot) {
+                
+                case 0:
+                    slot[0]=1;
+                    point[i].activated=0;
+                    break;
+
+                case 1:
+                    slot[1]=1;
+                    point[i].activated=0;
+                    break;
+
+                case 2:
+                    slot[2]=1;
+                    point[i].activated=0;
+                    break;
+
+                case 3:
+                    slot[3]=1;
+                    point[i].activated=0;
+                    break;
+
+                case 4:
+                    slot[4]=1;
+                    point[i].activated=0;
+                    break;
+
+                case 5:
+                    slot[5]=1;
+                    point[i].activated=0;
+                    break;
             }
 
-            
-            if(point[i].slot==2 && point[i].activated){
-                slot[2]=1;
-                point[i].activated=0;
-            }
-
-            
-            if(point[i].slot==3 && point[i].activated){
-                slot[3]=1;
-                point[i].activated=0;
-            }
-
-            
-            if(point[i].slot==4 && point[i].activated){
-                slot[4]=1;
-                point[i].activated=0;
-            }
-
-            
-            if(point[i].slot==5 && point[i].activated){
-                slot[5]=1;
-                point[i].activated=0;
-            }
-            
-        }
-        
-        if(tm.set(100)){
-        for (int i = 0; i < 6; i++){
-            if(slot[i])
-            slot[i]=0;
-        }
         }
 
     }
 
-
-void ADDAC_Spiral::setSpeed(float _speed){
-    
-for (int i = 0; i < numB; i++){
-    point[i].speed=(_speed*10000.0f)+10.0f;
-
-}
-}
 // --------------------------------------------------------------------------- END ----------------------------------
 //
