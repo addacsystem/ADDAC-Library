@@ -1,6 +1,6 @@
  
 /*
- * Some hints about what this Class does!
+ * TIMER
  *
 */
 
