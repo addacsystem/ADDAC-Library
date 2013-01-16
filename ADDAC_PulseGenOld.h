@@ -18,7 +18,6 @@
 #include "ADDAC_Timer.h"
 #include "ADDAC_Lin2Log.h"
 #include "ADDAC_Euclidean.h"
-#include "ADDAC_Comparator.h"
 
 #define width 1000
 #define height 1000
@@ -67,7 +66,7 @@ public:
         pos.set(width/2, height/2);
         vel.set(0, 0);
        
-        position=(_position);
+        position=(20*_position);
         speed=1000.0f;
         slotSize=numB/numSlots;
         pulsePerCluster=8;
@@ -94,7 +93,7 @@ public:
         pulsePerCluster=constrain(_pulsePerCluster,1,8);
         
         
-        speed=ltl.calc(_speed,0.60f)+0.001f;
+        speed=ltl.calc(_speed,0.85f)+0.0001f;
        
         
         factor=_factor;
@@ -105,10 +104,8 @@ public:
         
         
         float temp = ((float)(abs(offSet-position)+1.0f)/numB)/10.0f+1.0f;
-        float temp2 = (temp-1.0f)*(factor)*100.0f+1.0f;
+        float temp2 = (temp-1.0f)*factor*100.0f+1.0f;
         
-        //original-
-        //inc+=(temp*temp2)*speed;
         
         inc+=(temp*temp2)*speed;
 
@@ -121,12 +118,8 @@ public:
         if(pulsePerCluster!=pulsePerClusterOld){
         
             beat_holder = euclid(8,pulsePerCluster);
-            pulsePerClusterOld=pulsePerCluster;
-            
-            activated = false;
-            
-            
-
+               
+        pulsePerClusterOld=pulsePerCluster;
         }
         
         }
@@ -135,26 +128,15 @@ public:
     
     void checkAngle( ADDAC_PVector _angleToCheck) {
     
-//        float angle = atan2(origin.x-_angleToCheck.x,origin.y-_angleToCheck.y);
-//        
-//        float tresh = 0.055f;  
-//        
+        float angle = atan2(origin.x-_angleToCheck.x,origin.y-_angleToCheck.y);
+        
+        float tresh = 0.055f;  
+        
         unsigned int readBit = bitRead (beat_holder,position%slotSize);
   
         
-//        if(angle+tresh > -PI/2 && angle-tresh < -PI/2 && (readBit==1))
-//            activated = 1;
-        
-        
-        if(inc>=2*PI){
-            inc=inc-(2*PI);
-            
-            if((readBit==1))
-            activated = true;
-            
-                   }
-        
-        else activated = false;
+        if(angle+tresh > -PI/2 && angle-tresh < -PI/2 && (readBit==1))
+            activated = 1;
     }
     
     
@@ -296,14 +278,13 @@ public:
     void setup();	
     void update(int pulsePerCluster, float _speed, float _factor, float _offset);
     
-    void checkSlots();
+    void checkSlots(int i);
     
     void reset();
     
 	
     ADDAC_Points point[numB];
     ADDAC_Timer tm;
-    ADDAC_Comparator sl0;
     
     bool slot[6];
     int mute, muteOld;  //1-8

@@ -11,7 +11,17 @@
     /*! \brief Default construtor for ADDAC_Comparator */
     ADDAC_Comparator::ADDAC_Comparator(){	// INITIALIZE CLASS
         
-      
+        triggerState=false;
+         triggerComparator=false;
+         triggerStateChange=false;
+         triggerStateChangeUP=false;
+         triggerComparatorRise=false;
+         triggerStateRise=false;
+         triggerComparatorFall=false;
+         triggerStateFall=false;
+         triggerTimeCount=false;
+         rising=false;
+         falling=false;
         
         //Serial.println("ADDAC_Comparator INITIALIZED");
     }
