@@ -5,11 +5,11 @@
 */
 
 
-#include "ADDAC_PulseGen.h"
+#include "ADDAC_PulseGenOld.h"
 
 //-----------------------------------------------------------------------ADDAC EMPTY-----------------
 
-ADDAC_PulseGen::ADDAC_PulseGen(){	// INITIALIZE CLASS
+ADDAC_PulseGenOld::ADDAC_PulseGenOld(){	// INITIALIZE CLASS
 	
 
 	
@@ -22,7 +22,7 @@ ADDAC_PulseGen::ADDAC_PulseGen(){	// INITIALIZE CLASS
 //
 
 
-void ADDAC_PulseGen::setup(){ // DO SOMETHING !
+void ADDAC_PulseGenOld::setup(){ // DO SOMETHING !
 	
 	for (int i = 0; i < numB; i++){
     
@@ -34,7 +34,7 @@ void ADDAC_PulseGen::setup(){ // DO SOMETHING !
 
 
 
-void ADDAC_PulseGen::update(int _pulsePerCluster, float _speed, float _factor, float _offset){ // DO SOMETHING !
+void ADDAC_PulseGenOld::update(int _pulsePerCluster, float _speed, float _factor, float _offset){ // DO SOMETHING !
 	
 	for (int i = 0; i < numB; i++){
         
@@ -53,7 +53,7 @@ void ADDAC_PulseGen::update(int _pulsePerCluster, float _speed, float _factor, f
     
 }
     
-    void ADDAC_PulseGen::checkSlots(int i){
+    void ADDAC_PulseGenOld::checkSlots(int i){
     
       //TRIGGERS VS GATES - triggers for now!
             
@@ -99,7 +99,7 @@ void ADDAC_PulseGen::update(int _pulsePerCluster, float _speed, float _factor, f
 
 
 
-void ADDAC_PulseGen::reset(){
+void ADDAC_PulseGenOld::reset(){
     
     
     for (int i=0; i<numB; i++) {

@@ -20,8 +20,8 @@
 #include "ADDAC_Euclidean.h"
 #include "ADDAC_Comparator.h"
 
-#define width 1000
-#define height 1000
+#define widthS 1000
+#define heightS 1000
 
 #define numB 48
 #define numSlots 6
@@ -63,8 +63,8 @@ public:
     
        
         
-        origin.set(width/2, height/2);
-        pos.set(width/2, height/2);
+        origin.set(widthS/2, heightS/2);
+        pos.set(widthS/2, heightS/2);
         vel.set(0, 0);
        
         position=(_position);
@@ -100,8 +100,8 @@ public:
         factor=_factor;
         offSet=_offset;
         
-        pos.x = position*6.0f * cos(inc) + width/2;
-        pos.y = position*6.0f * sin(inc) + height/2;
+        pos.x = position*6.0f * cos(inc) + widthS/2;
+        pos.y = position*6.0f * sin(inc) + heightS/2;
         
         
         float temp = ((float)(abs(offSet-position)+1.0f)/numB)/10.0f+1.0f;
