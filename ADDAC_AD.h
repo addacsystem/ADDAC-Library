@@ -36,8 +36,6 @@
 #include <WProgram.h>
 #endif
 
-//#define addacMaxResolution 65535 
-
 
 
 class ADDAC_AD{
@@ -47,7 +45,10 @@ public:
     void trigger(float _A);
 	void trigger();
 	void release();
-	void update(float _Atime, float _Dtime);
+	void updateLin(bool _gate, float _Atime, float _Dtime);
+   
+    void updateLogExpMode(float _A, float _Atime, float _Ashape, float _Dtime, float _Dshape);
+    void updateLogExpMode(bool _gate, float _A, float _Atime, float _Ashape, float _Dtime, float _Dshape);
 	
     
     unsigned long ADSRtriggerTime;
@@ -59,6 +60,9 @@ public:
 	float TipPoint;
 	float Attack;
 	float floatPercentage, weakLink;
+    
+        float lastPosA,lastPosD;
+    long passedTime, holdTime;
 	
 	bool SUSTAIN;
     

@@ -5,11 +5,14 @@
 
 
 #include <ADDAC.h>
-#include <ADDAC_AD.h>
-#include <ADDAC_Comparator.h>
 ADDAC VCC; 
-ADDAC_AD AD1;
-ADDAC_Comparator CP1, CP2;
+
+#include <ADDAC_Comparator.h>
+
+#include <ADDAC_AD.h>
+ADDAC_AD ad; 
+
+boolean gate;
 
 #define DEBUG   // Comment this line if you are not debugging
 
@@ -28,32 +31,31 @@ void setup(){
 void loop(){
   VCC.update();
 
-  if (VCC.MODE==0){
+  if(VCC.ReadCv(A,0)>0.5){
 
-    if (VCC.SUBMODE==0){
+    gate=true;
+  }
+  else{
 
-      AD1.update(1000,5000);
-      
-      if(CP1.calc(RISE,VCC.ReadCv(A,5),0.5)){
-       
-        AD1.trigger();
-       // AD1.AD_release();
-        
-      }
-      
-       if(CP2.calc(RISE,VCC.ReadCv(A,4),0.5)){
-         AD1.release();
-       }
-       VCC.WriteChannel(0,AD1.CVstream);
-    }
+    gate =false;
   }
 
+
+  ad.updateLogExpMode(gate,1,700,0.7,900,0.3);
+  //ad.updateLin(gate,700,700);
+
+
+  VCC.WriteChannel(0,ad.CVstream);
+
+
+
 #ifdef DEBUG
-Serial.print(AD1.CVstream);
   Serial.println();
   delay(10);
 #endif
 
 }
+
+
 
 
