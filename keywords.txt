@@ -84,6 +84,21 @@ ADDAC_Timer	KEYWORD1
 ADDAC_VCO.h	KEYWORD1
 ADDAC_VCO	KEYWORD1
 
+
+ADDAC_Pendulum.h	KEYWORD1
+ADDAC_Pendulum	KEYWORD1
+
+
+ADDAC_DMX.h	KEYWORD1
+ADDAC_DMX	KEYWORD1
+
+
+ADDAC_PulseGen.h	KEYWORD1
+ADDAC_PulseGen	KEYWORD1
+
+
+
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
@@ -232,6 +247,16 @@ getY	KEYWORD2
 initialize	KEYWORD2
 startup	KEYWORD2
 VCO_update	KEYWORD2
+
+updateLin	KEYWORD2
+updateLogExpMode	KEYWORD2
+trigger	KEYWORD2
+release	KEYWORD2
+
+
+fadeIn	KEYWORD2
+fadeOut	KEYWORD2
+
 
 
 #
